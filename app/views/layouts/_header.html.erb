@@ -1,0 +1,24 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <!--<a class="brand" href="#">SchoolSystem</a>-->
+      <div class="container nav-collapse">
+        <ul class="nav">
+          <%unless current_user.present?%>
+            <li><%=link_to "Signup", new_user_registration_path %></li>
+            <li><%=link_to "Signin", new_user_session_path %></li>
+          <%else%>
+            <li><%= link_to "UserProfile",edit_user_registration_path%></li>
+            <li><%= link_to "SignOut",destroy_user_session_path, :method => :delete%></li>
+          <%end%>  
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
