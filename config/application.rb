@@ -65,6 +65,7 @@ module SchoolSystem
     config.assets.version = '1.0'
     
     # If you are deploying Rails 3.1 on Heroku, you may want to set:
+    config.assets.precompile += %w[admin/active_admin.css admin/active_admin.js]
     config.assets.initialize_on_precompile = false
   end
 end
