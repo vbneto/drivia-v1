@@ -8,12 +8,14 @@ ruby '1.9.3'
 #gem 'sqlite3'
 #gem 'mongoid'
 #gem 'bson_ext'
+gem "cancan"
 gem 'devise'
 gem 'pg'
-gem 'activeadmin'
+gem "activeadmin"
 gem "meta_search",    '>= 1.1.0.pre'
 
 gem "twitter-bootstrap-rails"
+
 
 # Gems used only for assets and not required
 # in production environments by default.

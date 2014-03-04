@@ -2,10 +2,12 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
+  ROLES = %w[parents/student school_administration professors admin_panel]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :name
+  attr_accessible :name, :role
+  validates :name, :presence => {:message => 'cannot be blank'}
 end
