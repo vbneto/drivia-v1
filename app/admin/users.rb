@@ -1,12 +1,12 @@
 ActiveAdmin.register User do
     index do
-      column "Name" do |user|
+      column "Name", :sortable => :name do |user|
         user.name
       end
-      column :email do |user|
+      column :email, :sortable => :email do |user|
         user.email
       end
-      column :email do |user|
+      column :role do |user|
         user.role
       end
       default_actions
