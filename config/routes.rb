@@ -4,7 +4,11 @@ SchoolSystem::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_for :users, :controllers => { :registrations => 'registrations'}
-  resources :users
+  resources :users do
+    collection do
+      post "import_students_list"
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

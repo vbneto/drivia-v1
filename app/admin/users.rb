@@ -35,6 +35,10 @@ ActiveAdmin.register User do
     active_admin_comments
   end
   
+  ActiveAdmin.register User do
+    controller { with_role :admin }
+  end
+  
   filter :name
   filter :email
 

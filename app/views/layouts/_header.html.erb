@@ -11,6 +11,7 @@
         <ul class="nav">
           <%unless current_user.present?%>
             <li><%=link_to "Sign up", new_user_registration_path %></li>
+            <li><%=link_to "Parent/Student Sign up", new_user_registration_path %></li>
             <li><%=link_to "Sign in", new_user_session_path %></li>
             <li><%=link_to "Sign in as Admin", new_admin_user_session_path %></li>
           <%else%>
@@ -23,4 +24,3 @@
     </div>
   </div>
 </div>
-

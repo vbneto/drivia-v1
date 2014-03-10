@@ -23,6 +23,12 @@
   </select>
 <% else %>
   <h4>School Admin Dashboard</h4>
+  <h5>Import students list</h5>
+  <%= form_tag import_students_list_users_path, multipart: true do %>  
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+  <% end %>
+
   <div>
     <div class="icon_container span">
       <div>
