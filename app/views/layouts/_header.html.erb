@@ -12,8 +12,10 @@
           <%unless current_user.present?%>
             <li><%=link_to "Sign up", new_user_registration_path %></li>
             <li><%=link_to "Sign in", new_user_session_path %></li>
+            <li><%=link_to "Sign in as Admin", new_admin_user_session_path %></li>
           <%else%>
-            <li><%= link_to "User profile",edit_user_registration_path%></li>
+            <li><%= link_to "Dashboard",users_path%></li>
+            <li><%= link_to "My profile",edit_user_registration_path%></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete%></li>
           <%end%>  
         </ul>

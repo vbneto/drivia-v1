@@ -6,7 +6,7 @@ ActiveAdmin.register User do
       column :email, :sortable => :email do |user|
         user.email
       end
-      column :role do |user|
+      column :role, :sortable => :role do |user|
         user.role
       end
       default_actions

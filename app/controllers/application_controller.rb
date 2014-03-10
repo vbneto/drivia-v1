@@ -4,5 +4,5 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     resource.is_a?(AdminUser) ? admin_dashboard_path : users_path
   end
-  
+
 end

@@ -3,7 +3,7 @@ SchoolSystem::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => 'registrations'}
   resources :users
 
   # The priority is based upon order of creation:

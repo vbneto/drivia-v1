@@ -1,1 +1,58 @@
-<h1>You were successfully signed in</h1>
+<p>Hello <%=current_user.name%><p>
+<% if current_user.role != "School Administration" %>
+  <div class="span10">
+    <div class="move_right">
+      Select Month(s):
+      From: <%= select_month(Date.today)%>
+      To: <%= select_month(Date.today) %>
+    </div>
+  </div>
+  <div class="span10">
+    <%= link_to "See current month", "#", :class => "btn move_right"%></br>
+  </div>
+  <div class='span10'><b>Select a subject</b></div>
+  
+  <select id="select_id" name="subjects" multiple>
+    <option value="select_all">Select All</option>
+    <option value="maths">Maths</option>
+    <option value="biology">Biology</option>
+    <option value="physics">Physics</option>
+    <option value="chemestry">Chemestry</option>
+    <option value="history">History</option>
+    <option value="english">English</option>
+  </select>
+<% else %>
+  <h4>School Admin Dashboard</h4>
+  <div>
+    <div class="icon_container span">
+      <div>
+        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
+      </div>
+      <b class="icon_title">Analytics</b>
+      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+    </div>
+    <div class="icon_container span">
+      <div>
+        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
+      </div>
+      <b class="icon_title">Grades</b>
+      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+    </div>
+    <div class="icon_container span">
+      <div>
+        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
+      </div>
+      <b class="icon_title">Users</b>
+      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+    </div>
+    <div class="icon_container span">
+      <div>
+        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
+      </div>
+      <b class="icon_title">E-mails</b>
+      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
+    </div>
+  </div>  
+<% end %>
+
+
