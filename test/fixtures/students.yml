@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cpf: MyString
+  gender: MyString
+  birth_day: 2014-03-11
+  current_grade: MyString
+
+two:
+  cpf: MyString
+  gender: MyString
+  birth_day: 2014-03-11
+  current_grade: MyString

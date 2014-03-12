@@ -1,38 +1,20 @@
 class User < ActiveRecord::Base
+  rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  ROLES = ["Student", "Parent", "School Administration", "Professor"]
+  ROLES = ["Student", "Parent", "School Administration", "professor", "admin"]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
+  attr_accessor :gender, :birth_day
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :name, :cpf, :phone_prefix, :phone
+  attr_accessible :name, :cpf, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
-  validates :name, :presence => {:message => 'cannot be blank'}
+  validates :name, :presence => true
   
-  def self.import(file)
-    spreadsheet = open_spreadsheet(file)
-    header = spreadsheet.row(1)
-    (2..spreadsheet.last_row).each do |i|
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      user = find_by_id(row["id"]) || new
-      user.attributes = row.to_hash.slice(*accessible_attributes)
-      return false if user.cpf.nil?
-      user.role = 'student'
-      user.save!
-      return true
-    end
-  end
-
-  def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-    when ".csv" then Roo::Csv.new(file.path, nil, :ignore)
-    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
-    else raise "Unknown file type: #{file.original_filename}"
-    end
-  end
+  #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  
   
 end

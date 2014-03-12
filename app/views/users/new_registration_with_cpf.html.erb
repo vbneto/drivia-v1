@@ -1,0 +1,17 @@
+<div class="alignment">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="panel-title " >Enter CPF of student</h5>
+    </div>
+    <div class="panel-body">
+      <%= form_tag create_registration_with_cpf_users_path do %>
+        <div><%= label_tag :cpf %>
+          <%= text_field_tag :cpf %></div>
+        <div>
+          <%= submit_tag "Submit",class:"btn btn-normal" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

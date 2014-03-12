@@ -1,0 +1,22 @@
+<div class="alignment">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="panel-title " >Are you student or parent</h5>
+    </div>
+    <div class="panel-body">
+      <h5>Student Name: <%= @student.student_name%></h5>
+      <%= form_tag( new_user_registration_path, :method => :get ) do %>
+        <%= hidden_field_tag :cpf, @student.cpf%>
+        <div><%= label_tag "Student" %>
+          <%= radio_button_tag 'user', 'student' %></div>
+        <div>
+        <div><%= label_tag "Parent" %>
+          <%= radio_button_tag 'user', 'parent' %></div>
+        <div>
+          <%= submit_tag "Submit",class:"btn btn-normal" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

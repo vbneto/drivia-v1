@@ -4,12 +4,22 @@ SchoolSystem::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_for :users, :controllers => { :registrations => 'registrations'}
-  resources :users do
+  resources :admins
+  resources :students
+  resources :parents
+  resources :schools do
     collection do
       post "import_students_list"
     end
   end
-
+  resources :users do
+    collection do
+      get "new_registration_with_cpf"
+      post "create_registration_with_cpf"
+      get "parent_or_student"
+      post "find_parent_or_student_for_signup"
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

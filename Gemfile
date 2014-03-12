@@ -9,10 +9,14 @@ ruby '1.9.3'
 #gem 'mongoid'
 #gem 'bson_ext'
 gem "cancan"
+gem "cpf_validator"
 gem 'devise'
 gem 'pg'
 gem "activeadmin"
 gem "meta_search",    '>= 1.1.0.pre'
+gem 'roo'
+gem "rolify"
+
 
 gem "twitter-bootstrap-rails"
 
@@ -45,4 +49,4 @@ gem 'jquery-rails', "2.3.0"
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'

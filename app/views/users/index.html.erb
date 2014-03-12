@@ -1,6 +1,13 @@
 <p>Hello <%=current_user.name%><p>
-<% if current_user.role != "School Administration" %>
+<% if current_user.role != "School Administration" && current_user.role != "professor" %>
   <div class="span10">
+    <% if current_user.role == "parent"%>
+      <div class= "span3">
+        <select>
+          
+        </select>
+      </div>
+    <% end %>  
     <div class="move_right">
       Select Month(s):
       From: <%= select_month(Date.today)%>
@@ -24,9 +31,9 @@
 <% else %>
   <h4>School Admin Dashboard</h4>
   <h5>Import students list</h5>
-  <%= form_tag import_students_list_users_path, multipart: true do %>  
+  <%= form_tag import_students_list_schools_path, multipart: true do %>  
     <%= file_field_tag :file %>
-    <%= submit_tag "Import" %>
+    <%= submit_tag "Upload" %>
   <% end %>
 
   <div>
