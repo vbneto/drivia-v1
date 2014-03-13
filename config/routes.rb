@@ -16,7 +16,7 @@ SchoolSystem::Application.routes.draw do
     collection do
       get "new_registration_with_cpf"
       post "create_registration_with_cpf"
-      get "parent_or_student"
+      get "parent_or_student_signup"
       post "find_parent_or_student_for_signup"
     end
   end

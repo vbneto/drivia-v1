@@ -10,7 +10,7 @@
       <div class="container nav-collapse">
         <ul class="nav">
           <% if !current_user.present? %>
-            <li><%=link_to "Sign up", new_registration_with_cpf_users_path %></li>
+            <li><%=link_to "Parent/student Sign up", parent_or_student_signup_users_path %></li>
             <li><%=link_to "Sign in", new_user_session_path %></li>
           <% elsif current_user.role == "admin" %>
             <li><%= link_to "Dashboard",admins_path%></li>

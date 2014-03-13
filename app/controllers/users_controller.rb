@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf]
+  before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf, :parent_or_student_signup]
   
   def home
   end
@@ -15,6 +15,13 @@ class UsersController < ApplicationController
     else
       render parent_or_student_users_path,:notice => "Please enter more details"
     end  
+  end
+  
+  def new_registration_with_cpf
+    @role = params[:role]
+  end
+  
+  def parent_or_student_signup
   end
   
 end

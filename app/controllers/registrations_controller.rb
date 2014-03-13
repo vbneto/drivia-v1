@@ -28,7 +28,6 @@ class RegistrationsController < Devise::RegistrationsController
       end
       if user_role == "parent"
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
-        debugger
         StudentParent.create(:student_id => @student.id, :parent_id => parent.id)
       end  
       if resource.active_for_authentication?
