@@ -1,0 +1,13 @@
+$('#subject_list table > tbody').empty();
+<% if @subjects == 'all' %>
+  <% @grades.each do |grade| %>
+    $('#subject_list table > tbody').append("<tr><td><%= grade.subject_name %></td><td><%= grade.subject_average %></td></tr>");
+  <% end %>
+  $('#overall_average').text('Overall Average:- <%= @average %>');  
+<% else %>
+  <% @subjects.each do |subject|%>
+    $('#subject_list table > tbody').append("<tr><td><%= subject.subject_name %></td><td><%= subject.subject_average %></td></tr>");
+  <% end %>
+  $('#overall_average').text('Overall Average:- <%= @average %>');
+<% end %>
+

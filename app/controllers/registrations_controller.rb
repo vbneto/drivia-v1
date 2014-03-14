@@ -39,10 +39,10 @@ class RegistrationsController < Devise::RegistrationsController
     if resource.save
       if user_role == "student"
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 
-      end
-      if user_role == "parent"
+      elsif user_role == "parent"
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
-        StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
+        #StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
+        parent.student_parents.create(student_from_excel_id: @student.id)
       end  
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

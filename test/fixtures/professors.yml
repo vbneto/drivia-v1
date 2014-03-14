@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  grade_from_excel_id: MyString
+  user_id: MyString
+  gender: MyString
+  birth_day: 2014-03-14
 
 two:
-  name: MyString
+  grade_from_excel_id: MyString
+  user_id: MyString
+  gender: MyString
+  birth_day: 2014-03-14

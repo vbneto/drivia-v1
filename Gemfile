@@ -16,6 +16,8 @@ gem "activeadmin"
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'roo'
 gem "rolify"
+gem 'morrisjs-rails'
+gem 'raphael-rails'
 
 
 gem "twitter-bootstrap-rails"

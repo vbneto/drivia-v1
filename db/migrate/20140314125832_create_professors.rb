@@ -1,9 +1,10 @@
 class CreateProfessors < ActiveRecord::Migration
   def change
     create_table :professors do |t|
-      t.belongs_to :school
-      t.belongs_to :subject
-      t.string :name
+      t.string :grade_from_excel_id
+      t.string :user_id
+      t.string :gender
+      t.date :birth_day
 
       t.timestamps
     end

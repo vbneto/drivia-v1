@@ -25,6 +25,7 @@ SchoolSystem::Application.routes.draw do
       get "parent_or_student"
       post "find_parent_or_student_for_signup"
       get "change_student"
+      get "change_subjects"
     end
   end
   # The priority is based upon order of creation:
