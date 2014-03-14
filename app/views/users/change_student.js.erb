@@ -1,0 +1,8 @@
+$("#select_subject").dropdownchecklist("destroy");
+$('#select_subject option[value!="select_all"]').remove();
+<% @grades.each do |grade| %>
+  $("#select_subject").append($("<option value='<%= grade.subject_name %>'><%= grade.subject_name %></option>"));
+<% end %>  
+$("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
+
+$('#student_detail').html("<b>Seeing data of student name :- <%= @student.student_name%></b></br><b>School Name:- <%= @student.school.name %></br><b>Grade Name:- <%= @student.current_grade %></b>");

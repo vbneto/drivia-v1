@@ -4,6 +4,20 @@ class RegistrationsController < Devise::RegistrationsController
     cpf = params[:cpf]
     @user_role = params[:user]
     @student = StudentFromExcel.find_by_cpf(cpf)
+    if @user_role == "parent"
+      if @student.student_parents.size == 2
+        redirect_to root_path, :notice => "There is already two parents are there for this student" 
+        return
+      end
+    end
+    if @user_role == "student"
+      
+      if @student.student_parents.size == 2
+        redirect_to root_path, :notice => "There is already two parents are there for this student" 
+        return
+      end
+    end
+    
     super
   end
   
@@ -28,8 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
       end
       if user_role == "parent"
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
-        debugger
-        StudentParent.create(:student_id => @student.id, :parent_id => parent.id)
+        StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
       end  
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

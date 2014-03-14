@@ -12,12 +12,15 @@
           <% if !current_user.present? %>
             <li><%=link_to "Sign up", new_registration_with_cpf_users_path %></li>
             <li><%=link_to "Sign in", new_user_session_path %></li>
-          <% elsif current_user.role == "admin" %>
+          <% elsif current_user.is_admin? %>
             <li><%= link_to "Dashboard",admins_path%></li>
             <li><%= link_to "My profile",edit_user_registration_path%></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete%></li>
           <%else%>
             <li><%= link_to "Dashboard",users_path%></li>
+            <% if current_user.is_parent? %>
+              <li><%= link_to "Students","#"%></li>
+            <% end %>  
             <li><%= link_to "My profile",edit_user_registration_path%></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete%></li>  
           <%end%>  

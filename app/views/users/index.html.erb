@@ -1,71 +1,52 @@
 <p>Hello <%=current_user.name%><p>
 <% if current_user.role != "School Administration" && current_user.role != "professor" %>
   <div class="span10">
-    <% if current_user.role == "parent"%>
-      <div class= "span3">
-        <select>
-          
+    
+    <% if current_user.is_parent? && @students.size > 0 %>
+      <div class= "span4">
+        <label>See data of :-</label>
+        <select id="student_list">
+          <% @students.each do |student| %>
+            <option value= <%=student.id%> ><%= student.student_name %></option>
+          <% end %>
         </select>
       </div>
-    <% end %>  
+    <% end %>
+      
     <div class="move_right">
+      Select Year:
+      <%= select_year(Date.today, :start_year => Date.today.year-2, :end_year => Date.today.year) %></br>
       Select Month(s):
       From: <%= select_month(Date.today)%>
       To: <%= select_month(Date.today) %>
     </div>
   </div>
   <div class="span10">
+    <% if current_user.is_parent? %>
+      <div id="student_detail" class="span6">
+        <b>Seeing data of student name :- <%= @students.first.student_name%></b></br>
+        <b>School Name:- <%= @students.first.school.name %></br>
+        <b>Grade Name:- <%= @students.first.current_grade %></b>  
+      </div>
+    <% end %>
     <%= link_to "See current month", "#", :class => "btn move_right"%></br>
   </div>
-  <div class='span10'><b>Select a subject</b></div>
   
-  <select id="select_id" name="subjects" multiple>
-    <option value="select_all">Select All</option>
-    <option value="maths">Maths</option>
-    <option value="biology">Biology</option>
-    <option value="physics">Physics</option>
-    <option value="chemestry">Chemestry</option>
-    <option value="history">History</option>
-    <option value="english">English</option>
-  </select>
+  
+  
+  
+  <div class='span10'>
+    <b>Select a subject:-</b>
+    <select id="select_subject" name="subjects" multiple>
+      <option value="select_all">Select All</option>
+      <% @grades.each do |grade| %>
+        <option value="<%= grade.subject_name %>"><%= grade.subject_name %></option>
+      <% end %>
+    </select>
+  </div>
 <% else %>
-  <h4>School Admin Dashboard</h4>
-  <h5>Import students list</h5>
-  <%= form_tag import_students_list_schools_path, multipart: true do %>  
-    <%= file_field_tag :file %>
-    <%= submit_tag "Upload" %>
-  <% end %>
-
-  <div>
-    <div class="icon_container span">
-      <div>
-        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
-      </div>
-      <b class="icon_title">Analytics</b>
-      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-    </div>
-    <div class="icon_container span">
-      <div>
-        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
-      </div>
-      <b class="icon_title">Grades</b>
-      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-    </div>
-    <div class="icon_container span">
-      <div>
-        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
-      </div>
-      <b class="icon_title">Users</b>
-      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-    </div>
-    <div class="icon_container span">
-      <div>
-        <%= link_to image_tag ("circle.png"), {:action => '#'} %>
-      </div>
-      <b class="icon_title">E-mails</b>
-      <div>Description for Analytics Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</div>
-    </div>
-  </div>  
+  <%= render partial:"admin_dashboard"%>
 <% end %>
+
 
 

@@ -1,0 +1,15 @@
+<div class="alignment">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="panel-title " >Import Students List</h5>
+    </div>
+    <div class="panel-body">
+      <%= form_tag import_students_list_schools_path, multipart: true do %>
+        <%= select_tag "school_id", options_for_select(School.all.collect{ |school| [school.name, school.id] }) %>
+        <%= file_field_tag :file, :required => true %>
+        <%= submit_tag "Upload" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

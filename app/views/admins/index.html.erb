@@ -1,16 +1,10 @@
 <h4>Welcome admin</h4>
 <div>
-  <%= link_to "create new School", new_school_path, :class => 'btn btn-normal' %><br>
-</div>  
-<div>
+  <%= link_to "create new School", new_school_path, :class => 'btn btn-normal' %>
   <%= link_to "View All School", schools_path, :class => 'btn btn-normal' %>
+  <%= link_to "Add student list to school", add_student_list_admins_path, :class => 'btn btn-normal' %>
+  <%= link_to "Add grade and professor list to school", add_grade_list_admins_path, :class => 'btn btn-normal' %>
 </div>  
 <div>
-<h5>Import students list</h5>
-  <%= form_tag import_students_list_schools_path, multipart: true do %>
-    <%= select_tag "school_id", options_for_select(School.all.collect{ |school| [school.name, school.id] }) %>
-    <%= file_field_tag :file, :required => true %>
-    <%= submit_tag "Upload" %>
-  <% end %>
-</div>
+
 

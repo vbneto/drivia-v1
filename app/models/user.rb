@@ -16,5 +16,16 @@ class User < ActiveRecord::Base
   
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
+  def is_student?
+    self.role=="student"
+  end
+  
+  def is_parent?
+    self.role=="parent"
+  end
+  
+  def is_admin?
+    self.role=="admin"
+  end
   
 end

@@ -15,12 +15,21 @@ class SchoolsController < ApplicationController
   end
   
   def import_students_list
-    is_create = StudentFromExcel.import(params[:file],params[:school_id])
-    if is_create
-      redirect_to admins_path, notice: "List of students imported."
-    else
-      redirect_to admins_path, notice: "some of the student not contained CPF."
+    already_present_students = StudentFromExcel.student_list(params[:file],params[:school_id])
+    notice = "List of students imported."
+    if already_present_students.size > 0
+      notice = "This are the CPF which is either already present or invalid </br>"+ already_present_students.join(", ")
     end
+    redirect_to add_student_list_admins_path, notice: notice
+  end
+  
+  def import_grade_list
+    already_present_grades = GradeFromExcel.grade_list(params[:file],params[:school_id])
+    notice = "List of grades imported."
+    if already_present_grades.size > 0
+      notice = "This are the grades which is already present </br>"+ already_present_grades.join(", ")
+    end
+    redirect_to add_grade_list_admins_path, notice: notice
   end
   
 end
