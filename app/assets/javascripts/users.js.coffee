@@ -15,7 +15,7 @@ $ ->
     icon: {placement:'right'}
      
       
-  $('#select_subject').change ->
+  $('#select_subject').live "change", ->
     $.get('/users/change_subjects?stid='+$("#student_list").val()+'&sub='+$(this).val())  
     
   
