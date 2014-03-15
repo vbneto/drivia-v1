@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     cpf = params[:cpf]
     @student = StudentFromExcel.find_by_cpf(cpf.to_s)
     if @student.nil?
-      redirect_to root_path, :notice => "student not found"
+      redirect_to new_registration_with_cpf_users_path, :notice => "student not found"
     else
       render parent_or_student_users_path,:notice => "Please enter more details"
     end  

@@ -11,9 +11,8 @@ class RegistrationsController < Devise::RegistrationsController
       end
     end
     if @user_role == "student"
-      
-      if @student.student_parents.size == 2
-        redirect_to root_path, :notice => "There is already two parents are there for this student" 
+      if Student.find_by_student_from_excel_id(@student.id.to_s)
+        redirect_to root_path, :notice => "There is already one student present for this cpf" 
         return
       end
     end
@@ -54,7 +53,7 @@ class RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      respond_with resource
+      redirect_to new_registration_with_cpf_users_path, :notice=> "Please fill the form correctly"
     end
   end
     
