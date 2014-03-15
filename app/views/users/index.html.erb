@@ -2,7 +2,7 @@
   <p>Hello <%=current_user.name%><p>
   <% if current_user.role != "School Administration" && current_user.role != "professor" %>
       <div class="span10">
-        <% if current_user.is_parent? && @students.size > 1 %>
+        <% if current_user.is_parent? && @students.size > 0 %>
           <div class= "span4">
             <label>See data of :-</label>
             <select id="student_list">
