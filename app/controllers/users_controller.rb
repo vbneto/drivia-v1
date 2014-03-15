@@ -36,7 +36,8 @@ class UsersController < ApplicationController
   def change_subjects
     @subjects = params[:sub].split(",")
     @subjects = 'all' if @subjects.first=="select_all" 
-    student = StudentFromExcel.find_by_id(params[:stid])
+    student = StudentFromExcel.find_by_id(params[:stid]) if current_user.is_parent?
+    student = Student.find_by_user_id(current_user.id).student_from_excel if current_user.is_student?
     @grades = GradeFromExcel.where("grade_name = ? and school_id = ?", student.current_grade, student.school_id)
     @subjects = @grades.select{|grade| @subjects.include?(grade.subject_name)} if @subjects!="all" 
     if @subjects == 'all'
