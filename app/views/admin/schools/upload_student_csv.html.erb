@@ -4,12 +4,10 @@
       <h5 class="panel-title " >Import Students List</h5>
     </div>
     <div class="panel-body">
-      <%= form_tag import_students_list_schools_path, multipart: true do %>
-        <%= select_tag "school_id", options_for_select(School.all.collect{ |school| [school.name, school.id] }) %>
+      <%= form_tag import_school_csv_admin_school_path(id: params[:id]), multipart: true do %>
         <%= file_field_tag :file, :required => true %>
         <%= submit_tag "Upload" %>
       <% end %>
     </div>
   </div>
 </div>
-

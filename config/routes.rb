@@ -11,13 +11,14 @@ SchoolSystem::Application.routes.draw do
     end
   end
   resources :students
-  resources :parents
-  resources :schools do
+  resources :parents do 
     collection do
-      post "import_students_list"
-      post "import_grade_list"
+      #get "new_student"
+      #get "ask_question"
+      #post "create_registration_with_cpf"
     end
-  end
+  end  
+  resources :schools
   resources :users do
     collection do
       get "new_registration_with_cpf"
