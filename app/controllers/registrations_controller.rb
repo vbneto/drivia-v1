@@ -20,12 +20,12 @@ class RegistrationsController < Devise::RegistrationsController
   end
   
   def create
-    user_role = params[:user][:role]
+    @user_role = params[:user][:role]
     cpf = params[:user][:cpf]
     @student = StudentFromExcel.where(:cpf=>cpf).first 
     params[:user].delete :role
     params[:user].delete :cpf
-    if user_role=="parent"
+    if @user_role=="parent"
       gender = params[:user][:gender]
       birth_day = params[:user][:birth_day]
       params[:user].delete :gender
@@ -33,11 +33,11 @@ class RegistrationsController < Devise::RegistrationsController
     end
     build_resource(params[:user])
     #resource.tag_list = params[:tags]   #******** here resource is user 
-    resource.role = user_role
+    resource.role = @user_role
     if resource.save
-      if user_role == "student"
+      if @user_role == "student"
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 
-      elsif user_role == "parent"
+      elsif @user_role == "parent"
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
         #StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
         parent.student_parents.create(student_from_excel_id: @student.id)
@@ -53,7 +53,8 @@ class RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      redirect_to new_registration_with_cpf_users_path, :notice=> "Please fill the form correctly"
+      #respond_with resource
+      redirect_to new_user_registration_path(cpf: cpf, user: @user_role), :notice=> "Please completly fill the form"
     end
   end
     

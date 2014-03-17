@@ -1,0 +1,18 @@
+<div class="alignment">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="panel-title " >
+        <% if @role == "student" %>
+        Are You <%= @student.student_name%>?
+        <% else %>
+        Are you responsible for <%= @student.student_name%>?
+        <% end %>
+      </h5>
+    </div>
+    <div class="panel-body">
+      <%= link_to "Yes", new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
+      <%= link_to "No", new_registration_with_cpf_users_path(role:@role), :class=>"btn" %>
+    </div>
+  </div>
+</div>
+

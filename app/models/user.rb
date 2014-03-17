@@ -5,12 +5,12 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   ROLES = ["Student", "Parent", "School Administration", "professor"]
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessor :gender, :birth_day
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :name, :cpf, :phoneprefix, :phone
+  attr_accessible :name, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
   validates :name, :presence => true
   

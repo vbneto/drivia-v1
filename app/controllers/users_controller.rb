@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf]
+  before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf, :parent_or_student_signup]
   
   def home
   end
@@ -18,13 +18,19 @@ class UsersController < ApplicationController
   end
   
   def create_registration_with_cpf
-    cpf = params[:cpf]
-    @student = StudentFromExcel.find_by_cpf(cpf.to_s)
+    @cpf = params[:cpf]
+    @role = params[:user]
+    @student = StudentFromExcel.find_by_cpf(@cpf)
     if @student.nil?
-      redirect_to new_registration_with_cpf_users_path, :notice => "student not found"
-    else
-      render parent_or_student_users_path,:notice => "Please enter more details"
+      redirect_to new_registration_with_cpf_users_path, :notice => "student with given cpf was not found"
+    elsif @role == 'student' && !Student.find_by_student_from_excel_id(@student.id.to_s).nil?
+      redirect_to root_path, :notice => "student was already signup with this cpf #{@cpf}"
+      return 
+    elsif @role == 'parent' && @student.student_parents.size == 2    
+      redirect_to root_path, :notice => "There are already two parents signup with this cpf #{@cpf}"
+      return
     end  
+    render ask_question_users_path
   end
   
   def change_student
@@ -51,6 +57,13 @@ class UsersController < ApplicationController
     average = 0
     grades.each{|grade| average = average + grade.subject_average}
     average = (average/grades.size).round(2)  if average > 0
+  end
+   
+  def new_registration_with_cpf
+    @role = params[:role]
+  end
+  
+  def parent_or_student_signup
   end
   
 end
