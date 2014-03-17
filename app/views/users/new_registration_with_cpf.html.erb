@@ -10,7 +10,7 @@
       </h5>
     </div>
     <div class="panel-body">
-      <%= form_tag( new_user_registration_path, :method => :get ) do %>
+      <%= form_tag( create_registration_with_cpf_users_path, :method => :post ) do %>
         <%= hidden_field_tag :user, @role%>
         <div><%= label_tag :cpf %>
           <%= text_field_tag :cpf %></div>

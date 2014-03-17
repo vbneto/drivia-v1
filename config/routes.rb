@@ -18,6 +18,7 @@ SchoolSystem::Application.routes.draw do
       post "create_registration_with_cpf"
       get "parent_or_student_signup"
       post "find_parent_or_student_for_signup"
+      get "ask_question"
     end
   end
   # The priority is based upon order of creation:

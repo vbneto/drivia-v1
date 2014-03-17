@@ -8,12 +8,20 @@ class UsersController < ApplicationController
   end
   
   def create_registration_with_cpf
-    cpf = params[:cpf]
-    @student = StudentFromExcel.find_by_cpf(cpf.to_s)
+    @cpf = params[:cpf]
+    @role = params[:user]
+    @student = StudentFromExcel.find_by_cpf(@cpf.to_s)
     if @student.nil?
-      redirect_to root_path, :notice => "student not found"
+      redirect_to root_path, :notice => "student with given cpf was not found"
     else
-      render parent_or_student_users_path,:notice => "Please enter more details"
+      if @role == 'student' && !Student.find_by_student_from_excel_id(@student.id.to_s).nil?
+        redirect_to root_path, :notice => "student was already signup with this cpf #{@cpf}"
+        return 
+      elsif @role == 'parent' && @student.student_parents.size == 2    
+        redirect_to root_path, :notice => "There are already two parents signup with this cpf #{@cpf}"
+        return
+      end  
+      render ask_question_users_path
     end  
   end
   
