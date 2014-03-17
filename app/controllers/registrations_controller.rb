@@ -34,6 +34,7 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(params[:user])
     #resource.tag_list = params[:tags]   #******** here resource is user 
     resource.role = @user_role
+    resource.skip_confirmation!
     if resource.save
       if @user_role == "student"
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 
