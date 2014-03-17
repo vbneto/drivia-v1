@@ -11,8 +11,8 @@ class UsersController < ApplicationController
     end  
     
     if current_user.is_student?
-      student = Student.find_by_user_id(User.find_by_id(current_user.id)).student_from_excel
-      @grades = GradeFromExcel.where("grade_name = ? and school_id = ?", student.current_grade, student.school_id)
+      @student = Student.find_by_user_id(User.find_by_id(current_user.id)).student_from_excel
+      @grades = GradeFromExcel.where("grade_name = ? and school_id = ?", @student.current_grade, @student.school_id)
     end
     @average = calculate_average @grades
   end
