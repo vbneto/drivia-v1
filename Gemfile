@@ -18,7 +18,7 @@ gem 'roo'
 gem "rolify"
 gem 'morrisjs-rails'
 gem 'raphael-rails'
-gem 'exception_notification', :require => 'exception_notifier'
+gem 'exception_notification'
 
 gem "twitter-bootstrap-rails"
 
