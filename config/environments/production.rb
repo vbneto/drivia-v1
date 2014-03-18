@@ -66,6 +66,10 @@ SchoolSystem::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => 'school-system1.herokuapp.com' }
+  config.middleware.use ExceptionNotifier,
+  :email_prefix => "[Drivia-Production] ",
+  :sender_address => %{"Support Exception Notifier" <support@drivia.com.br>},
+  :exception_recipients => %w{ritesh.ror@gmail.com, victoriobn@gmail.com}
 end
 
 ActionMailer::Base.smtp_settings = {

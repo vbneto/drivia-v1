@@ -18,7 +18,7 @@ gem 'roo'
 gem "rolify"
 gem 'morrisjs-rails'
 gem 'raphael-rails'
-
+gem 'exception_notification', :require => 'exception_notifier'
 
 gem "twitter-bootstrap-rails"
 
@@ -51,4 +51,6 @@ gem 'jquery-rails', "2.3.0"
 # gem 'capistrano'
 
 # To use debugger
-#gem 'debugger'
+group :development do
+  gem 'debugger'
+end
