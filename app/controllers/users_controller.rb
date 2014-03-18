@@ -16,6 +16,8 @@ class UsersController < ApplicationController
         @grades = GradeFromExcel.where("grade_name = ? and school_id = ?", @student.current_grade, @student.school_id)
       end
       @average = calculate_average @grades
+    else
+      @grades = GradeFromExcel.where(:professor_email => current_user.email)   
     end  
   end
   

@@ -13,6 +13,16 @@
  *= require_directory .
  */
  
- .move_div_down {
-   margin-top: 50px;
- }
+.move_div_down {
+  margin-top: 80px;
+}
+ 
+ 
+.nav_header {
+  margin-top: -52px;
+  width: 775px !important;
+}
+
+.nav_header_icon {
+  font-size: 14px;
+}

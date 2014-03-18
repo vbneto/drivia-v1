@@ -1,1 +1,31 @@
-<h1>Wellcome to the professor dashboard</h1>
+<div id="subject_list" class="span4 move_down">
+  <% if @grades.present? %>
+    <h5><%= t('Following are the Subjects that you teach') %></h5>
+  <% else %>
+    <h5><%= t('Currently there is no subjects which you teaches') %></h5>
+  <% end %>
+  <table class="table table-striped table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th><%= t('School') %></th>
+        <th><%= t('Grade') %></th>
+        <th><%= t('Subject') %></th>
+        <th><%= t('View Students') %></th>
+      </tr>
+      </thead>
+      <tbody> 
+        <%if @grades.present? %>
+          <% @grades.each do |grade| %>
+            <tr>
+              <td><lable><%= grade.school.name%></lable></td>
+              <td><lable><%= grade.grade_name %></lable></td>
+              <td><lable><%= grade.subject_name %></lable></td>
+              <td><lable><%= link_to "View Students", show_students_professors_path(:school_id=>grade.school_id, :grade=> grade.grade_name), :class => "btn btn-primary" %></lable></td>
+            </tr>
+          <%end%>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+
+

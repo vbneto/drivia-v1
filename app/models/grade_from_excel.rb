@@ -1,5 +1,6 @@
 class GradeFromExcel < ActiveRecord::Base
   attr_accessible :grade_name, :professor_name, :subject_average, :subject_name, :professor_email
+  belongs_to :school
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
     already_present_grades = []
