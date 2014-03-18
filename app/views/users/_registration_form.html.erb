@@ -3,17 +3,26 @@
     <div class="panel panel-heading">
       <h5 class="panel-title " >
         <% if @role == "student" %>
-        Please, inform your CPF to continue.
-        <% else %>
-        Please, inform the CPF of one student who you are responsible for to continue.
+          Please, inform your CPF to continue.
+        <% elsif @role == "student" %>
+          Please, inform the CPF of one student who you are responsible for to continue.
+        <% elsif @role == "professor" %>
+          Please, inform your registered e-mail to continue.
         <% end %>
       </h5>
     </div>
     <div class="panel-body">
       <%= form_tag( create_registration_with_cpf_users_path, :method => :post ) do %>
         <%= hidden_field_tag :user, @role%>
-        <div><%= label_tag :cpf %>
-          <%= text_field_tag :cpf %></div>
+        <% if @role != 'professor'%>
+          <div><%= label_tag :cpf %>
+            <%= text_field_tag :cpf %>
+          </div>
+        <% else %>
+          <div><%= label_tag :email %>
+            <%= text_field_tag :email %>
+          </div>
+        <% end %>  
         <div>
           <%= submit_tag "Submit",class:"btn btn-normal" %>
         </div>

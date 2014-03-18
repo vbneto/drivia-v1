@@ -1,79 +1,9 @@
 <div class="span11">
   <p>Hello <%=current_user.name%><p>
-  <% if current_user.role != "School Administration" && current_user.role != "professor" %>
-      <div class="span10">
-        <% if current_user.is_parent? && @students.size > 0 %>
-          <div class= "span4">
-            <label>See data of :-</label>
-            <select id="student_list">
-              <% @students.each do |student| %>
-                <option value= <%=student.id%> ><%= student.student_name %></option>
-              <% end %>
-            </select>
-          </div>
-        <% end %>
-          
-        <div class="move_right">
-          Select Year:
-          <%= select_year(Date.today, :start_year => Date.today.year-2, :end_year => Date.today.year) %></br>
-          Select Month(s):
-          From: <%= select_month(Date.today)%>
-          To: <%= select_month(Date.today) %>
-        </div>
-      </div>    
-      <div class="span10">
-        <% if current_user.is_parent? %>
-          <div id="student_detail" class="span">
-            <b>Seeing data of student name :- <%= @students.first.student_name%></b></br>
-            <b>School Name:- <%= @students.first.school.name %></br>
-            <b>Grade Name:- <%= @students.first.current_grade %></b>  
-          </div>
-        <% end %>
-        <% if current_user.is_student? %>
-          <div id="student_detail" class="span">
-            <b>Seeing data of student name :- <%= @student.student_name%></b></br>
-            <b>School Name:- <%= @student.school.name %></br>
-            <b>Grade Name:- <%= @student.current_grade %></b>  
-          </div>
-        <% end %>
-        <%= link_to "See current month", "#", :class => "btn move_right"%></br>
-      </div>
-      
-      <div class='span10 move_down'>
-        <b>Select a subject:-</b>
-        <select id="select_subject" name="subjects" multiple>
-          <option value="select_all">Select All</option>
-          <% @grades.each do |grade| %>
-            <option value="<%= grade.subject_name %>"><%= grade.subject_name %></option>
-          <% end %>
-        </select>
-      </div>
-      <div id="subject_list" class="span4 move_down">
-        <table class="table table-striped table-bordered table-condensed">
-            <thead>
-            <tr>
-              <th>Subject</th>
-              <th>Average</th>
-            </tr>
-            </thead>
-            <tbody> 
-              <%if @grades.size > 0%>
-                <% @grades.each do |grade| %>
-                  <tr>
-                    <td><lable><%= grade.subject_name%></lable></td>
-                    <td><lable><%= grade.subject_average %></lable></td>
-                  </tr>
-                <%end%>
-              <% end %>
-            </tbody>
-          </table>
-        <div id="overall_average" class="move_down">
-          OverAll Average:- <%= @average %>
-        </div>
-      </div>
-      <!--div id="myfirstchart" class="span5" style="height: 250px;"></div-->
-  <% else %>
-    <%= render partial:"admin_dashboard"%>
+  <% if current_user.is_student? || current_user.is_parent? %>
+    <%= render partial:"student_parent_dashboard"%>
+  <% elsif current_user.is_professor? %>
+    <%= render partial:"professor_dashboard"%>
   <% end %>
 </div>  
 

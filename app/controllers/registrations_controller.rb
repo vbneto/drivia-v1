@@ -1,36 +1,34 @@
 class RegistrationsController < Devise::RegistrationsController
   
   def new
-    cpf = params[:cpf]
     @user_role = params[:user]
-    @student = StudentFromExcel.find_by_cpf(cpf)
-    if @user_role == "parent"
-      if @student.student_parents.size == 2
-        redirect_to root_path, :notice => "There is already two parents are there for this student" 
-        return
-      end
-    end
-    if @user_role == "student"
-      if Student.find_by_student_from_excel_id(@student.id.to_s)
-        redirect_to root_path, :notice => "There is already one student present for this cpf" 
-        return
-      end
-    end
+    if @user_role != 'professor'
+      cpf = params[:cpf]
+      @student = StudentFromExcel.find_by_cpf(cpf)
+    else
+      email = params[:email]
+      @professor = GradeFromExcel.find_by_professor_email(email)
+    end  
     super
   end
   
   def create
     @user_role = params[:user][:role]
-    cpf = params[:user][:cpf]
-    @student = StudentFromExcel.where(:cpf=>cpf).first 
     params[:user].delete :role
-    params[:user].delete :cpf
-    if @user_role=="parent"
+    if @user_role != 'professor'
+      cpf = params[:user][:cpf]
+      @student = StudentFromExcel.where(:cpf=>cpf).first 
+      params[:user].delete :cpf
+    else
+      @professor = GradeFromExcel.find_by_professor_email(params[:user][:email])  
+    end  
+    if @user_role == "parent" || @user_role == "professor" 
       gender = params[:user][:gender]
       birth_day = params[:user][:birth_day]
       params[:user].delete :gender
       params[:user].delete :birth_day
     end
+      
     build_resource(params[:user])
     #resource.tag_list = params[:tags]   #******** here resource is user 
     resource.role = @user_role
@@ -42,6 +40,8 @@ class RegistrationsController < Devise::RegistrationsController
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
         #StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
         parent.student_parents.create(student_from_excel_id: @student.id)
+      elsif @user_role == "professor"
+        Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, grade_from_excel_id: birth_day)  
       end  
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

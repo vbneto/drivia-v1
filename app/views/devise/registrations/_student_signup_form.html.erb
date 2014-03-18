@@ -1,0 +1,22 @@
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :validate => true) do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :name, :value => "#{@student.student_name}"%>
+  <%= f.hidden_field :role, :value => "#{@user_role}"%>
+  <%= f.hidden_field :cpf, :value => "#{@student.cpf}"%>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, :required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %></div>
+  
+  <div><%= f.label :phoneprefix %><br />
+  <%= f.text_field :phoneprefix %></div>
+  
+  <div><%= f.label :phone %><br />
+  <%= f.text_field :phone %></div>
+  
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Sign up",class:"btn btn-normal", onclick:"return validate_form()" %></div>
+<% end %>

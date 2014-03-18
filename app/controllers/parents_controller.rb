@@ -1,5 +1,9 @@
 class ParentsController < ApplicationController
 
+  def new_student
+    @students = Parent.find_by_user_id(current_user.id).student_from_excels
+  end
+  
   def create_registration_with_cpf
     @cpf = params[:cpf]
     @student = StudentFromExcel.find_by_cpf(@cpf)

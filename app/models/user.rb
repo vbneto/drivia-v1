@@ -28,4 +28,9 @@ class User < ActiveRecord::Base
     self.role=="admin"
   end
   
+  def is_professor?
+    self.role=="professor"
+  end
+  
+  
 end
