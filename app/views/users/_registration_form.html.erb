@@ -20,7 +20,7 @@
           </div>
         <% else %>
           <div><%= label_tag :email %>
-            <%= text_field_tag :email %>
+            <%= text_field_tag :email,"" ,:required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
           </div>
         <% end %>  
         <div>

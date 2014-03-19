@@ -25,24 +25,35 @@ class UsersController < ApplicationController
     @role = params[:user]
     if @role != 'professor'
       @cpf = params[:cpf]
+      if @cpf.size == 11
+        @cpf.insert(3,'.')
+        @cpf.insert(7,'.')
+        @cpf.insert(11,'-')
+      end
       @student = StudentFromExcel.find_by_cpf(@cpf) 
       if @student.nil?
-        redirect_to new_registration_with_cpf_users_path, :notice => "student with given cpf was not found"
+        flash[:error]= "student with given cpf was not found"
+        redirect_to new_registration_with_cpf_users_path(role:@role)
+        return
       elsif @role == 'student' && !Student.find_by_student_from_excel_id(@student.id.to_s).nil?
-        redirect_to root_path, :notice => "student was already signup with this cpf #{@cpf}"
+        flash[:error]= "student was already signup with this cpf #{@cpf}"
+        redirect_to new_registration_with_cpf_users_path(role:@role)
         return 
-      elsif @role == 'parent' && @student.student_parents.size == 2    
-        redirect_to root_path, :notice => "There are already two parents signup with this cpf #{@cpf}"
+      elsif @role == 'parent' && @student.student_parents.size == 2
+        flash[:error]= "There are already two parents signup with this cpf #{@cpf}"
+        redirect_to new_registration_with_cpf_users_path(role:@role)
         return
       end  
     else
       @email = params[:email]
       @professor = GradeFromExcel.find_by_professor_email(@email)
       if @professor.nil?
-        redirect_to root_path, :notice => "Professor with given email was not found"
+        flash[:error]= "Professor with given email was not found"
+        redirect_to new_registration_with_cpf_users_path(role:@role)
         return
       elsif User.find_by_email(@email).present?
-        redirect_to root_path, :notice => "Professor with given email was already present"
+        flash[:error]= "Professor with given email was already present"
+        redirect_to new_registration_with_cpf_users_path(role:@role)
         return  
       end
     end
