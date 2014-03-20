@@ -32,5 +32,14 @@ class User < ActiveRecord::Base
     self.role=="professor"
   end
   
+  def self.check_cpf cpf
+    if cpf.size == 11
+      cpf.insert(3,'.')
+      cpf.insert(7,'.')
+      cpf.insert(11,'-')
+    end
+    cpf
+  end
+  
   
 end

@@ -1,0 +1,2 @@
+module MonthlyGradesHelper
+end

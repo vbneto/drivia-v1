@@ -20,7 +20,14 @@
               <td><lable><%= grade.school.name%></lable></td>
               <td><lable><%= grade.grade_name %></lable></td>
               <td><lable><%= grade.subject_name %></lable></td>
-              <td><lable><%= link_to "View Students", show_students_professors_path(:school_id=>grade.school_id, :grade=> grade.grade_name), :class => "btn btn-primary" %></lable></td>
+              <td><lable>
+              <%= form_tag( show_students_professors_path, :method => :post) do %>
+                <%= hidden_field_tag :school_id, grade.school_id %>
+                <%= hidden_field_tag :grade, grade.grade_name %>
+                <%= hidden_field_tag :subject, grade.subject_name %>
+                <%= submit_tag "Submit",class:"btn btn-normal" %>
+              <% end %>
+              </lable></td>
             </tr>
           <%end%>
         <% end %>

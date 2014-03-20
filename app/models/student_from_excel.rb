@@ -6,6 +6,7 @@ class StudentFromExcel < ActiveRecord::Base
   
   belongs_to :school
   has_many :student_parents
+  has_many :monthly_grades
   has_many :parents, through: :student_parents
   
   def self.student_list(file,school_id)
@@ -41,4 +42,9 @@ class StudentFromExcel < ActiveRecord::Base
       nil
     end  
   end
+  
+  def student_grade(subject, month)
+    self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month)}.first
+  end
+  
 end

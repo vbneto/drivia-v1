@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  record_date: 2014-03-19
+  student_from_excel_id: 1
+  grade: 1.5
+  subject_name: MyString
+
+two:
+  record_date: 2014-03-19
+  student_from_excel_id: 1
+  grade: 1.5
+  subject_name: MyString

@@ -17,10 +17,13 @@ SchoolSystem::Application.routes.draw do
   resources :schools
   resources :professors, only: :new do
     collection do
-      get "show_students"
+      post "show_students"
     end
   end  
     
+  put '/monthly_grades' => 'monthly_grades#update_grade', :as => 'update_grade'
+  post '/monthly_grades/create_grade' => 'monthly_grades#create_grade'
+  
   
   resources :users do
     collection do

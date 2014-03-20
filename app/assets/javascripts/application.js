@@ -16,3 +16,5 @@
 //= require raphael
 //= require morris
 //= require_directory .
+//= require best_in_place
+

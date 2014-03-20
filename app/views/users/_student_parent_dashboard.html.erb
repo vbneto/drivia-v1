@@ -40,8 +40,8 @@
   <b>Select a subject:-</b>
   <select id="select_subject" name="subjects" multiple>
     <option value="select_all">Select All</option>
-    <% @grades.each do |grade| %>
-      <option value="<%= grade.subject_name %>"><%= grade.subject_name %></option>
+    <% @subject_average.each do |subject,average| %>
+      <option value="<%= subject %>"><%= subject %></option>
     <% end %>
   </select>
 </div>
@@ -54,11 +54,11 @@
       </tr>
       </thead>
       <tbody> 
-        <%if @grades.size > 0%>
-          <% @grades.each do |grade| %>
+        <%if @subject_average.size > 0%>
+          <% @subject_average.each do |subject,average| %>
             <tr>
-              <td><lable><%= grade.subject_name%></lable></td>
-              <td><lable><%= grade.subject_average %></lable></td>
+              <td><lable><%= subject %></lable></td>
+              <td><lable><%= average %></lable></td>
             </tr>
           <%end%>
         <% end %>
@@ -67,5 +67,34 @@
   <div id="overall_average" class="move_down">
     OverAll Average:- <%= @average %>
   </div>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
 </div>
 <!--div id="myfirstchart" class="span5" style="height: 250px;"></div-->
+
+
+
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Month', 'Average'],
+      ['January',  7],
+      ['Fabruary',  4],
+      ['March',  6]
+    ]);
+
+    var options = {
+      title: 'Student Performance'
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
+
+    

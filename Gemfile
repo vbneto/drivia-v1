@@ -4,23 +4,20 @@ gem 'rails', '3.2.9'
 ruby '1.9.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-#gem 'sqlite3'
-#gem 'mongoid'
-#gem 'bson_ext'
+gem "activeadmin"
+#gem 'bootstrap-datepicker-rails'
 gem "cancan"
 gem "cpf_validator"
 gem 'devise'
-gem 'pg'
-gem "activeadmin"
-gem "meta_search",    '>= 1.1.0.pre'
-gem 'roo'
-gem "rolify"
-gem 'morrisjs-rails'
-gem 'raphael-rails'
 gem 'exception_notification'
-
+gem "meta_search",    '>= 1.1.0.pre'
+gem 'morrisjs-rails'
+gem 'pg'
+gem 'raphael-rails'
+gem "rolify"
+gem 'roo'
 gem "twitter-bootstrap-rails"
+gem "best_in_place"
 
 
 # Gems used only for assets and not required

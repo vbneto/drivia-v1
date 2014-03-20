@@ -39,14 +39,6 @@ $ ->
         month: "2010"
         value: 5
       }
-      {
-        month: "2011"
-        value: 5
-      }
-      {
-        month: "2012"
-        value: 20
-      }
     ]
     
     # The name of the data record attribute that contains x-values.
