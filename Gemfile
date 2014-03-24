@@ -11,7 +11,6 @@ gem "cpf_validator"
 gem 'devise'
 gem 'exception_notification'
 gem "meta_search",    '>= 1.1.0.pre'
-gem 'morrisjs-rails'
 gem 'pg'
 gem 'raphael-rails'
 gem "rolify"
