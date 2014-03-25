@@ -47,4 +47,8 @@ class StudentFromExcel < ActiveRecord::Base
     self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month)}.first
   end
   
+  def self.find_all_student_id_of_current_grade student
+    self.where("school_id=? and current_grade=?",student.school_id, student.current_grade).map(&:id)
+  end
+  
 end

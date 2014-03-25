@@ -1,4 +1,4 @@
-<div id="subject_list" class="span4 move_down">
+<div id="subject_list" class="span5 move_down">
   <% if @grades.present? %>
     <h5><%= t('Following are the Subjects that you teach') %></h5>
   <% else %>
@@ -10,24 +10,33 @@
         <th><%= t('School') %></th>
         <th><%= t('Grade') %></th>
         <th><%= t('Subject') %></th>
-        <th><%= t('View Students') %></th>
+        <th><%= t('View_Students') %></th>
+        <th><%= t('View_Average_Graph') %></th>
       </tr>
       </thead>
       <tbody> 
         <%if @grades.present? %>
           <% @grades.each do |grade| %>
             <tr>
-              <td><lable><%= grade.school.name%></lable></td>
-              <td><lable><%= grade.grade_name %></lable></td>
-              <td><lable><%= grade.subject_name %></lable></td>
-              <td><lable>
-              <%= form_tag( show_students_professors_path, :method => :post) do %>
-                <%= hidden_field_tag :school_id, grade.school_id %>
-                <%= hidden_field_tag :grade, grade.grade_name %>
-                <%= hidden_field_tag :subject, grade.subject_name %>
-                <%= submit_tag "Submit",class:"btn btn-normal" %>
-              <% end %>
-              </lable></td>
+              <td><%= grade.school.name%></td>
+              <td><%= grade.grade_name %></td>
+              <td><%= grade.subject_name %></td>
+              <td>
+                <%= form_tag( show_students_professors_path, :method => :post) do %>
+                  <%= hidden_field_tag :school_id, grade.school_id %>
+                  <%= hidden_field_tag :grade, grade.grade_name %>
+                  <%= hidden_field_tag :subject, grade.subject_name %>
+                  <%= submit_tag "Submit",class:"btn btn-normal" %>
+                <% end %>
+              </td>
+              <td>
+                <%= form_tag( show_student_graph_professors_path, :method => :post) do %>
+                  <%= hidden_field_tag :school_id, grade.school_id %>
+                  <%= hidden_field_tag :grade, grade.grade_name %>
+                  <%= hidden_field_tag :subject, grade.subject_name %>
+                  <%= submit_tag "Submit",class:"btn btn-primary" %>
+                <% end %>
+              </td>
             </tr>
           <%end%>
         <% end %>

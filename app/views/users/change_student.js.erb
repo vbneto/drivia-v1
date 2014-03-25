@@ -6,11 +6,11 @@ $('#subject_list table > tbody').empty();
   $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
 <% end %>  
 
-$('#overall_average').text('Overall Average:- <%= @average %>');
+$('#overall_average').text('Overall Average:- <%= @overall_average %>');
 
 $("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
 
 $('#student_detail').html("<b>Seeing data of student name :- <%= @student.student_name%></b></br><b>School Name:- <%= @student.school.name %></br><b>Grade Name:- <%= @student.current_grade %></b>");
 
 
-drawChart(<%= raw @month_average%>);
+drawChart(<%= raw @month_average%>, <%= raw @all_student_month_average %>);

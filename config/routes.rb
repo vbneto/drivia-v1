@@ -18,6 +18,7 @@ SchoolSystem::Application.routes.draw do
   resources :professors, only: :new do
     collection do
       post "show_students"
+      post "show_student_graph"
     end
   end  
     

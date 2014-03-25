@@ -1,0 +1,21 @@
+<div id="graph" class="span7">
+  <div id="chart_div" style="width: 700px; height: 500px;"></div>
+</div>  
+
+<script>
+  var all_student_average = <%= raw @all_student_month_average %>
+  google.setOnLoadCallback(drawChart(all_student_average ));
+  
+  function drawChart(all_student_average) {
+    var data = new google.visualization.arrayToDataTable(all_student_average);
+    
+    var options = {
+      title: 'Average Of All Students Of the Grade',
+      vAxis: { title: "Average", minValue: 0, maxValue: 10 },
+      hAxis: { title: "Month"},
+      pointSize: 5
+    };
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>

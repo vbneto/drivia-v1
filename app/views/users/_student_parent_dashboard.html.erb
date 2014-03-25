@@ -65,27 +65,39 @@
     </tbody>
   </table>
   <div id="overall_average" class="move_down">
-    OverAll Average:- <%= @average %>
+    OverAll Average:- <%= @overall_average %>
   </div>
 </div>
 <div id="graph" class="span7">
   <div id="chart_div" style="width: 700px; height: 500px;"></div>
+  <div id="chart_div2" style="width: 700px; height: 500px;"></div>
 </div>
 
 <script>
-  var myData = <%= raw @month_average%>
-  google.setOnLoadCallback(drawChart(myData));
+  var current_student_average = <%= raw @month_average %>
+  var all_student_average = <%= raw @all_student_month_average %>
+  google.setOnLoadCallback(drawChart(current_student_average, all_student_average ));
   
-  function drawChart(myData) {
-    var data = google.visualization.arrayToDataTable(myData);
+  function drawChart(current_student_average, all_student_average) {
+    var data = google.visualization.arrayToDataTable(current_student_average);
+    var data2 = new google.visualization.arrayToDataTable(all_student_average);
     var options = {
-      title: 'Student Performance',
-      vAxis: { title: "Average" },
+      title: 'Average Of Selected Student',
+      vAxis: { title: "Average", minValue: 0, maxValue: 10 },
       hAxis: { title: "Month"},
       pointSize: 5
     };
+    var options2 = {
+      title: 'Average Of All Students Of the Grade',
+      vAxis: { title: "Average", minValue: 0, maxValue: 10 },
+      hAxis: { title: "Month"},
+      pointSize: 5
+    };
+    
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+    var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+    chart2.draw(data2, options2);
   }
 </script>
   

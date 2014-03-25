@@ -1,19 +1,23 @@
 $('#subject_list table > tbody').empty();
-$('#overall_average').text('Overall Average:- ')
 <% if params[:sub] != "null" %>
-  <% if @subjects == 'all' %>
+  <% if @subjects.first == 'select_all' %>
     <% @subject_average.each do |subject,average| %>
       $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
     <% end %>
-    $('#overall_average').text('Overall Average:- <%= @average %>');  
+    $('#overall_average').text('Overall Average:- <%= @overall_average %>');
   <% else %>
     <% @subject_average.each do |subject,average|%>
       $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
     <% end %>
-    $('#overall_average').text('Overall Average:- <%= @average %>');
+    <% if @subjects.size == 1%>
+      $('#overall_average').text('');
+    <% else %>
+      $('#overall_average').text('Overall Average:- <%= @overall_average %>');
+    <% end %>  
   <% end %>
-  drawChart(<%= raw @month_average%>);
+  drawChart(<%= raw @month_average%>, <%= raw @all_student_month_average %>);
 <% else %>
-  drawChart([["Months","Grade"]]);  
+  $('#overall_average').text('');
+  drawChart([["Months","Grade"]],[["Months","Grade"]]);  
 <% end %>
 
