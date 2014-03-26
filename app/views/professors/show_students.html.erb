@@ -13,6 +13,7 @@
       <th><%= t('Student_name') %></th>
       <th><%= t('Grade') %></th>
       <th><%= t('Month_Grade') %></th>
+      <th><%= t('Month_No_Show') %></th>
     </tr>
     </thead>
     <tbody>
@@ -20,10 +21,13 @@
         <% @students.each do |student| %>
           <% monthly_grade = student.student_grade(@subject, @month) || MonthlyGrade.new %>
           <tr>
-            <td><lable><%= student.student_name%></lable></td>
-            <td><lable><%= student.current_grade%></lable></td>
+            <td><%= student.student_name%></td>
+            <td><%= student.current_grade%></td>
             <td>
               <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(:student_id=>student.id, :subject => @subject, :month=> @month), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+            </td>
+            <td>
+              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(:student_id=>student.id, :subject => @subject, :month=> @month), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
             </td>
           </tr>
         <%end%>

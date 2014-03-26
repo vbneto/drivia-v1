@@ -17,7 +17,26 @@ class MonthlyGradesController < ApplicationController
     respond_to do |format|
       format.json { respond_with_bip(student_grade) }
     end
-   
+  end
+  
+  def update_no_show
+    student = StudentFromExcel.find(params[:student_id])
+    student_grade = student.student_grade(params[:subject], params[:month])
+    
+    if student_grade.blank?
+      student_grade = MonthlyGrade.create(:record_date => Date.today,
+                :student_from_excel_id => params[:student_id],
+                :subject_name=> params[:subject],
+                :no_show => params[:monthly_grade][:no_show],
+                :month => Date::MONTHNAMES.index(params[:month])
+                )
+    else
+      student_grade.update_attributes(:no_show=>params[:monthly_grade][:no_show])
+    end
+    
+    respond_to do |format|
+      format.json { respond_with_bip(student_grade) }
+    end
   end
   
 end

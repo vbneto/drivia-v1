@@ -6,28 +6,29 @@ class UsersController < ApplicationController
   
   def index
     
-    if !current_user.is_professor?
-      if current_user.is_parent?
-        @students = Parent.find_student_by_parent_id current_user.id
-        @student = @students.first 
-      elsif current_user.is_student?
-        @student = Student.find_student_by_student_id current_user.id
-      end
-      @grades = @student.monthly_grades
-      subjects = MonthlyGrade.uniq_grade @grades
-      @subject_average = subject_average(subjects, @grades)
-      
-      all_months = @grades.map(&:month).uniq
-      @month_average = Student.all_months_average(all_months, @grades).to_a.insert(0,["Months","Grade"]) 
-      
-      @all_student_id_of_current_grade = StudentFromExcel.find_all_student_id_of_current_grade @student
-      all_student_grades = MonthlyGrade.select{|grade| @all_student_id_of_current_grade.include?(grade.student_from_excel_id)}
-      @all_student_month_average = Student.all_months_average(all_months, all_student_grades).to_a.insert(0,["Months","Grade"]) 
-      
-      @overall_average = calculate_overall_average @grades
-    else
-      @grades = GradeFromExcel.where(:professor_email => current_user.email)   
-    end  
+    if current_user.is_professor?
+      @grades = GradeFromExcel.where(:professor_email => current_user.email)
+      render :index and return
+    end
+    
+    if current_user.is_parent?
+      @students = Parent.find_student_by_parent_id current_user.id
+      @student = @students.first 
+    end
+    @student = Student.find_student_by_student_id current_user.id if current_user.is_student?
+    
+    @grades = @student.monthly_grades
+    
+    @subject_average = subject_average(@grades)
+    #subject_grade_of_student = GradeFromExcel.where("school_id=? and grade_name=?", @student.school_id, @student.current_grade)
+    @total_no_show = total_no_show @grades
+    
+    @month_average = Grade.initialize_graph(Student.all_months_average(@grades))
+    all_student_grades = Grade.find_all_student_grade @student 
+    @all_student_month_average = Grade.initialize_graph(Student.all_months_average(all_student_grades))
+    
+    @month_average = merge_graph(@month_average,@all_student_month_average)
+    @overall_average = calculate_overall_average @grades
   end
   
   def create_registration_with_cpf
@@ -62,53 +63,45 @@ class UsersController < ApplicationController
   def change_subjects
     unless params[:sub] == 'null'
       @subjects = params[:sub].split(",")
+      
       student = StudentFromExcel.find_by_id(params[:stid]) if current_user.is_parent?
       student = Student.find_by_user_id(current_user.id).student_from_excel if current_user.is_student?
+      
       grades = student.monthly_grades 
-      all_student_id_of_current_grade = StudentFromExcel.find_all_student_id_of_current_grade student
-      all_student_grades = MonthlyGrade.select{|grade| all_student_id_of_current_grade.include?(grade.student_from_excel_id)}
+      all_student_grades = Grade.find_all_student_grade student 
+      
       if @subjects.first == 'select_all'
         subjects = MonthlyGrade.uniq_grade grades
-        @subject_average = subject_average(subjects, grades)
+        @total_no_show = total_no_show grades
+        @subject_average = subject_average(grades)
       else
+        @total_no_show = total_no_show(@subjects, grades)
         @subject_average = subject_average(@subjects, grades)
         grades = grades.select{|grade| @subjects.include?(grade.subject_name)}
         all_student_grades = all_student_grades.select{|grade| @subjects.include?(grade.subject_name)}
       end
+      
       @overall_average = calculate_overall_average grades
-      all_months = grades.map(&:month).uniq
-      @month_average = Student.all_months_average(all_months, grades).to_a.insert(0,["Months","Grade"])
-      @all_student_month_average = Student.all_months_average(all_months, all_student_grades).to_a.insert(0,["Months","Grade"])  
+      
+      @month_average = Grade.initialize_graph(Student.all_months_average(grades))
+      @all_student_month_average = Grade.initialize_graph(Student.all_months_average(all_student_grades))
+      @month_average = merge_graph(@month_average,@all_student_month_average)
     end  
   end
   
   def change_student
     @student = StudentFromExcel.find_by_id(params[:id])
     @grades = @student.monthly_grades
-    subjects = MonthlyGrade.uniq_grade @grades
-    @subject_average = subject_average(subjects, @grades)
+    
+    @total_no_show = total_no_show @grades
+    @subject_average = subject_average(@grades)
     @overall_average = calculate_overall_average @grades
-    all_months = @grades.map(&:month).uniq
-    @month_average = Student.all_months_average(all_months, @grades).to_a.insert(0,["Months","Grade"])
-    all_student_id_of_current_grade = StudentFromExcel.find_all_student_id_of_current_grade @student
-    all_student_grades = MonthlyGrade.select{|grade| all_student_id_of_current_grade.include?(grade.student_from_excel_id)}
-    @all_student_month_average = Student.all_months_average(all_months, all_student_grades).to_a.insert(0,["Months","Grade"])
-  end
-  
-  def calculate_overall_average grades
-    average = 0
-    grades.each{|grade| average = average + grade.grade}
-    average = (average/grades.size).round(2)  if average > 0
-    average
-  end
-   
-  def subject_average(subjects, grades)
-    subject_average = {}
-    subjects.each do |subject|
-      perticular_subject = MonthlyGrade.particular_subject(grades, subject)
-      subject_average.merge!({subject => ((perticular_subject.map(&:grade).inject(:+))/perticular_subject.count).round(2)})
-    end
-    subject_average
+    
+    @month_average = Grade.initialize_graph(Student.all_months_average(@grades))
+    all_student_grades = Grade.find_all_student_grade @student 
+    @all_student_month_average = Grade.initialize_graph(Student.all_months_average(all_student_grades))
+    
+    @month_average = merge_graph(@month_average, @all_student_month_average)
   end
   
   def new_registration_with_cpf
@@ -116,6 +109,45 @@ class UsersController < ApplicationController
   end
   
   def signup
+  end
+  
+  private
+  
+  def subject_average(subjects = false, grades)
+    subjects = MonthlyGrade.uniq_grade grades unless subjects
+    subject_average = {}
+    subjects.each do |subject|
+      perticular_subject = MonthlyGrade.particular_subject(grades, subject)
+      grade = perticular_subject.reject{ |subject| subject.grade.blank? }.map(&:grade)
+      subject_average.merge!({subject => ((grade.inject(:+))/perticular_subject.count).round(2)}) unless grade.blank?
+    end
+    subject_average.sort_by {|k,v| v}.reverse
+  end
+  
+  def total_no_show(subjects = false, grades)
+    subjects = MonthlyGrade.uniq_grade grades unless subjects
+    total_no_show = {}
+    subjects.each do |subject|
+      perticular_subject = MonthlyGrade.particular_subject(grades, subject)
+      no_show = perticular_subject.reject{ |subject| subject.no_show.blank? }.map(&:no_show)
+      total_no_show.merge!({subject => no_show.inject(:+)}) unless no_show.blank?
+    end
+    total_no_show.sort_by {|k,v| v}.reverse
+  end
+  
+  def calculate_overall_average grades
+    average = 0
+    grades.each{|grade| average = average + grade.grade unless grade.grade.blank?}
+    average = (average/grades.size).round(2)  if average > 0
+    average
+  end
+  
+  def merge_graph(month_average, all_student_month_average)
+    month_average[0].insert(2,"Class Average")
+    for i in 1..month_average.length-1
+      month_average[i].insert(2,all_student_month_average[i][1])
+    end
+    month_average
   end
   
 end

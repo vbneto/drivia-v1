@@ -1,12 +1,16 @@
 $("#select_subject").dropdownchecklist("destroy");
 $('#select_subject option[value!="select_all"]').remove();
 $('#subject_list table > tbody').empty();
+$('#no_show_list table > tbody').empty();
 <% @subject_average.each do |subject,average|%>
   $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
   $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
 <% end %>  
+<% @total_no_show.each do |subject,no_show|%>
+  $('#no_show_list table > tbody').append("<tr><td><%= subject %></td><td><%= no_show %></td></tr>");
+<% end %>  
 
-$('#overall_average').text('Overall Average:- <%= @overall_average %>');
+$('#overall_average').text('Overall Average: <%= @overall_average %>');
 
 $("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
 

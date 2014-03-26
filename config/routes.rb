@@ -23,7 +23,7 @@ SchoolSystem::Application.routes.draw do
   end  
     
   put '/monthly_grades' => 'monthly_grades#update_grade', :as => 'update_grade'
-  post '/monthly_grades/create_grade' => 'monthly_grades#create_grade'
+  put '/monthly_grades/no_show' => 'monthly_grades#update_no_show', :as => 'update_no_show'
   
   
   resources :users do
