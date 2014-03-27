@@ -9,7 +9,8 @@ class MonthlyGradesController < ApplicationController
                 :student_from_excel_id => params[:student_id],
                 :subject_name=> params[:subject],
                 :grade => params[:monthly_grade][:grade],
-                :month => Date::MONTHNAMES.index(params[:month])
+                :month => Date::MONTHNAMES.index(params[:month]),
+                :year => Date.today.year
                 )
     else
       student_grade.update_attributes(:grade=>params[:monthly_grade][:grade])
@@ -28,7 +29,8 @@ class MonthlyGradesController < ApplicationController
                 :student_from_excel_id => params[:student_id],
                 :subject_name=> params[:subject],
                 :no_show => params[:monthly_grade][:no_show],
-                :month => Date::MONTHNAMES.index(params[:month])
+                :month => Date::MONTHNAMES.index(params[:month]),
+                :year => Date.today.year
                 )
     else
       student_grade.update_attributes(:no_show=>params[:monthly_grade][:no_show])

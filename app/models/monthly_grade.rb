@@ -1,5 +1,5 @@
 class MonthlyGrade < ActiveRecord::Base
-  attr_accessible :grade, :record_date, :student_from_excel_id, :subject_name, :month, :no_show
+  attr_accessible :grade, :record_date, :student_from_excel_id, :subject_name, :month, :no_show, :year
   #validates :grade, :numericality => true, :inclusion => 0..10
   
   def self.uniq_grade grades

@@ -2,8 +2,12 @@ class Grade < ActiveRecord::Base
   has_many :subjects
   attr_accessible :name
   
-  def self.initialize_graph(hash_of_data)
-    hash_of_data.to_a.insert(0,["Months","Grade"])
+  def self.initialize_month_graph(hash_of_data)
+    hash_of_data.to_a.insert(0,["Months","Student Grade"])
+  end
+  
+  def self.initialize_student_graph(hash_of_data)
+    hash_of_data.to_a.insert(0,["Student","Student Grade"])
   end
   
   def self.find_all_student_grade student

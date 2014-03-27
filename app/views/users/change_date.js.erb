@@ -1,5 +1,3 @@
-$("#select_subject").dropdownchecklist("destroy");
-$('#select_subject option[value!="select_all"]').remove();
 $('#subject_list table > tbody').empty();
 $('#no_show_list table > tbody').empty();
 <% @subject_average.each do |subject,average|%>
@@ -11,10 +9,5 @@ $('#no_show_list table > tbody').empty();
 <% end %>  
 
 $('#overall_average').text('Overall Average: <%= @overall_average %>');
-
-$("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
-
-$('#student_detail').html("<b>Seeing data of student name :- <%= @student.student_name%></b></br><b>School Name:- <%= @student.school.name %></br><b>Grade Name:- <%= @student.current_grade %></b>");
-
-
 drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
+

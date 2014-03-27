@@ -15,7 +15,7 @@ $('#no_show_list table > tbody').empty();
     $('#overall_average').text('Overall Average: <%= @overall_average %>');
   <% end %>
   
-  drawChart(<%= raw @month_average%>, <%= raw @all_student_month_average %>);
+  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 <% else %>
   $('#overall_average').text('');
   drawChart([["Months","Grade"]],[["Months","Grade"]]);  
