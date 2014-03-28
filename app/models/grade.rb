@@ -12,7 +12,7 @@ class Grade < ActiveRecord::Base
         hash_of_data.first[0] = 'Top '+student.student_name
         hash_of_data.last[0] = 'Worst'
       elsif hash_of_data.last[0] == student.id
-        hash_of_data.last[0] = +'Worst '+student.student_name
+        hash_of_data.last[0] = 'Worst '+student.student_name
         hash_of_data.first[0] = 'Top'
       else
         hash_of_data.first[0] = 'Top'
