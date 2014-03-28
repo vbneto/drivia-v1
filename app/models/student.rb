@@ -27,9 +27,9 @@ class Student < ActiveRecord::Base
       student_name = StudentFromExcel.find(student).student_name
       perticular_student_grade = grades.select{|grade| grade.student_from_excel_id == student}
       grade = perticular_student_grade.reject{ |grade| grade.grade.blank? }.map(&:grade)
-      students_average.merge!({student_name => (grade.inject(:+)/grade.size).round(2)}) unless grade.blank?
+      students_average.merge!({student => (grade.inject(:+)/grade.size).round(2)}) unless grade.blank?
     end
-    students_average
+    students_average.sort_by {|k,v| v}.reverse
   end    
   
 end

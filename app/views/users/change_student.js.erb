@@ -15,6 +15,8 @@ $('#overall_average').text('Overall Average: <%= @overall_average %>');
 $("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
 
 $('#student_detail').html("<b>Seeing data of student name :- <%= @student.student_name%></b></br><b>School Name:- <%= @student.school.name %></br><b>Grade Name:- <%= @student.current_grade %></b>");
-
-
+$("#student_id_of_select_subject").val(<%= @student.id%>)
+$("#student_id").val(<%= @student.id%>)
 drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
+
+$("#select_current_month").replaceWith("<%= j render 'current_month' %>");

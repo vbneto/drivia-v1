@@ -1,6 +1,6 @@
 $('#subject_list table > tbody').empty();
 $('#no_show_list table > tbody').empty();
-<% if params[:sub] != "null" %>
+<% unless params[:subjects].blank? %>
   <% @subject_average.each do |subject,average| %>
     $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
   <% end %>

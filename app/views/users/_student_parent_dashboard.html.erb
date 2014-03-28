@@ -2,27 +2,26 @@
   <% if current_user.is_parent? && @students.size > 0 %>
     <div class= "span4">
       <label>See data of :-</label>
-      <select id="student_list">
-        <% @students.each do |student| %>
-          <option value= <%=student.id%> ><%= student.student_name %></option>
-        <% end %>
-      </select>
+      <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
+        <%= select_tag "student_list", options_for_select(@students.map{|student| [student.student_name, student.id]}) %>
+        <%= submit_tag "submit", :id=>"submit_student_list"%>
+      <% end %>  
     </div>
   <% end %>
     
-  <div class="move_right">
-    <%= form_tag( change_date_users_path, :method => :post, :remote => true) do %>
+  <div class="move_right show_border">
+    <%= form_tag( change_date_users_path, :method => :post, :remote => true, class:"change_month_form") do %>
       <%= hidden_field_tag :student_id, @student.id %>
       Select Year:
       <%= select_year(Date.today, :start_year => Date.today.year-2, :end_year => Date.today.year) %></br>
       Select Month(s):
       From: <%= select_month(Date.today, field_name: 'start') %>
       To: <%= select_month(Date.today+1, field_name: 'end') %>
-      <%= submit_tag "submit", :class=>"btn"%>
+      <%= submit_tag "submit", :class=>"btn", id:'submit_date_range'%>
     <% end %>
   </div>
 </div>    
-<div class="span10">
+<div class="span10 move_down">
   <% if current_user.is_parent? %>
     <div id="student_detail" class="span">
       <b>Seeing data of student name :- <%= @students.first.student_name%></b></br>
@@ -37,17 +36,23 @@
       <b>Grade Name:- <%= @student.current_grade %></b>  
     </div>
   <% end %>
-  <%= link_to "See current month", "#", :class => "btn move_right"%></br>
+  <%= link_to 'See current month', change_date_users_path(date: {"year"=>Date.today.year, "start"=>Date.today.month, "end"=>Date.today.month},student_id:@student.id), method: :post, class: 'btn move_right', id:'select_current_month', :remote => true %></br>
+  
 </div>
 
 <div class='span10 move_down'>
   <b>Select a subject:-</b>
-  <select id="select_subject" name="subjects" multiple>
-    <option value="select_all">Select All</option>
-    <% @subject_average.each do |subject,average| %>
-      <option value="<%= subject %>"><%= subject %></option>
-    <% end %>
-  </select>
+  <%= form_tag(change_subjects_users_path, :method => :post, :remote => true, :id=>'select_subject_form') do %>
+    <%= hidden_field_tag :student_id_of_select_subject, @student.id %>
+    <select id="select_subject" name="subjects[]" multiple="multiple">
+      <option value="select_all">Select All</option>
+      <% @subject_average.each do |subject,average| %>
+        <option value="<%= subject %>"><%= subject %></option>
+      <% end %>
+    </select>  
+    <%= submit_tag "submit", :id=>"submit_subject_list"%>
+  <% end %>
+  
 </div>
 <div class="span3 move_down">
   <div id="subject_list" >

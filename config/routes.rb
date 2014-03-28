@@ -32,8 +32,8 @@ SchoolSystem::Application.routes.draw do
       post "create_registration_with_cpf"
       get "signup"
       post "find_parent_or_student_for_signup"
-      get "change_student"
-      get "change_subjects"
+      post "change_student"
+      post "change_subjects"
       post "change_date"
       get "ask_question"
     end

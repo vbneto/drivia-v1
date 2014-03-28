@@ -11,3 +11,17 @@ $('#no_show_list table > tbody').empty();
 $('#overall_average').text('Overall Average: <%= @overall_average %>');
 drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 
+$("#stu_input_year").remove();
+$("#stu_input_start").remove();
+$("#stu_input_end").remove();
+$('#select_student_form').append("<input type='hidden' name='year' id='stu_input_year' value="+<%=params[:date][:year]%>+">");
+$('#select_student_form').append("<input type='hidden' name='start' id='stu_input_start' value="+<%=params[:date][:start]%>+">");
+$('#select_student_form').append("<input type='hidden' name='end' id='stu_input_end' value="+<%=params[:date][:end]%>+">");
+
+
+$("#sub_input_year").remove();
+$("#sub_input_start").remove();
+$("#sub_input_end").remove();
+$('#select_subject_form').append("<input type='hidden' name='year' id='sub_input_year' value="+<%=params[:date][:year]%>+">");
+$('#select_subject_form').append("<input type='hidden' name='start' id='sub_input_start' value="+<%=params[:date][:start]%>+">");
+$('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+<%=params[:date][:end]%>+">");

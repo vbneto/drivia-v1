@@ -44,3 +44,24 @@ label{
 #date_start, #date_end{
   width: 100px;  
 }
+
+#submit_student_list, #submit_subject_list, #submit_date_range {
+  display: none;
+}
+
+.show_border{
+  border: 2px solid;
+  border-radius: 25px;
+  height: 107px;
+  width: 397px;
+}
+
+.change_month_form{
+  padding-left: 14px;
+  padding-top: 15px;
+}
+
+#graph{
+  margin-top: -124px;
+  position: relative;
+}
