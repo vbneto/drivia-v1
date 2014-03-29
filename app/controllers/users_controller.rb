@@ -5,33 +5,30 @@ class UsersController < ApplicationController
   end
   
   def index
-    
-    if current_user.is_professor?
-      @grades = GradeFromExcel.where(:professor_email => current_user.email)
+    if current_professor
+      @grades = current_user.get_student_grades 
       render :index and return
+    elsif current_parent
+      @students = current_user.find_students 
+      @student = @students.first
     end
+    @student = current_user.find_student if current_student
     
-    if current_user.is_parent?
-      @students = Parent.find_student_by_parent_id current_user.id
-      @student = @students.first 
-    end
-    @student = Student.find_student_by_student_id current_user.id if current_user.is_student?
+    student_grades = current_user.get_student_grades
     
-    @grades = @student.monthly_grades.where(:year=>Date.today.year)
+    @subject_average = subject_average student_grades
     
-    @subject_average = subject_average(@grades)
-    #subject_grade_of_student = GradeFromExcel.where("school_id=? and grade_name=?", @student.school_id, @student.current_grade)
-    @total_no_show = total_no_show @grades
+    @total_no_show = total_no_show student_grades
     
-    @month_average = Grade.initialize_month_graph(Student.all_months_average(@grades))
-    all_student_grades = Grade.find_all_student_grade @student 
+    month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(student_grades))
+    all_students_grades = Grade.find_all_student_grade @student 
+    all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
     
-    @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
-    @month_average = merge_graph(@month_average,@all_student_month_average)
+    @month_average = merge_graph(month_average_of_student,all_student_month_average)
     
-    @overall_average = calculate_overall_average @grades
+    @overall_average = calculate_overall_average student_grades
     
-    @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student)
+    @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_students_grades), @student)
     
   end
   
@@ -71,7 +68,7 @@ class UsersController < ApplicationController
       @student = StudentFromExcel.find_by_id(params[:student_id_of_select_subject]) if current_user.is_parent?
       @student = Student.find_by_user_id(current_user.id).student_from_excel if current_user.is_student?
       
-      grades = params[:year].blank? ? @student.monthly_grades : @student.monthly_grades.where(month: params[:start]..params[:end]).where(year: params[:year])
+      grades = params[:year].blank? ? @student.monthly_grades : (@student.monthly_grades.where(month: date_range[:start]..date_range[:end]).where(year: date_range[:year])) 
       range = (params[:start].to_i..params[:end].to_i).to_a unless params[:year].blank?
       
       all_student_grades = params[:year].blank? ? (Grade.find_all_student_grade @student) : (Grade.find_all_student_grade @student).select{|grade| range.include?grade.month}
@@ -163,8 +160,8 @@ class UsersController < ApplicationController
     total_no_show = {}
     subjects.each do |subject|
       perticular_subject = MonthlyGrade.particular_subject(grades, subject)
-      no_show = perticular_subject.reject{ |subject| subject.no_show.blank? }.map(&:no_show)
-      total_no_show.merge!({subject => no_show.inject(:+)}) unless no_show.blank?
+      no_show = perticular_subject.reject{ |subject| subject.no_show.blank? }
+      total_no_show.merge!({subject => no_show.map(&:no_show).inject(:+)}) unless no_show.blank?
     end
     total_no_show.sort_by {|k,v| v}.reverse
   end

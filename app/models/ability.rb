@@ -2,10 +2,13 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.role == "School Administration"
-      can :edit, user
-    else
+    if user.is_parent?
       can :read, :all
+    elsif user.is_student?
+      can :read, :all
+    elsif user.is_professor?
+      can :read, :all
+      can :create, MonthlyGrade
     end  
     # Define abilities for the passed in user here. For example:
     #

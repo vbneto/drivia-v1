@@ -108,12 +108,12 @@
 
 <script>
   var current_student_average = <%= raw @month_average %>
-  var all_student_average = <%= raw @average_particular_student_of_current_grade %>
-  google.setOnLoadCallback(drawChart(current_student_average, all_student_average ));
+  var particular_students_average = <%= raw @average_particular_student_of_current_grade %>
+  google.setOnLoadCallback(drawChart(current_student_average, particular_students_average ));
   
-  function drawChart(current_student_average, all_student_average) {
+  function drawChart(current_student_average, particular_students_average) {
     var data = google.visualization.arrayToDataTable(current_student_average);
-    var data2 = new google.visualization.arrayToDataTable(all_student_average);
+    var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
       title: 'Average Of Selected Student',
       vAxis: { title: "Average", minValue: 0, maxValue: 10 },
@@ -139,7 +139,3 @@
     chart2.draw(data2, options2);
   }
 </script>
-  
-
-
-    

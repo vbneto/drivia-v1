@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   attr_accessible :name, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
   validates :name, :presence => true
+  has_one :parent
+  has_one :professor
+  has_one :student
   
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
@@ -34,12 +37,30 @@ class User < ActiveRecord::Base
   
   def self.check_cpf cpf
     if cpf.size == 11
-      cpf.insert(3,'.')
-      cpf.insert(7,'.')
-      cpf.insert(11,'-')
+      {'3' => '.', '7' => '.', '11' => '-'}.each{|k,v| cpf.insert(k.to_i, v)}
     end
     cpf
   end
   
+  def get_student_grades
+    case role
+    when "student"
+      self.find_student.monthly_grades.where(:year=>Date.today.year)
+    when "parent"
+      self.find_students.first.monthly_grades.where(:year=>Date.today.year)
+    when "professor"
+      GradeFromExcel.where(:professor_email => self.email)
+    else
+      []
+    end
+  end
   
+  def find_student
+    self.student.student_from_excel
+  end 
+  
+  def find_students
+    self.parent.student_from_excels
+  end
+
 end
