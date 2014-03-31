@@ -1,5 +1,5 @@
 <div id="subject_list" class="span5 move_down">
-  <% if @grades.present? %>
+  <% if @professor_grades.present? %>
     <h5><%= t('Following are the Subjects that you teach') %></h5>
   <% else %>
     <h5><%= t('Currently there is no subjects which you teaches') %></h5>
@@ -15,8 +15,8 @@
       </tr>
       </thead>
       <tbody> 
-        <%if @grades.present? %>
-          <% @grades.each do |grade| %>
+        <%if @professor_grades.present? %>
+          <% @professor_grades.each do |grade| %>
             <tr>
               <td><%= grade.school.name%></td>
               <td><%= grade.grade_name %></td>

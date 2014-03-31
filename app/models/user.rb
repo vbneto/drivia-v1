@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  ROLES = ["Student", "Parent", "School Administration", "professor"]
+  ROLES = ["student", "parent", "school administration", "professor"]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
@@ -35,6 +35,35 @@ class User < ActiveRecord::Base
     self.role=="professor"
   end
   
+  def self.find_user_role(role)
+    case role
+      when "student"
+        ROLES[0]
+      when "parent"
+        ROLES[1]
+      when "school administration"
+        ROLES[2]
+      when "professor"
+        ROLES[3]
+    end
+  end
+  
+  def self.find_student_role
+    find_user_role("student")
+  end
+  
+  def self.find_parent_role
+    find_user_role("parent")
+  end
+  
+  def self.find_school_administration_role
+    find_user_role("school administration")
+  end
+  
+  def self.find_professor_role
+    find_user_role "professor"
+  end
+  
   def self.check_cpf cpf
     if cpf.size == 11
       {'3' => '.', '7' => '.', '11' => '-'}.each{|k,v| cpf.insert(k.to_i, v)}
@@ -42,25 +71,13 @@ class User < ActiveRecord::Base
     cpf
   end
   
-  def get_student_grades
-    case role
-    when "student"
-      self.find_student.monthly_grades.where(:year=>Date.today.year)
-    when "parent"
-      self.find_students.first.monthly_grades.where(:year=>Date.today.year)
-    when "professor"
-      GradeFromExcel.where(:professor_email => self.email)
-    else
-      []
-    end
+  def student_monthly_grades student
+    #student.monthly_grades.where(:year=>Date.today.year)
+    student.monthly_grades.group_by {|grade| grade.year}.sort.last[1]
   end
   
-  def find_student
-    self.student.student_from_excel
-  end 
-  
-  def find_students
-    self.parent.student_from_excels
+  def professor_grades
+    GradeFromExcel.where(:professor_email => self.email)
   end
-
+  
 end

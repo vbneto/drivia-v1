@@ -8,6 +8,10 @@ class MonthlyGrade < ActiveRecord::Base
   def self.uniq_grade grades
     grades.map(&:subject_name).uniq
   end
+
+  def self.uniq_subjects grades
+    grades.map(&:subject_name).uniq
+  end
   
   def self.particular_subject(grades, subject) 
     grades.select{|grade| grade.subject_name==subject}

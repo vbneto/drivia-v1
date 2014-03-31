@@ -8,6 +8,11 @@ class StudentFromExcel < ActiveRecord::Base
   has_many :student_parents
   has_many :monthly_grades
   has_many :parents, through: :student_parents
+  has_one :student
+  
+  #scope :find_students_of_current_grade, lambda{|student| where("school_id=? and current_grade=?", student.school_id, student.current_grade) }
+  scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
+  
   
   def self.student_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
@@ -44,11 +49,12 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def student_grade(subject, month)
-    self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month)}.first
+    self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month) and grade.year == Date.today.year }.first
   end
-  
-  def self.find_all_student_id_of_current_grade student
-    self.where("school_id=? and current_grade=?",student.school_id, student.current_grade).map(&:id)
+
+  def find_fellow_students_monthly_grade
+    students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
+    students_of_current_grade.map {|student| student.monthly_grades}.flatten
   end
-  
+
 end

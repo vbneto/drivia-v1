@@ -2,7 +2,7 @@ class RegistrationsController < Devise::RegistrationsController
   
   def new
     @user_role = params[:user]
-    if @user_role != 'professor'
+    if @user_role != User.find_professor_role
       cpf = params[:cpf]
       @student = StudentFromExcel.find_by_cpf(cpf)
     else
@@ -15,14 +15,14 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user_role = params[:user][:role]
     params[:user].delete :role
-    if @user_role != 'professor'
+    if @user_role != User.find_professor_role
       cpf = params[:user][:cpf]
       @student = StudentFromExcel.where(:cpf=>cpf).first 
       params[:user].delete :cpf
     else
       @professor = GradeFromExcel.find_by_professor_email(params[:user][:email])  
     end  
-    if @user_role == "parent" || @user_role == "professor" 
+    if @user_role == User.find_parent_role || @user_role == User.find_professor_role 
       gender = params[:user][:gender]
       birth_day = params[:user][:birth_day]
       params[:user].delete :gender
@@ -33,13 +33,12 @@ class RegistrationsController < Devise::RegistrationsController
     #resource.tag_list = params[:tags]   #******** here resource is user 
     resource.role = @user_role
     if resource.save
-      if @user_role == "student"
+      if @user_role == User.find_student_role
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 
-      elsif @user_role == "parent"
+      elsif @user_role == User.find_parent_role
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
-        #StudentParent.create(:student_from_excel_id => @student.id, :parent_id => parent.id)
         parent.student_parents.create(student_from_excel_id: @student.id)
-      elsif @user_role == "professor"
+      elsif @user_role == User.find_professor_role
         Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, grade_from_excel_id: @professor.id)  
       end  
       if resource.active_for_authentication?

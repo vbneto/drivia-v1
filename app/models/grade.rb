@@ -24,9 +24,4 @@ class Grade < ActiveRecord::Base
     hash_of_data.to_a.insert(0,["Student","Student Grade"])
   end
   
-  def self.find_all_student_grade student
-    all_student_id_of_current_grade = StudentFromExcel.find_all_student_id_of_current_grade student
-    MonthlyGrade.select{|grade| all_student_id_of_current_grade.include?(grade.student_from_excel_id)}
-  end
-  
 end
