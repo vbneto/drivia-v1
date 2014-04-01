@@ -10,7 +10,7 @@ class MonthlyGrade < ActiveRecord::Base
   end
 
   def self.uniq_subjects grades
-    grades.map(&:subject_name).uniq
+    grades.map(&:subject_name).uniq unless grades.blank?
   end
   
   def self.particular_subject(grades, subject) 

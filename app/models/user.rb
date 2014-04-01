@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
     self.role=="professor"
   end
   
+  def is_school_admin?
+    self.role=="school administration"
+  end
+  
   def self.find_user_role(role)
     case role
       when "student"
@@ -72,8 +76,8 @@ class User < ActiveRecord::Base
   end
   
   def student_monthly_grades student
-    #student.monthly_grades.where(:year=>Date.today.year)
-    student.monthly_grades.group_by {|grade| grade.year}.sort.last[1]
+    student_monthly_grade = student.monthly_grades
+    student_monthly_grade.group_by {|grade| grade.year}.sort.last[1] unless student_monthly_grade.blank?
   end
   
   def professor_grades

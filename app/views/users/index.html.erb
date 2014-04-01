@@ -4,6 +4,8 @@
     <%= render partial:"student_parent_dashboard"%>
   <% elsif current_user.is_professor? %>
     <%= render partial:"professor_dashboard"%>
+  <% elsif current_user.is_school_admin? %>
+    <%= render partial:"school_admin_dashboard"%>
   <% end %>
 </div>  
 

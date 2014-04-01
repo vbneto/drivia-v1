@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     session[:current_professor_id] = current_user.professor if current_user.is_professor?
   end
   
+  def current_school_admin
+    session[:current_school_admin_id] = current_user if current_user.is_school_admin?
+  end
+  
   def month_number month
     Date::MONTHNAMES.index(month) 
   end

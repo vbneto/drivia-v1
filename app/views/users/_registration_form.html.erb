@@ -2,11 +2,11 @@
   <div class="panel panel-default">
     <div class="panel panel-heading">
       <h5 class="panel-title " >
-        <% if @role == "student" %>
+        <% if @role == User.find_student_role %>
           Please, inform your CPF to continue.
-        <% elsif @role == "student" %>
+        <% elsif @role == User.find_parent_role %>
           Please, inform the CPF of one student who you are responsible for to continue.
-        <% elsif @role == "professor" %>
+        <% elsif @role == User.find_professor_role %>
           Please, inform your registered e-mail to continue.
         <% end %>
       </h5>

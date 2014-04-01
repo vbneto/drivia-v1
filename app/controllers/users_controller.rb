@@ -5,41 +5,44 @@ class UsersController < ApplicationController
   end
   
   def index
-    if current_professor
-      @professor_grades = current_user.professor_grades
-      render :index and return
-    elsif current_parent
-      @parent_students = current_parent.student_from_excels
-      @student = @parent_students.first
-    end
-    @student = current_student.student_from_excel if current_student
-    
-    @student_monthly_grades = current_user.student_monthly_grades(@student)
-    @subject_average = Student.subject_average @student_monthly_grades
-    @total_no_show = Student.total_no_show @student_monthly_grades
-    
-    month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
-    all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year)
-    
-    all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
-    
-    @month_average = merge_graph(month_average_of_student,all_student_month_average)
-    
-    @overall_average = student_monthly_grade_overall_average @student_monthly_grades
-    
-    @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_students_grades), @student)
-    
+    unless current_school_admin
+      if current_professor
+        @professor_grades = current_user.professor_grades
+        render :index and return
+      elsif current_parent
+        @parent_students = current_parent.student_from_excels
+        @student = @parent_students.first
+      end
+      @student = current_student.student_from_excel if current_student
+      
+      @student_monthly_grades = current_user.student_monthly_grades(@student)
+      @subject_average = Student.subject_average @student_monthly_grades
+      @total_no_show = Student.total_no_show @student_monthly_grades
+      
+      month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+      unless @student_monthly_grades.blank?
+        all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year)
+        
+        all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
+        
+        @month_average = merge_graph(month_average_of_student,all_student_month_average)
+        
+        @overall_average = student_monthly_grade_overall_average @student_monthly_grades
+        
+        @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_students_grades), @student)
+      end  
+    end  
   end
   
   def create_registration_with_cpf
     @role = params[:user]
-    if (@role == User.find_student_role and @role == User.find_parent_role)
+    if (@role == User.find_student_role || @role == User.find_parent_role)
       @cpf = User.check_cpf params[:cpf]
       @student = StudentFromExcel.find_by_cpf(@cpf)
       if @student.nil?
         flash[:error]= "student with given cpf was not found"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
-      elsif @role == User.find_student_role && @student.student.blank?
+      elsif @role == User.find_student_role && !@student.student.blank?
         flash[:error]= "student was already signup with this cpf #{@cpf}"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       elsif @role == User.find_parent_role && @student.student_parents.size == 2

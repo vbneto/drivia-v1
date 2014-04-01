@@ -2,17 +2,17 @@
   <div class="panel panel-default">
     <div class="panel panel-heading">
       <h5 class="panel-title " >
-        <% if @role == "student" %>
+        <% if @role == User.find_student_role %>
           Are You <%= @student.student_name%>?
-        <% elsif @role == "parrent" %>
+        <% elsif @role == User.find_parent_role %>
           Are you responsible for <%= @student.student_name%>?
-        <% elsif @role == "professor" %>
+        <% elsif @role == User.find_professor_role %>
           Are you <%= @professor.professor_name %>?
         <% end %>
       </h5>
     </div>
     <div class="panel-body">
-      <% if @role != "professor" %>
+      <% if @role != User.find_professor_role %>
         <%= link_to "Yes", new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
       <% else %>
         <%= link_to "Yes", new_user_registration_path(email: @email, user: @role), :class=>"btn" %>
