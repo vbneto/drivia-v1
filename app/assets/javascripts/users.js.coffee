@@ -15,7 +15,9 @@ $ ->
     maxDropHeight: 200
     icon: {placement:'right'}
      
-      
+  $('#select_subject').live "change", ->
+    $("#submit_subject_list").click()
+    
   $('#end_month').live "change", ->
     start_month = new Date('1 ' + $('#start_month').find(":selected").val() + ' 1999');
     end_month = new Date('1 ' + $('#end_month').find(":selected").val() + ' 1999');

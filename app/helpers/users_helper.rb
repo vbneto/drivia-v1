@@ -9,7 +9,7 @@ module UsersHelper
   end
   
   def set_selected_year
-    @student_monthly_grades.first.year
+    @student_monthly_grades.first.year unless @student_monthly_grades.blank?
   end
   
   def monthly_grades_months

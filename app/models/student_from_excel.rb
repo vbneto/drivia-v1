@@ -52,9 +52,13 @@ class StudentFromExcel < ActiveRecord::Base
     self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month) and grade.year == Date.today.year }.first
   end
 
-  def find_fellow_students_monthly_grade
+  def find_fellow_students_monthly_grade year=nil
     students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
-    students_of_current_grade.map {|student| student.monthly_grades}.flatten
+    if year.blank?
+      students_of_current_grade.map {|student| student.monthly_grades}.flatten  
+    else  
+      students_of_current_grade.map {|student| student.monthly_grades}.flatten.select{|grade| grade.year==year}
+    end  
   end
 
 end

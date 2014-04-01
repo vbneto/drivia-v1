@@ -1,25 +1,29 @@
-<% @subject_average.each do |subject,average|%>
-  $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
-<% end %>  
+<% if @student_monthly_grades.blank? %>
+  alert("No grade of current month are present")
+<% else %>
+  <% @subject_average.each do |subject,average|%>
+    $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
+  <% end %>  
 
-drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
+  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 
-$('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
+  $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
 
-$("#stu_input_year").remove();
-$("#stu_input_start").remove();
-$("#stu_input_end").remove();
+  $("#stu_input_year").remove();
+  $("#stu_input_start").remove();
+  $("#stu_input_end").remove();
 
-$('#select_student_form').append("<input type='hidden' name='year' id='stu_input_year' value="+<%=params[:date][:year]%>+">");
-$('#select_student_form').append("<input type='hidden' name='start' id='stu_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
-$('#select_student_form').append("<input type='hidden' name='end' id='stu_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
+  $('#select_student_form').append("<input type='hidden' name='year' id='stu_input_year' value="+<%=params[:date][:year]%>+">");
+  $('#select_student_form').append("<input type='hidden' name='start' id='stu_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
+  $('#select_student_form').append("<input type='hidden' name='end' id='stu_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
 
 
-$("#sub_input_year").remove();
-$("#sub_input_start").remove();
-$("#sub_input_end").remove();
-$('#select_subject_form').append("<input type='hidden' name='year' id='sub_input_year' value="+<%=params[:date][:year]%>+">");
-$('#select_subject_form').append("<input type='hidden' name='start' id='sub_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
-$('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
+  $("#sub_input_year").remove();
+  $("#sub_input_start").remove();
+  $("#sub_input_end").remove();
+  $('#select_subject_form').append("<input type='hidden' name='year' id='sub_input_year' value="+<%=params[:date][:year]%>+">");
+  $('#select_subject_form').append("<input type='hidden' name='start' id='sub_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
+  $('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
 
-$('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
+  $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
+<% end %>
