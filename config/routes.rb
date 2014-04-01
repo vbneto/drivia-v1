@@ -14,8 +14,13 @@ SchoolSystem::Application.routes.draw do
     end
   end  
   
-  resources :schools
-  resources :professors, only: :new do
+  resources :school_administrations, only: :index do
+    collection do
+      get "show_students"
+    end
+  end  
+  
+  resources :professors, only: :index do
     collection do
       post "show_students"
       post "show_student_graph"

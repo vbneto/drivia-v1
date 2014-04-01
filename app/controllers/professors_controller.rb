@@ -1,6 +1,11 @@
 class ProfessorsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :require_professor!
+  
+  def index
+    @professor_grades = current_user.professor_grades
+  end
+  
   def show_students
     @school = School.find(params[:school_id])
     @subject = params[:subject]

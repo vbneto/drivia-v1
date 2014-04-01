@@ -1,37 +1,36 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf, :signup]
   
+  
   def home
   end
   
   def index
-    unless current_school_admin
-      if current_professor
-        @professor_grades = current_user.professor_grades
-        render :index and return
-      elsif current_parent
-        @parent_students = current_parent.student_from_excels
-        @student = @parent_students.first
-      end
-      @student = current_student.student_from_excel if current_student
+    if current_parent
+      @parent_students = current_parent.student_from_excels
+      @student = @parent_students.first
+    end
+    @student = current_student.student_from_excel if current_student
+    
+    @student = StudentFromExcel.find_by_id(params[:student_id]) if current_school_administration
+    
+    @student_monthly_grades = current_user.student_monthly_grades(@student)
+    @subject_average = Student.subject_average @student_monthly_grades
+    @total_no_show = Student.total_no_show @student_monthly_grades
+    
+    month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+    unless @student_monthly_grades.blank?
+      all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year)
       
-      @student_monthly_grades = current_user.student_monthly_grades(@student)
-      @subject_average = Student.subject_average @student_monthly_grades
-      @total_no_show = Student.total_no_show @student_monthly_grades
+      all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
       
-      month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
-      unless @student_monthly_grades.blank?
-        all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year)
-        
-        all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
-        
-        @month_average = merge_graph(month_average_of_student,all_student_month_average)
-        
-        @overall_average = student_monthly_grade_overall_average @student_monthly_grades
-        
-        @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_students_grades), @student)
-      end  
+      @month_average = merge_graph(month_average_of_student,all_student_month_average)
+      
+      @overall_average = student_monthly_grade_overall_average @student_monthly_grades
+      
+      @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_students_grades), @student)
     end  
+  
   end
   
   def create_registration_with_cpf
@@ -66,8 +65,9 @@ class UsersController < ApplicationController
   def change_subjects
     unless params[:subjects].blank?
       @subjects = params[:subjects]
-      @student = StudentFromExcel.find_by_id(params[:student_id_of_select_subject]) if current_parent
+      @student = StudentFromExcel.find_by_id(params[:student_id_of_select_subject]) if current_parent || current_school_administration
       @student = Student.find_by_user_id(current_user.id).student_from_excel if current_student
+      
       year = params[:year]
       all_student_grades = nil
       if year.blank?

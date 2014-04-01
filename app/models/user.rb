@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_one :parent
   has_one :professor
   has_one :student
+  has_one :school_administration
   
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
@@ -35,7 +36,7 @@ class User < ActiveRecord::Base
     self.role=="professor"
   end
   
-  def is_school_admin?
+  def is_school_administration?
     self.role=="school administration"
   end
   

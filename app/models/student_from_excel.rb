@@ -9,6 +9,7 @@ class StudentFromExcel < ActiveRecord::Base
   has_many :monthly_grades
   has_many :parents, through: :student_parents
   has_one :student
+  has_one :school_administration, :through => :school
   
   #scope :find_students_of_current_grade, lambda{|student| where("school_id=? and current_grade=?", student.school_id, student.current_grade) }
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }

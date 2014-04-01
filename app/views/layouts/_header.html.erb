@@ -13,8 +13,8 @@
           <% if !current_user.present? %>
             <li><%=link_to "Sign up", signup_users_path, :class => 'nav_header_icon' %></li>
             <li><%=link_to "Sign in", new_user_session_path, :class => 'nav_header_icon' %></li>
-          <% elsif current_user.is_admin? %>
-            <li><%= link_to "Dashboard",admins_path, :class => 'nav_header_icon' %></li>
+          <% elsif current_user.is_school_administration? %>
+            <li><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
           <%else%>

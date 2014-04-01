@@ -1,11 +1,7 @@
 <div class="span11">
   <p>Hello <%=current_user.name%><p>
-  <% if current_user.is_student? || current_user.is_parent? %>
+  <% if current_user.is_student? || current_user.is_parent? || current_user.is_school_administration? %>
     <%= render partial:"student_parent_dashboard"%>
-  <% elsif current_user.is_professor? %>
-    <%= render partial:"professor_dashboard"%>
-  <% elsif current_user.is_school_admin? %>
-    <%= render partial:"school_admin_dashboard"%>
   <% end %>
 </div>  
 
