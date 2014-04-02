@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
       </a>
       <!--<a class="brand" href="#">SchoolSystem</a>-->
-      <%= link_to image_tag('logo.png'), users_path, id: "logo" %>
+      <%= link_to image_tag('logo.png'), root_path, id: "logo" %>
       <div class="container nav-collapse nav_header">
         <ul class="nav nav_header_container">
           <% if !current_user.present? %>
@@ -17,7 +17,12 @@
             <li><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
-          <%else%>
+            <li><%= school_administration_for_student_dashboard %></li>
+          <% elsif current_user.is_professor? %>
+            <li><%= link_to "Dashboard",professors_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
+          <% elsif current_user.is_parent? || current_user.is_student? %>
             <li><%= link_to "Dashboard",users_path%></li>
             <% if current_user.is_parent? %>
               <li><%= link_to "Students",new_student_parents_path, :class => 'nav_header_icon' %></li>
@@ -27,6 +32,9 @@
           <%end%>  
         </ul>
       </div><!--/.nav-collapse -->
+      <% if current_user.present? %>
+        <b class='user_name'>Hello <%= current_user.name %></b>
+      <% end %>  
     </div>
   </div>
 </div>

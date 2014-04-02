@@ -25,3 +25,8 @@
 .nav_header_icon {
   font-size: 14px;
 }
+
+.user_name { 
+  float: right;
+  margin-top: -18px;
+}
