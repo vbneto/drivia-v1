@@ -18,11 +18,22 @@ $ ->
   $('#select_subject').live "change", ->
     $("#submit_subject_list").click()
     
-  $('#end_month').live "change", ->
+  $('#start_month').live "change", ->
     start_month = new Date('1 ' + $('#start_month').find(":selected").val() + ' 1999');
     end_month = new Date('1 ' + $('#end_month').find(":selected").val() + ' 1999');
-    if start_month.getMonth() > end_month.getMonth()
-      alert("From month can not be greater than end month")
-      return
+    monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+    start_month = start_month.getMonth()
+    end_month = end_month.getMonth()
+    i = end_month
+    while i >= 0  
+      $("#end_month option[value="+monthNames[i]+"]").prop("disabled",false);
+      i--
+    i = 0
+    while i < start_month
+      $("#end_month option[value="+monthNames[i]+"]").prop("disabled","true");
+      i++
+    
+  $('#end_month').live "change", ->
     $('#submit_date_range').click()
   
