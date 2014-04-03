@@ -17,7 +17,11 @@
             <li><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
-          <%else%>
+          <% elsif current_user.is_professor? %>
+            <li><%= link_to "Dashboard",professors_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
+          <% else %>
             <li><%= link_to "Dashboard",users_path%></li>
             <% if current_user.is_parent? %>
               <li><%= link_to "Students",new_student_parents_path, :class => 'nav_header_icon' %></li>
