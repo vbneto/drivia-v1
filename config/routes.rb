@@ -17,6 +17,8 @@ SchoolSystem::Application.routes.draw do
   resources :school_administrations, only: :index do
     collection do
       get "show_students"
+      get "search_student"
+      get "show_parent"
     end
   end  
   
