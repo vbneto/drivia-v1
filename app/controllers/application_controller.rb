@@ -18,12 +18,12 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if current_admin_user
       admin_dashboard_path
-    elsif !current_school_administration.blank?
+    elsif current_school_administration
       school_administrations_path
-    elsif !current_professor.blank?
+    elsif current_professor
       professors_path
-    else
-      root_path     
+    elsif current_student or current_parent
+      root_path       
     end
   end
   
@@ -46,5 +46,5 @@ class ApplicationController < ActionController::Base
   def month_number month
     Date::MONTHNAMES.index(month) 
   end
-  
+
 end

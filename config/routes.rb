@@ -19,6 +19,9 @@ SchoolSystem::Application.routes.draw do
       get "show_students"
       get "search_student"
       get "show_parent"
+      post "change_student_status"
+      post "apply_filter"
+
     end
   end  
   

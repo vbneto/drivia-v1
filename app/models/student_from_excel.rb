@@ -1,6 +1,7 @@
 class StudentFromExcel < ActiveRecord::Base
-  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id
-  validates :cpf, uniqueness: true
+  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :status
+  validates :cpf, uniqueness: true, :if => :is_active_cpf?
+
   validates :school_id, presence: true
   validates :cpf, :cpf => true
   
@@ -10,10 +11,15 @@ class StudentFromExcel < ActiveRecord::Base
   has_many :parents, through: :student_parents
   has_one :student
   has_one :school_administration, :through => :school
+  has_one :user, :through => :student
   
-  #scope :find_students_of_current_grade, lambda{|student| where("school_id=? and current_grade=?", student.school_id, student.current_grade) }
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   
+  after_create :update_student_parent_fields
+  
+  def is_active_cpf?
+    !(self.status == User.student_deactive || StudentFromExcel.where("cpf = ? and status = ?",self.cpf, User.student_active).blank?)
+  end
   
   def self.student_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
@@ -25,6 +31,7 @@ class StudentFromExcel < ActiveRecord::Base
         student = find_by_id(row["id"]) || new
         student.attributes = row.to_hash.slice(*accessible_attributes)
         student.school_id = school_id
+        student.status = User.student_active
         begin
           student.save!
         rescue
@@ -60,6 +67,26 @@ class StudentFromExcel < ActiveRecord::Base
     else  
       students_of_current_grade.map {|student| student.monthly_grades}.flatten.select{|grade| grade.year==year}
     end  
+  end
+  
+  def is_active_student?
+    self.status == User.student_active
+  end
+  
+  def is_deactive_student?
+    self.status == User.student_deactive
+  end
+  
+  def update_student_parent_fields
+    student_from_excel = StudentFromExcel.where(:cpf=>self.cpf).sort_by(&:created_at)
+    if student_from_excel.size > 1
+      #previous_record = student_from_excel[-2]
+      previous_record = student_from_excel.select{|student| student.student.present?}.first
+      student = previous_record.student
+      student_parent = previous_record.student_parents
+      student.update_attributes(student_from_excel_id: self.id) if student
+      student_parent.each{|parent| parent.update_attributes(student_from_excel_id: self.id)} if student_parent.present?
+    end
   end
 
 end
