@@ -44,6 +44,9 @@ class UsersController < ApplicationController
       elsif @role == User.find_student_role && !@student.student.blank?
         flash[:error]= "student was already signup with this cpf #{@cpf}"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
+      elsif @student.is_deactive_student?
+        flash[:error]= "Sorry, this account has been deactivated, please contact to school administration." 
+        redirect_to new_registration_with_cpf_users_path(role: @role) and return
       elsif @role == User.find_parent_role && @student.student_parents.size == 2
         flash[:error]= "There are already two parents signup with this cpf #{@cpf}"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
@@ -103,12 +106,12 @@ class UsersController < ApplicationController
   
   def change_student
     @student = StudentFromExcel.find(params[:student_list])
-    
     all_student_grades = nil
     year = params[:year]
     if year.blank? || (!@student.monthly_grades.map(&:year).include?year.to_i)
       @student_monthly_grades = current_user.student_monthly_grades(@student)
-      all_student_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year)
+      all_student_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year) unless 
+      @student_monthly_grades.blank?
     else
       range = (params[:start].to_i..params[:end].to_i).to_a
       @student_monthly_grades = @student.monthly_grades.where(month: params[:start]..params[:end]).where(year: year)
@@ -116,15 +119,17 @@ class UsersController < ApplicationController
     end  
     @total_no_show = Student.total_no_show @student_monthly_grades
     @subject_average = Student.subject_average(@student_monthly_grades)
-    @overall_average = student_monthly_grade_overall_average @student_monthly_grades
-    
-    @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
-    
-    @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
-    
-    @month_average = merge_graph(@month_average, @all_student_month_average)
-    
-    @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student)
+    unless @student_monthly_grades.blank?
+      @overall_average = student_monthly_grade_overall_average @student_monthly_grades
+      
+      @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+      
+      @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
+      
+      @month_average = merge_graph(@month_average, @all_student_month_average)
+      
+      @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student)
+    end      
   end
   
   def change_date

@@ -17,6 +17,8 @@ SchoolSystem::Application.routes.draw do
   resources :school_administrations, only: :index do
     collection do
       get "show_students"
+      post "change_student_status"
+      post "apply_filter"
     end
   end  
   
