@@ -21,6 +21,32 @@ class User < ActiveRecord::Base
   
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
+  def active_for_authentication?
+    if self.is_student? 
+      super && check_student_status(self) 
+    elsif self.is_parent?
+      super && check_parent_status(self)
+    else
+      super  
+    end
+  end
+
+  def inactive_message
+    if self.is_student? || self.is_parent?
+      "Sorry, this account has been deactivated, please contact to school administration."
+    else
+      super
+    end  
+  end
+  
+  def check_student_status user
+    user.student.student_from_excel.status == User.student_active ? true : false  
+  end
+  
+  def check_parent_status user
+    user.parent.student_from_excels.map(&:status).select{|status| status == User.student_active}.size > 0 ? true : false
+  end
+  
   def is_student?
     self.role=="student"
   end
@@ -86,4 +112,11 @@ class User < ActiveRecord::Base
     GradeFromExcel.where(:professor_email => self.email)
   end
   
+  def self.student_active
+    STUDENT_STATUS[0]
+  end
+  
+  def self.student_deactive
+    STUDENT_STATUS[1]
+  end
 end

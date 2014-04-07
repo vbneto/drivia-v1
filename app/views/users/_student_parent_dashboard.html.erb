@@ -8,7 +8,7 @@
       <div class= "span4">
         <label>See data of :-</label>
         <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
-          <%= select_tag "student_list", options_for_select(@parent_students.map{|student| [student.student_name, student.id]}) %>
+          <%= select_tag "student_list", options_for_select(student_options_for_parent) %>
           <%= submit_tag "submit", :id=>"submit_student_list"%>
         <% end %>  
       </div>

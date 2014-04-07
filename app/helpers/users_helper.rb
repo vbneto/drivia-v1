@@ -24,5 +24,9 @@ module UsersHelper
     params[:end_month].blank? ? monthly_grades_months.last : params[:end_month]
   end
   
+  def student_options_for_parent
+    @parent_students.reject{|student| student.is_deactive_student?}.map{|student| [student.student_name, student.id]}
+  end
+  
   
 end

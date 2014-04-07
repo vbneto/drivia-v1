@@ -1,3 +1,11 @@
 // Place all the styles related to the school_administrations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.set_filter_size {
+  width: 100px;
+}
+
+#submit_filters {
+  display: none;
+}
