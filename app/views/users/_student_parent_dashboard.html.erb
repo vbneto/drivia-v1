@@ -1,3 +1,7 @@
+
+<div>
+  <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
+</div>
 <div id="student_parent_dashboard">
   <div class="span10">
     <% if current_user.is_parent? && @parent_students.size > 0 %>

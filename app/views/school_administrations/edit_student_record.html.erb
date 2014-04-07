@@ -1,0 +1,49 @@
+  <div id="subject_list" class="span6 move_down">
+    <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
+    
+    <h5>Records of the Student</h5>
+    <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post do|f|%>
+      <% if @student_record.errors.any? %>
+      <div id="error_explanation">
+      <h2><%= pluralize(@student_record.errors.count, "error") %>Something went wrong!</h2>
+      <ul>
+      <% @student_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      <% end %>
+    <div>
+      <%= f.label :student_name %>
+      <%= f.text_field :student_name %><br>
+    </div>
+    <div>
+      <!--%= f.label :cpf %>
+      <%= f.text_field :cpf %><br-->
+    </div>  
+    <div>  
+      <%= f.label :birth_day %>
+      <%= f.text_field :birth_day, :class => 'datepicker' %><br>
+    </div>  
+    <div>
+      <%= f.label :gender %>
+      <%= f.label :male %><%= f.radio_button 'gender', 'male' %>
+      <%= f.label :female %><%= f.radio_button 'gender', 'female' %><br>
+    </div>
+    <div>
+      <%= f.label :current_grade %>
+      <%= f.select :current_grade, options_for_select(uniq_school_grade_name, @student_record.current_grade) %><br>
+    </div>   
+    <%= f.fields_for :user do |builder| %>
+      <%= builder.label :phone %>
+      <%= builder.text_field :phone %><br>
+      <%= builder.label :phoneprefix %>
+      <%= builder.text_field :phoneprefix %><br>
+      <%= builder.hidden_field :name %>
+    <% end %>
+    <%= f.submit "update", :class=>'btn'%>
+    <%end%>
+  </div>
+
+  <script type="text/javascript">
+    $('#student_from_excel_birth_day').datepicker();
+    
+  </script>

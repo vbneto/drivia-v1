@@ -17,6 +17,7 @@ gem "rolify"
 gem 'roo'
 gem "twitter-bootstrap-rails"
 gem "best_in_place"
+gem "bootstrap-datepicker-rails"
 
 
 # Gems used only for assets and not required

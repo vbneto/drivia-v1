@@ -1,8 +1,10 @@
 class StudentFromExcel < ActiveRecord::Base
-  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id
+  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes
   validates :cpf, uniqueness: true
   validates :school_id, presence: true
   validates :cpf, :cpf => true
+  validates :student_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
+  validates :birth_day, presence: true
   
   belongs_to :school
   has_many :student_parents
@@ -10,10 +12,12 @@ class StudentFromExcel < ActiveRecord::Base
   has_many :parents, through: :student_parents
   has_one :student
   has_one :school_administration, :through => :school
+  has_one :user, :through => :student
   
   #scope :find_students_of_current_grade, lambda{|student| where("school_id=? and current_grade=?", student.school_id, student.current_grade) }
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   
+  accepts_nested_attributes_for :user
   
   def self.student_list(file,school_id)
     spreadsheet = open_spreadsheet(file)

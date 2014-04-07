@@ -16,4 +16,5 @@
 //= require raphael
 //= require_directory .
 //= require best_in_place
+//= require bootstrap-datepicker
 

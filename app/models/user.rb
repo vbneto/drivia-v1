@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_one :professor
   has_one :student
   has_one :school_administration
+  has_one :student_from_excel, :through => :student
   
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
