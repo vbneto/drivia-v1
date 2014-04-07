@@ -13,15 +13,27 @@ module UsersHelper
   end
   
   def monthly_grades_months
-    @student.monthly_grades.map(&:month).uniq.sort.map{|m| Date::MONTHNAMES[m]}
+    if params[:date].blank? 
+      @student.monthly_grades.select{|grade| grade.year == set_end_year}.map(&:month).uniq.sort.map{|m| Date::MONTHNAMES[m]}
+    else
+      @student.monthly_grades.select{|grade| grade.year == params[:date][:year].to_i}.map(&:month).uniq.sort.map{|m| Date::MONTHNAMES[m]}
+    end 
   end
   
   def select_default_start_month
-    params[:start_month].blank? ? monthly_grades_months.first : params[:start_month]
+    if params[:start_month].blank?
+      monthly_grades_months.first
+    else
+      monthly_grades_months.select{|month| month == params[:start_month]}.blank? ? monthly_grades_months.first : params[:start_month] 
+    end  
   end
   
   def select_default_end_month
-    params[:end_month].blank? ? monthly_grades_months.last : params[:end_month]
+    if params[:end_month].blank?
+      monthly_grades_months.last
+    else
+      monthly_grades_months.select{|month| month == params[:end_month]}.blank? ? monthly_grades_months.last : params[:end_month] 
+    end  
   end
   
   def student_options_for_parent

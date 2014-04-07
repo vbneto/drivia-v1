@@ -8,7 +8,7 @@ class SchoolAdministrationsController < ApplicationController
   
   def search_student
     @all_students = current_school_administration.find_students(params[:student_name])
-    render 'show_students'
+    render show_students_school_administrations_path
   end
   
   def show_parent
@@ -43,7 +43,7 @@ class SchoolAdministrationsController < ApplicationController
       student.update_student_parent_fields  if is_saved
     end    
     if is_saved
-      flash[:success] = "Status changed successfully."  
+      flash[:notice] = "Status changed successfully."  
     else
       flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."  
     end

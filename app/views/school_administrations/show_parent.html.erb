@@ -1,22 +1,21 @@
 <div id="subject_list" class="span6 move_down">
-
-    <h5>Records of the Parent</h5>
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th><%= t('Name') %></th>
-          <th><%= t('Email') %></th>
-          <th><%= t('Phoneprefix') %></th>
-          <th><%= t('Phone') %></th>
-        </tr>
-      </thead>
-    <tbody>
-        <tr>
-          <td><%= @parent.name%></td>
-          <td><%= @parent.email%></td>
-          <td><%= @parent.phoneprefix%></td>
-          <td><%= @parent.email%></td>
-        </tr>
-    </tbody>
-    </table>
+  <h5>Records of the Parent</h5>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th><%= t('Name') %></th>
+        <th><%= t('Email') %></th>
+        <th><%= t('Phoneprefix') %></th>
+        <th><%= t('Phone') %></th>
+      </tr>
+    </thead>
+  <tbody>
+      <tr>
+        <td><%= @parent.name%></td>
+        <td><%= @parent.email%></td>
+        <td><%= @parent.phoneprefix%></td>
+        <td><%= @parent.phone%></td>
+      </tr>
+  </tbody>
+  </table>
 </div>

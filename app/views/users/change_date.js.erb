@@ -1,5 +1,6 @@
 <% if @student_monthly_grades.blank? %>
-  alert("No grade of current month are present")
+  alert("No grade of selected month range are present")
+  location.reload(false); 
 <% else %>
   <% @subject_average.each do |subject,average|%>
     $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
@@ -26,4 +27,19 @@
   $('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
 
   $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
+  
+  var monthNames = [ "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December" ];
+  var start_month = monthNames.indexOf($('#start_month').find(":selected").val());
+  var end_month = monthNames.indexOf($('#end_month').find(":selected").val());
+  var i = end_month
+  while( i >= 0 ){  
+    $("#end_month option[value="+monthNames[i]+"]").prop("disabled",false);
+    i--
+  }
+  i = 0
+  while (i < start_month){
+    $("#end_month option[value="+monthNames[i]+"]").prop("disabled","true");
+    i++
+  }  
 <% end %>
