@@ -12,11 +12,26 @@ class SchoolAdministrationsController < ApplicationController
   end
   
   def show_parent
-    @parent = User.find(params[:parent_id])
+    @parent = User.find(params[:parent_id].to_i)
   end
   
   def edit_student_record
     @student_record = current_school_administration.find_student(params[:student_from_excel_id].to_i) 
+  end
+  
+  def edit_parent_record
+    @parent_record = User.find(params[:parent_id].to_i)
+  end
+  
+  def update_parent
+    @parent_record = User.find(params[:id].to_i)
+    if @parent_record.update_attributes(params["user"])
+      flash[:notice] = "Records updated"
+      redirect_to show_parent_school_administrations_path(:parent_id => @parent_record)
+    else
+      flash[:error] = "Records not updated" 
+      render 'edit_parent_record'
+    end
   end
   
   def update_student

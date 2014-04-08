@@ -23,8 +23,8 @@ SchoolSystem::Application.routes.draw do
       post "update_student"
       post "change_student_status"
       post "apply_filter"
-
-
+      get "edit_parent_record"
+      post "update_parent"  
     end
   end  
   

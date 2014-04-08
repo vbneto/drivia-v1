@@ -1,6 +1,5 @@
   <div id="subject_list" class="span6 move_down">
-    <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
-    
+    <%= back_button %>
     <h5>Records of the Student</h5>
     <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post do|f|%>
       <% if @student_record.errors.any? %>

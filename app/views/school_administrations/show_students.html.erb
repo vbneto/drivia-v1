@@ -1,7 +1,5 @@
 <div id="subject_list" class="span9 move_down">
-  <div>
-    <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
-  </div>
+  <%= back_button %>
   <%= form_tag(search_student_school_administrations_path, :method => :get) do %>
     <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
     <%= submit_tag("search student", :class=>'btn')%>
@@ -30,7 +28,7 @@
 </div>
 
 <script>
-  var expand_student_details;
+  var expand_student_details; 
 
   expand_student_details = function(student_id) {
     return $("#" + student_id).fadeToggle();
