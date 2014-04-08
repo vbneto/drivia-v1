@@ -191,6 +191,7 @@ DEPENDENCIES
   devise
   exception_notification
   jquery-rails (= 2.3.0)
+  kaminari
   meta_search (>= 1.1.0.pre)
   pg
   rails (= 3.2.9)

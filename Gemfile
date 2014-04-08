@@ -5,19 +5,19 @@ ruby '1.9.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem "activeadmin"
-#gem 'bootstrap-datepicker-rails'
+gem "best_in_place"
+gem 'bootstrap-datepicker-rails'
 gem "cancan"
 gem "cpf_validator"
 gem 'devise'
 gem 'exception_notification'
+gem 'kaminari'
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'pg'
 gem 'raphael-rails'
 gem "rolify"
 gem 'roo'
 gem "twitter-bootstrap-rails"
-gem "best_in_place"
-gem "bootstrap-datepicker-rails"
 
 
 # Gems used only for assets and not required

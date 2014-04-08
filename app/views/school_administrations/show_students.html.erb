@@ -2,6 +2,7 @@
   <div>
     <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
   </div>
+  <div class='move_down'>
   <%= form_tag(search_student_school_administrations_path, :method => :get) do %>
     <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
     <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>
@@ -24,8 +25,10 @@
     </table>  
     <%= submit_tag "submit", :id=>"submit_filters"%>
   <% end %>
+  </div>
   <div id='show_student_list'>
     <%= render partial:'students_list'%>
+    <%= paginate @all_students %>
   </div>  
 </div>
 

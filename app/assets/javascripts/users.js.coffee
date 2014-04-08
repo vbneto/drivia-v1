@@ -9,7 +9,7 @@ $ ->
   
   $("#select_subject").multiselect
     onChange: (element, checked) ->
-      $("#submit_subject_list").click()
+      $.post("/users/change_subjects",$("#select_subject_form").serialize());
     includeSelectAllOption: true
     
   $(document).on "change", "#date_year", ->

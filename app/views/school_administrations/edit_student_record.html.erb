@@ -2,7 +2,7 @@
   <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
   
   <h5><%= t("school_administration.edit_student_record.record_of_the_student") %></h5>
-  <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post do|f|%>
+  <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post, :validate => true do|f|%>
     <% if @student_record.errors.any? %>
     <div id="error_explanation">
     <h2><%= pluralize(@student_record.errors.count, "error") %>Something went wrong!</h2>
@@ -34,12 +34,16 @@
   </div>   
   <%= f.fields_for :user do |builder| %>
     <%= builder.label :phone %>
+    <div id="phone_error">
+    </div>
     <%= builder.text_field :phone %><br>
+    <div id="phoneprefix_error">
+    </div>
     <%= builder.label :phoneprefix %>
     <%= builder.text_field :phoneprefix %><br>
     <%= builder.hidden_field :name %>
   <% end %>
-  <%= f.submit "update", :class=>'btn'%>
+  <%= f.submit "update", :class=>'btn', onclick:"return validate_form()"%>
   <%end%>
 </div>
 
@@ -48,5 +52,21 @@
     format: "dd/mm/yyyy",
     startView: 2
   });
+  
+  function validate_form()
+  { var valid = true;
+    if($("#student_from_excel_user_attributes_phone").val().length != 9)
+    { 
+      $("#phone_error").text("Phone must have size of 9").fadeIn(1000);
+      valid =false;
+    }
+    else if($("#student_from_excel_user_attributes_phoneprefix").val().length != 2)
+    { 
+      $("#phoneprefix_error").text("Phoneprefix must have size of 2 ").fadeIn(1000);
+      valid =false;
+    }
+     
+    return valid;
+  }
   
 </script>
