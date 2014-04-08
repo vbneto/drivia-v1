@@ -3,11 +3,11 @@
     <div class="panel panel-heading">
       <h5 class="panel-title " >
         <% if @role == User.find_student_role %>
-          Please, inform your CPF to continue.
+          <%= t('users.registration_form.please_inform_your_cpf_to_continue') %>
         <% elsif @role == User.find_parent_role %>
-          Please, inform the CPF of one student who you are responsible for to continue.
+          <%= t('users.registration_form.please_inform_the_cpf_of_one_student_who_you_are_responsible_for_to_continue') %>
         <% elsif @role == User.find_professor_role %>
-          Please, inform your registered e-mail to continue.
+          <%= t('users.registration_form.please_inform_your_registered_email_to_continue') %>
         <% end %>
       </h5>
     </div>

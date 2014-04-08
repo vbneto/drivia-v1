@@ -1,7 +1,7 @@
 <div class="alignment">
   <div class="panel panel-default">
     <div class="panel panel-heading">
-      <h5 class="panel-title " >Student List</h5>
+      <h5 class="panel-title " ><%= t('parents.new_student.student_list')%></h5>
     </div>
     <div class="panel-body">
       <% @students.each do |student| %>
@@ -9,10 +9,10 @@
       <% end %>
       <%= form_tag create_registration_with_cpf_parents_path do %>
         <div>
-          <h5>Enter CPF to add student</h5>
+          <h5><%= t('parents.new_student.enter_cpf_to_add_student') %></h5>
           <%= text_field_tag :cpf %></div>
         <div>
-          <%= submit_tag "Submit",class:"btn btn-normal" %>
+          <%= submit_tag t("parents.new_student.submit"),class:"btn btn-normal" %>
         </div>
       <% end %>
     </div>

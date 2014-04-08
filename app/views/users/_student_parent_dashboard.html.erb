@@ -2,7 +2,7 @@
   <div class="span10">
     <% if current_user.is_parent? && @parent_students.size > 0 %>
       <div class= "span4">
-        <label>See data of :-</label>
+        <label><%= t('users.student_parent_dashboard.see_data_of_student') %></label>
         <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
           <%= select_tag "student_list", options_for_select(student_options_for_parent) %>
           <%= submit_tag "submit", :id=>"submit_student_list"%>
@@ -14,32 +14,30 @@
   <div class="span10 move_down">
     <% if current_user.is_parent? %>
       <div id="student_detail" class="span">
-        <b>Seeing data of student name :- <%= @parent_students.first.student_name%></b></br>
-        <b>School Name:- <%= @parent_students.first.school.name %></br>
-        <b>Grade Name:- <%= @parent_students.first.current_grade %></b>  
+        <b><%= t('users.student_parent_dashboard.display_data_of_student') %> <%= @parent_students.first.student_name%></b></br>
+        <b><%= t('users.student_parent_dashboard.school_name') %> <%= @parent_students.first.school.name %></br>
+        <b><%= t('users.student_parent_dashboard.grade_name') %> <%= @parent_students.first.current_grade %></b>  
       </div>
     <% end %>
     <% if current_user.is_student? || current_user.is_school_administration? %>
       <div id="student_detail" class="span">
-        <b>Seeing data of student name :- <%= @student.student_name%></b></br>
-        <b>School Name:- <%= @student.school.name %></br>
-        <b>Grade Name:- <%= @student.current_grade %></b>  
+        <b><%= t('users.student_parent_dashboard.display_data_of_student') %> <%= @student.student_name%></b></br>
+        <b><%= t('users.student_parent_dashboard.school_name') %> <%= @student.school.name %></br>
+        <b><%= t('users.student_parent_dashboard.grade_name') %> <%= @student.current_grade %></b>  
       </div>
     <% end %>
     <%=render partial:"current_month"%>
-  
   </div>
 
   <div class='span10 move_down'>
-    <b>Select a subject:-</b>
-    <%= form_tag(change_subjects_users_path, :method => :post, :remote => true, :id=>'select_subject_form') do %>
+    <b><%= t('users.student_parent_dashboard.select_subjects') %></b>
+    <%= form_tag(change_subjects_users_path, :id=>'select_subject_form') do %>
       <%= hidden_field_tag :student_id_of_select_subject, @student.id %>
       <select id="select_subject" name="subjects[]" multiple="multiple">
         <% @subject_average.each do |subject,average| %>
           <option value="<%= subject %>"><%= subject %></option>
         <% end %>
       </select>  
-      <%= submit_tag "submit", :id=>"submit_subject_list"%>
     <% end %>
     
   </div>

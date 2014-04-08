@@ -3,23 +3,23 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
       <tr>
-        <th>Subject</th>
-        <th>Average</th>
+        <th><%= t('users.show_average_or_no_show.subject') %></th>
+        <th><%= t('users.show_average_or_no_show.average') %></th>
       </tr>
       </thead>
       <tbody> 
        <%if @subject_average.size > 0%>
           <% @subject_average.each do |subject,average| %>
             <tr>
-              <td><lable><%= subject %></lable></td>
-              <td><lable><%= average %></lable></td>
+              <td><%= subject %></td>
+              <td><%= average %></td>
             </tr>
           <%end%>
         <% end %>
       </tbody>
     </table>
     <div id="overall_average" class="move_down">
-      OverAll Average: <%= @overall_average %>
+      <%= t('users.show_average_or_no_show.overall_average') %> <%= @overall_average %>
     </div>
   </div>
 
@@ -27,16 +27,16 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
       <tr>
-        <th>Subject</th>
-        <th>No Show</th>
+        <th><%= t('users.show_average_or_no_show.subject') %></th>
+        <th><%= t('users.show_average_or_no_show.no_show') %></th>
       </tr>
       </thead>
       <tbody> 
         <%if @total_no_show.size > 0%>
           <% @total_no_show.each do |subject,no_show| %>
             <tr>
-              <td><lable><%= subject %></lable></td>
-              <td><lable><%= no_show %></lable></td>
+              <td><%= subject %></td>
+              <td><%= no_show %></td>
             </tr>
           <%end%>
         <% end %>

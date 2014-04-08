@@ -3,11 +3,11 @@ class SchoolAdministrationsController < ApplicationController
   before_filter :require_school_administration!
   
   def show_students
-   @all_students = current_school_administration.student_from_excels.order("current_grade ASC, student_name ASC")
+   @all_students = current_school_administration.student_from_excels.order("current_grade ASC, student_name ASC").page(params[:page]).per(3)
   end
   
   def search_student
-    @all_students = current_school_administration.find_students(params[:student_name])
+    @all_students = current_school_administration.find_students(params[:student_name]).page(params[:page]).per(3)
     render show_students_school_administrations_path
   end
   

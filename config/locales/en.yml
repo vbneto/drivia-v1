@@ -2,4 +2,97 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  users:
+    home:
+      welcome_to_school_system: "Welcome to school system"
+    student_parent_dashboard:
+      see_data_of_student: "See data of student: "
+      display_data_of_student: "Display data of student: "
+      school_name: "School Name: "
+      grade_name: "Grade Name: "
+      select_subjects: "Select subjects: " 
+    change_date_range:
+      select_year: "Select Year: "  
+      select_month: "Select Month(s): "
+      from: "From:"
+      to: "To:"
+    current_month:
+      see_current_month: "See current month"
+    show_average_or_no_show:
+      subject: "Subject" 
+      average: "Average" 
+      overall_average: "OverAll Average"
+      no_show: "No Show"
+      
+    registration_form:
+      please_inform_your_cpf_to_continue: "Please, inform your CPF to continue."
+      please_inform_the_cpf_of_one_student_who_you_are_responsible_for_to_continue: "Please, inform the CPF of one student who you are responsible for to continue."
+      please_inform_your_registered_email_to_continue: "Please, inform your registered e-mail to continue."  
+    sign_up:
+      i_am_a_student: "I'm a Student"
+      i_am_a_parent: "I'm a Parent"
+      i_am_a_professor: "I'm a Professor" 
+    ask_question:
+      are_you: "Are You "
+      are_you_responsible_for: "Are you responsible for "
+      yes: "Yes"
+      no: "No"
+  parents:
+    new_student:
+      student_list: "Student List "
+      enter_cpf_to_add_student: "Enter CPF to add student"
+      submit: "Submit"
+    ask_question:
+      are_you_responsible_for: "Are you responsible for"
+      yes: "Yes"
+      no: "No"
+  professor:
+    index:
+      following_are_the_subjects_that_you_teach: "Following are the subjects that you teach." 
+      currently_there_is_no_subject_which_you_teaches: "Currently there is no subject which you teaches."
+      school: "School"
+      grade: "Grade"
+      subject: "Subject"
+      view_students: "View Students"
+      view_average_graph: "View Average Graph"
+      submit: "Submit"
+    show_students:
+      you_can_assign_month_grade_to_following_students: "You can assign month grade to Following students"  
+      show_data_of_month: "Show Data Of Month "
+      student_name: "Student Name "
+      grade: "Grade"
+      month_grade: "Month Grade"
+      month_no_show: "Month No Show"
+  school_administration:
+    index:
+      school_admin_dashboard: "School Admin Dashboard"
+      analytics: "Analytics"
+      grades: "Grades"
+      users: "Users"
+      emails: "E-mails"
+    show_students:
+      search_student: "Search student"
+      filter: "Filter"  
+      grade: "Grade"
+      first_access: "First access?"
+      active: "Active? " 
+    student_list:
+      student_name: "Student Name"
+      age: "Age"
+      current_grade: "Current Grade"
+      first_access: "First Access?"
+      active: "Active"
+      expand: "Expand"
+      edit: "Edit"
+      email: "Email"
+      phoneprefix: "Phoneprefix"
+      phone: "Phone"
+      parent_name: "Parent Name"
+    show_parent:
+      record_of_the_parent: "Record of the parent"
+      name: "Name"
+      email: "Email"
+      phoneprefix: "Phoneprefix"
+      phone: "Phone"
+    edit_student_record:
+      record_of_the_student: "Record of the student."  

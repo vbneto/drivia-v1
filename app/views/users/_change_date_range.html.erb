@@ -1,12 +1,12 @@
 <div id='change_date_range' class="move_right show_border">
   <%= form_tag( change_date_users_path, :method => :post, :remote => true, class:"change_month_form") do %>
     <%= hidden_field_tag :student_id, @student.id %>
-    Select Year:
+    <%= t('users.change_date_range.select_year') %>
     <%= select_year(set_selected_year, :start_year => set_start_year, :end_year => set_end_year) %></br>
     <% months = monthly_grades_months %>
-    Select Month(s):
-    From: <%= select_tag "start_month", options_for_select(months, select_default_start_month) %>
-    To: <%= select_tag "end_month", options_for_select(months, select_default_end_month) %>
+    <%= t('users.change_date_range.select_month') %>
+    <%= t('users.change_date_range.from') %> <%= select_tag "start_month", options_for_select(months, select_default_start_month) %>
+    <%= t('users.change_date_range.to') %> <%= select_tag "end_month", options_for_select(months, select_default_end_month) %>
     <%= submit_tag "submit", :class=>"btn", id:'submit_date_range'%>
   <% end %>
 </div>
