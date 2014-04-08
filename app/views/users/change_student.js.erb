@@ -1,10 +1,15 @@
-$("#select_subject").dropdownchecklist("destroy");
-$('#select_subject option[value!="select_all"]').remove();
+$("#select_subject").multiselect('destroy');
+$('#select_subject').find('option').remove();
 <% @subject_average.each do |subject,average|%>
   $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
 <% end %>  
 
-$("#select_subject").dropdownchecklist({ emptyText: "Please select subjects.", firstItemChecksAll: true, width: 190, maxDropHeight: 200, icon: {placement:'right'}});
+$("#select_subject").multiselect({
+  onChange: function(element, checked) {
+    $("#submit_subject_list").click();
+  },
+  includeSelectAllOption: true
+});
 
 $('#student_detail').html("<b>Seeing data of student name :- <%= @student.student_name%></b></br><b>School Name:- <%= @student.school.name %></br><b>Grade Name:- <%= @student.current_grade %></b>");
 $("#student_id_of_select_subject").val(<%= @student.id%>)

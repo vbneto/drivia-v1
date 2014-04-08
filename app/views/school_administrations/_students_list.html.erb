@@ -3,10 +3,11 @@
   <table class="table table-striped table-bordered ">
     <thead>
     <tr>
-      <th><%= t('Student_name') %></th>
-      <th><%= t('Current Grade') %></th>
-      <th><%= t('First Access?') %></th>
-      <th><%= t('Active?') %></th>
+      <th><%= t('school_administration.student_list.student_name') %></th>
+      <th><%= t('school_administration.student_list.age') %></th>
+      <th><%= t('school_administration.student_list.current_grade') %></th>
+      <th><%= t('school_administration.student_list.first_access') %></th>
+      <th><%= t('school_administration.student_list.active') %></th>
       <th></th>
     </tr>
     </thead>
@@ -14,35 +15,32 @@
       <% @all_students.each do |student| %>
         <tr>
           <td><%= link_to student.student_name, users_path(student_id: student.id) %></td>
+          <td><%= student.find_age %></td>
           <td><%= student.current_grade%></td>
           <td><%= is_student_first_access student %></td>
           <td><%= set_student_status student%></td>
           <td>
-            <%= link_to 'Expand', '#', :class => "btn btn-primary", :onclick => 'expand_student_details('+student.id.to_s+')'%>
-            <%= link_to t("Student Dashboart"), users_path(student_id: student.id), :class => "btn btn-primary" %>
+            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :class => "btn btn-primary", :onclick => 'expand_student_details('+student.id.to_s+')'%>
             <%= link_to show_status(student), change_student_status_school_administrations_path(student_id: student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_status(student) +' This Student?' %>
-            <%= link_to t("Edit"), edit_student_record_school_administrations_path(student_from_excel_id: student), :class => "btn btn-primary" %>
-            <% student.parents.each do |parent| %>
-              <%= link_to parent.user.name, show_parent_school_administrations_path(parent_id: parent.user_id ), :class => "btn btn-primary" %>
-            <% end %>
+            <%= link_to t("school_administration.student_list.edit"), edit_student_record_school_administrations_path(student_from_excel_id: student), :class => "btn btn-primary" %>
           </td>
         </tr>
         <tr>
           <td id=<%=student.id%> class='student_details' colspan="5">
             <b>CPF: </b><%= student.cpf%></br>
-            <b>Name: </b><%= student.student_name%></br>
-            <b>Current Grade: </b><%= student.current_grade%></br>
+            <b><%= t('school_administration.student_list.student_name') %> </b><%= student.student_name%></br>
+            <b><%= t('school_administration.student_list.current_grade') %> </b><%= student.current_grade%></br>
             <% if student.student.present?%>
-              <b>Email: </b><%= student.user.email %></br>
-              <b>Phoneprifix: </b><%= student.user.phoneprefix %></br>
-              <b>Phoneprifix: </b><%= student.user.phone %></br>
+              <b><%= t('school_administration.student_list.email') %> </b><%= student.user.email %></br>
+              <b><%= t('school_administration.student_list.phoneprefix') %> </b><%= student.user.phoneprefix %></br>
+              <b><%= t('school_administration.student_list.phone') %> </b><%= student.user.phone %></br>
             <% end %>
             <% if student.parents.present? %>
               <% student.parents.each do |parent| %>
-                <b>Parent name: </b><%= parent.user.name %></br>
+                <b><%= t('school_administration.student_list.parent_name') %> </b><%= link_to parent.user.name, show_parent_school_administrations_path(parent_id: parent.user_id ) %></br>
               <%end%>
             <% end %>
-            <b>Birth Day: </b><%= student.birth_day%></br>
+            <b>Birth Day: </b><%= student.birth_day.strftime("%d/%m/%Y")%></br>
           </td>
         </tr>
       <% end %>

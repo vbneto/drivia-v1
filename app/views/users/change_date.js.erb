@@ -2,10 +2,20 @@
   alert("No grade of selected month range are present")
   location.reload(false); 
 <% else %>
+  $("#select_subject").multiselect('destroy');
+  $('#select_subject').find('option').remove();
+
   <% @subject_average.each do |subject,average|%>
     $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
-  <% end %>  
-
+  <% end %> 
+  
+  $("#select_subject").multiselect({
+    onChange: function(element, checked) {
+      $("#submit_subject_list").click();
+    },
+    includeSelectAllOption: true
+  }); 
+  
   drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")

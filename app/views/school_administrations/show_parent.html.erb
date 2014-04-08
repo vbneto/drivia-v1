@@ -1,4 +1,7 @@
 <div id="subject_list" class="span6 move_down">
+  <div>
+    <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
+  </div>
   <h5>Records of the Parent</h5>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -9,13 +12,13 @@
         <th><%= t('Phone') %></th>
       </tr>
     </thead>
-  <tbody>
+    <tbody>
       <tr>
         <td><%= @parent.name%></td>
         <td><%= @parent.email%></td>
         <td><%= @parent.phoneprefix%></td>
-        <td><%= @parent.phone%></td>
+        <td><%= @parent.email%></td>
       </tr>
-  </tbody>
+    </tbody>
   </table>
 </div>

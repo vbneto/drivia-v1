@@ -81,17 +81,11 @@ class UsersController < ApplicationController
         @student_monthly_grades = @student.monthly_grades.where(month: params[:start]..params[:end]).where(year: year) 
         all_student_grades = @student.find_fellow_students_monthly_grade(year.to_i).select{|grade| date_range.include?grade.month}
       end  
-       
-      if @subjects.first == 'select_all'
-        subjects = MonthlyGrade.uniq_grade @student_monthly_grades
-        @total_no_show = Student.total_no_show @student_monthly_grades
-        @subject_average = Student.subject_average(@student_monthly_grades)
-      else
-        @total_no_show = Student.total_no_show(@subjects, @student_monthly_grades)
-        @subject_average = Student.subject_average(@subjects, @student_monthly_grades)
-        @student_monthly_grades = @student_monthly_grades.select{|grade| @subjects.include?(grade.subject_name)}
-        all_student_grades = all_student_grades.select{|grade| @subjects.include?(grade.subject_name)} 
-      end
+      
+      @total_no_show = Student.total_no_show(@subjects, @student_monthly_grades)
+      @subject_average = Student.subject_average(@subjects, @student_monthly_grades)
+      @student_monthly_grades = @student_monthly_grades.select{|grade| @subjects.include?(grade.subject_name)}
+      all_student_grades = all_student_grades.select{|grade| @subjects.include?(grade.subject_name)} 
       
       @overall_average = student_monthly_grade_overall_average @student_monthly_grades
       
