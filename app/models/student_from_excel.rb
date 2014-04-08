@@ -2,6 +2,7 @@ class StudentFromExcel < ActiveRecord::Base
 
   attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status
   validates :cpf, uniqueness: true, :if => :is_active_cpf?
+  attr_accessible :status, :cpf, :as => [:admin]
 
   validates :school_id, presence: true
   validates :cpf, :cpf => true

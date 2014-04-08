@@ -20,7 +20,7 @@
           <td>
             <%= link_to 'Expand', '#', :class => "btn btn-primary", :onclick => 'expand_student_details('+student.id.to_s+')'%>
             <%= link_to t("Student Dashboart"), users_path(student_id: student.id), :class => "btn btn-primary" %>
-            <%= link_to show_status(student), change_student_status_school_administrations_path(student_id: student.id), :class => "btn btn-primary", :method => :post %>
+            <%= link_to show_status(student), change_student_status_school_administrations_path(student_id: student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_status(student) +' This Student?' %>
             <%= link_to t("Edit"), edit_student_record_school_administrations_path(student_from_excel_id: student), :class => "btn btn-primary" %>
             <% student.parents.each do |parent| %>
               <%= link_to parent.user.name, show_parent_school_administrations_path(parent_id: parent.user_id ), :class => "btn btn-primary" %>

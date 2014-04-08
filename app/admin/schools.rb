@@ -43,12 +43,13 @@ ActiveAdmin.register School do
         student.input :student_name 
         student.input :cpf 
         student.input :birth_day
-        student.input :gender
         student.inputs "gender" do
           student.collection_select :gender, ['male','female'], :to_s, :humanize
         end  
         student.input :current_grade
-        student.input :status
+        student.inputs "status" do
+          student.collection_select :status, STUDENT_STATUS, :to_s, :humanize
+        end  
         #repeat as necessary for all fields
       end
       student.buttons
