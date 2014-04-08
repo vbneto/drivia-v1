@@ -3,21 +3,21 @@
     <div class="panel panel-heading">
       <h5 class="panel-title " >
         <% if @role == User.find_student_role %>
-          Are You <%= @student.student_name%>?
+          <%= t('users_ask_question.are_you')%> <%= @student.student_name%>?
         <% elsif @role == User.find_parent_role %>
-          Are you responsible for <%= @student.student_name%>?
+          <%= t('users_ask_question.are_you_responsible_for')%><%= @student.student_name%>?
         <% elsif @role == User.find_professor_role %>
-          Are you <%= @professor.professor_name %>?
+          <%= t('users_ask_question.are_you')%> <%= @professor.professor_name %>?
         <% end %>
       </h5>
     </div>
     <div class="panel-body">
       <% if @role != User.find_professor_role %>
-        <%= link_to "Yes", new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
+        <%= link_to t("users.ask_question.yes"), new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
       <% else %>
-        <%= link_to "Yes", new_user_registration_path(email: @email, user: @role), :class=>"btn" %>
+        <%= link_to t("users.ask_question.yes"), new_user_registration_path(email: @email, user: @role), :class=>"btn" %>
       <% end %>  
-      <%= link_to "No", new_registration_with_cpf_users_path(role:@role), :class=>"btn" %>
+      <%= link_to t("users.ask_question.no"), new_registration_with_cpf_users_path(role:@role), :class=>"btn" %>
     </div>
   </div>
 </div>
