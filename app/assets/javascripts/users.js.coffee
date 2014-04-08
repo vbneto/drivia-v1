@@ -4,21 +4,15 @@
 
 $ ->
   
-  $("#student_list").live "change", ->
+  $(document).on "change", "#student_list", ->
     $("#submit_student_list").click()
+  
+  $("#select_subject").multiselect
+    onChange: (element, checked) ->
+      $("#submit_subject_list").click()
+    includeSelectAllOption: true
     
-
-  $("#select_subject").dropdownchecklist
-    emptyText: "Please select subjects."
-    firstItemChecksAll: true
-    width: 190
-    maxDropHeight: 200
-    icon: {placement:'right'}
-     
-  $('#select_subject').live "change", ->
-    $("#submit_subject_list").click()
-    
-  $('#start_month').live "change", ->
+  $(document).on "change", "#start_month", ->
     start_month = new Date('1 ' + $('#start_month').find(":selected").val() + ' 1999');
     end_month = new Date('1 ' + $('#end_month').find(":selected").val() + ' 1999');
     monthNames = [ "January", "February", "March", "April", "May", "June",
@@ -33,7 +27,7 @@ $ ->
     while i < start_month
       $("#end_month option[value="+monthNames[i]+"]").prop("disabled","true");
       i++
-    
-  $('#end_month').live "change", ->
+  
+  $(document).on "change", "#end_month", ->
     $('#submit_date_range').click()
   

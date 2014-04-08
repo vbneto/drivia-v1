@@ -81,6 +81,11 @@ class StudentFromExcel < ActiveRecord::Base
     self.status == User.student_deactive
   end
   
+  def find_age
+    now = Time.now.utc
+    now.year - self.birth_day.year - (self.birth_day.to_time.change(:year => now.year) > now ? 1 : 0)
+  end
+  
   def update_student_parent_fields
     student_from_excel = StudentFromExcel.where(:cpf=>self.cpf).sort_by(&:created_at)
     if student_from_excel.size > 1

@@ -1,4 +1,3 @@
-
 <div>
   <%= link_to_function "Back", "history.back()", :class => "btn btn-primary" %>
 </div>
@@ -41,7 +40,6 @@
     <%= form_tag(change_subjects_users_path, :method => :post, :remote => true, :id=>'select_subject_form') do %>
       <%= hidden_field_tag :student_id_of_select_subject, @student.id %>
       <select id="select_subject" name="subjects[]" multiple="multiple">
-        <option value="select_all">Select All</option>
         <% @subject_average.each do |subject,average| %>
           <option value="<%= subject %>"><%= subject %></option>
         <% end %>
@@ -92,3 +90,4 @@
     chart2.draw(data2, options2);
   }
 </script>
+

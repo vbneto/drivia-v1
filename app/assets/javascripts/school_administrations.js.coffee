@@ -5,13 +5,13 @@
 $ ->
   $('.student_details').hide()
   
-  $("#grade").live "change", ->
+  $("#grade").on "change", ->
     $("#submit_filters").click()
   
-  $("#first_access").live "change", ->
+  $("#first_access").on "change", ->
     $("#submit_filters").click()
   
-  $("#active").live "change", ->
+  $("#active").on "change", ->
     $("#submit_filters").click()    
 
   

@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
   attr_accessible :name, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
   validates :name, :presence => true
+  validates :phoneprefix, length: { is: 2}, :presence => true
+  validates :phone, length: { is: 9}, :presence => true
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  
   has_one :parent
   has_one :professor
   has_one :student

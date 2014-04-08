@@ -14,7 +14,12 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require raphael
-//= require_directory .
+// require_directory .
 //= require best_in_place
 //= require bootstrap-datepicker
+//= require admins
+//= require users
+//= require school_administrations
+//= require bootstrap-multiselect
+
 
