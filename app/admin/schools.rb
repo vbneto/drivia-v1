@@ -33,6 +33,29 @@ ActiveAdmin.register School do
     end
     default_actions
   end
+  
+  form do |f|
+    f.inputs "Details" do
+      f.input :name
+    end
+    f.has_many :student_from_excels do |student|
+      student.inputs "Students" do
+        student.input :student_name 
+        student.input :cpf 
+        student.input :birth_day
+        student.input :gender
+        student.inputs "gender" do
+          student.collection_select :gender, ['male','female'], :to_s, :humanize
+        end  
+        student.input :current_grade
+        student.input :status
+        #repeat as necessary for all fields
+      end
+      student.buttons
+    end
+    f.buttons
+  end
+  
   filter :name
   
 end
