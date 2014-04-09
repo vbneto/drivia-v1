@@ -1,0 +1,41 @@
+<%= back_button %>
+<div id="subject_list" class="span9 move_down">
+  <div class="container">
+    <div id="content">
+       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#students" data-toggle="tab">Student</a></li>
+        <li><a href="#parents" data-toggle="tab">Parents</a></li>
+        <li><a href="#professors" data-toggle="tab">Professors</a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="students">
+          <div id='show_student_list'>
+            <%= render partial:'students_list'%>
+          </div>  
+          <%= paginate @all_students %>
+        </div>
+        <div class="tab-pane" id="parents">
+          <div id='show_parent_list'>
+            <%= render partial:'parents_list'%>
+          </div>
+        </div>
+        <div class="tab-pane" id="professors">
+          <%= render partial:'professors_list'%>
+        </div>  
+      </div>  
+    </div>  
+  </div>  
+</div>
+
+<script>
+  var expand_student_details;
+  var expand_parent_details; 
+  expand_student_details = function(student_id) {
+    return $("#" + student_id).fadeToggle();
+  };
+  
+  expand_parent_details = function(parent_id) {
+    return $("#" + parent_id).fadeToggle();
+  };
+  
+</script>

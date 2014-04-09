@@ -1,0 +1,28 @@
+<div id="subject_list" class="span6 move_down">
+  <%= back_button %>  
+  <h5>Records of the Parent</h5>
+  <%= form_for @parent_record, url: update_parent_school_administrations_path(:id => @parent_record), method: :post do|f|%>
+    <% if @parent_record.errors.any? %>
+    <div id="error_explanation">
+    <h2><%= pluralize(@parent_record.errors.count, "error") %>Something went wrong!</h2>
+    <ul>
+    <% @parent_record.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    <% end %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %><br>
+  </div>
+  <div>  
+    <%= f.label :phoneprefix %>
+    <%= f.text_field :phoneprefix %><br>
+  </div>  
+  <div>
+    <%= f.label :phone %>
+    <%= f.text_field :phone %><br>
+  </div>
+  
+  <%= f.submit "update", :class=>'btn'%>
+  <%end%>
+</div>

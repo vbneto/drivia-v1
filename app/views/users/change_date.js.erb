@@ -5,21 +5,30 @@
   $("#select_subject").multiselect('destroy');
   $('#select_subject').find('option').remove();
 
-  <% @subject_average.each do |subject,average|%>
+  <% @student_monthly_grades.map(&:subject_name).uniq.each do |subject|%>
     $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
   <% end %> 
   
   $("#select_subject").multiselect({
     onChange: function(element, checked) {
-      $("#submit_subject_list").click();
+      $.post("/users/change_subjects",$("#select_subject_form").serialize());
     },
     includeSelectAllOption: true
-  }); 
+  });
   
   drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
-
+  
+  <% unless params[:subject_selected].blank? %>
+    $('#month_subject_list').remove()
+    $('#change_month_form').append("<input type='hidden' name='subject_selected' id='month_subject_list' value='<%= params[:subject_selected]%>'>");
+    <% params[:subject_selected].split(',').each do |subject| %>
+      $("#select_subject").find("option[value='<%= subject %>']").prop("selected", "selected");
+      $("#select_subject").multiselect('refresh');
+    <% end %>
+  <% end %>
+  
   $("#stu_input_year").remove();
   $("#stu_input_start").remove();
   $("#stu_input_end").remove();

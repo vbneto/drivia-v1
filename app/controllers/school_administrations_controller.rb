@@ -2,13 +2,19 @@ class SchoolAdministrationsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :require_school_administration!
   
-  def show_students
-   @all_students = current_school_administration.student_from_excels.order("current_grade ASC, student_name ASC").page(params[:page]).per(3)
+  def show_users
+   @all_students = current_school_administration.student_from_excels.includes(:parents).order("current_grade ASC, student_name ASC").page(params[:page]).per(3)
+   
+   @parents = current_school_administration.all_parents @all_students
+   @professors = current_school_administration.grade_from_excels
   end
   
   def search_student
     @all_students = current_school_administration.find_students(params[:student_name]).page(params[:page]).per(3)
-    render show_students_school_administrations_path
+  end
+  
+  def search_parent
+    @parents = current_school_administration.find_parents(params[:parent_name])
   end
   
   def show_parent
@@ -65,12 +71,12 @@ class SchoolAdministrationsController < ApplicationController
     redirect_to show_students_school_administrations_path
   end
   
-  def apply_filter
+  def apply_filter_to_student
     students = current_school_administration.student_from_excels
     students.select!{|student| student.current_grade == params[:grade]} if params[:grade] != 'All'
     students.select!{|student| student.student.present?.to_s == params[:first_access] } if params[:first_access] != 'All'
     students.select!{|student| student.status == params[:active] } if params[:active] != 'All'
     @all_students = students
   end
-
+  
 end

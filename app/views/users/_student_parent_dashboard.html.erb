@@ -26,7 +26,7 @@
         <b><%= t('users.student_parent_dashboard.grade_name') %> <%= @student.current_grade %></b>  
       </div>
     <% end %>
-    <%=render partial:"current_month"%>
+    <%=link_to t('users.student_parent_dashboard.see_current_month'), "javascript: void(0)", :id=>"current_month",class: 'btn move_right' %>
   </div>
 
   <div class='span10 move_down'>

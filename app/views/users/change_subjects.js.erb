@@ -9,6 +9,12 @@ $('#no_show_list table > tbody').empty();
     $('#no_show_list table > tbody').append("<tr><td><%= subject %></td><td><%= no_show %></td></tr>");
   <% end %> 
   
+  $('#stu_subject_list').remove()
+  $('#select_student_form').append("<input type='hidden' name='subject_selected' id='stu_subject_list' value='<%= params[:subjects].join(',')%>'>");
+  
+  $('#month_subject_list').remove()
+  $('#change_month_form').append("<input type='hidden' name='subject_selected' id='month_subject_list' value='<%= params[:subjects].join(',')%>'>");
+  
   <% if @subjects.size == 1%>
     $('#overall_average').text('');
   <% else %>

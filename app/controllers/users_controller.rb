@@ -102,6 +102,7 @@ class UsersController < ApplicationController
     @student = StudentFromExcel.find(params[:student_list])
     all_student_grades = nil
     year = params[:year]
+    selected_subjects = params[:subject_selected]
     if year.blank? || (!@student.monthly_grades.map(&:year).include?year.to_i)
       @student_monthly_grades = current_user.student_monthly_grades(@student)
       all_student_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year) unless 
@@ -113,6 +114,12 @@ class UsersController < ApplicationController
     end  
     @total_no_show = Student.total_no_show @student_monthly_grades
     @subject_average = Student.subject_average(@student_monthly_grades)
+    
+    unless selected_subjects.blank?
+      @subject_average.select!{|average| selected_subjects.split(',').include?average[0]} 
+      @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]} 
+    end  
+    
     unless @student_monthly_grades.blank?
       @overall_average = student_monthly_grade_overall_average @student_monthly_grades
       
@@ -130,11 +137,17 @@ class UsersController < ApplicationController
     start_month = month_number(params[:start_month])
     end_month = month_number(params[:end_month])
     year = params[:date][:year]
+    selected_subjects = params[:subject_selected]
     @student = StudentFromExcel.find(params[:student_id])
     @student_monthly_grades = @student.monthly_grades.where(month: start_month..end_month).where(year: year)
     unless @student_monthly_grades.blank?
       @total_no_show = Student.total_no_show @student_monthly_grades
       @subject_average = Student.subject_average(@student_monthly_grades)
+      
+      unless selected_subjects.blank?
+        @subject_average.select!{|average| selected_subjects.split(',').include?average[0]} 
+        @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]} 
+      end
       @overall_average = student_monthly_grade_overall_average @student_monthly_grades
       @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
       range = (start_month..end_month).to_a

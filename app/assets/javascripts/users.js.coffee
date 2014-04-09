@@ -14,10 +14,11 @@ $ ->
     
   $(document).on "change", "#date_year", ->
     $('#submit_date_range').click()
-    
-  $(document).on "change", "#start_month", ->
-    monthNames = [ "January", "February", "March", "April", "May", "June",
+  
+  monthNames = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
+      
+  $(document).on "change", "#start_month", ->
     start_month = monthNames.indexOf($('#start_month').find(":selected").val());
     end_month = monthNames.indexOf($('#end_month').find(":selected").val());
     i = end_month
@@ -33,6 +34,14 @@ $ ->
       $('#end_month').val(monthNames[start_month]);   
     $('#submit_date_range').click()
     
-    $(document).on "change", "#end_month", ->
-      $('#submit_date_range').click()
+  $(document).on "change", "#end_month", ->
+    $('#submit_date_range').click()
+    
+  $(document).on "click", "#current_month", ->
+    current_date = new Date();
+    $('#date_year').val(current_date.getFullYear());
+    $('#start_month').val(monthNames[current_date.getMonth()]);
+    $('#end_month').val(monthNames[current_date.getMonth()]);
+    $('#submit_date_range').click()
+      
   

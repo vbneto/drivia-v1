@@ -11,13 +11,12 @@ en:
       school_name: "School Name: "
       grade_name: "Grade Name: "
       select_subjects: "Select subjects: " 
+      see_current_month: "See current month"
     change_date_range:
       select_year: "Select Year: "  
       select_month: "Select Month(s): "
       from: "From:"
       to: "To:"
-    current_month:
-      see_current_month: "See current month"
     show_average_or_no_show:
       subject: "Subject" 
       average: "Average" 
