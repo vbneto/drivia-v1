@@ -4,6 +4,7 @@
 
 $ ->
   $('.student_details').hide()
+  $('.parent_details').hide()
   
   $("#grade").on "change", ->
     $("#submit_filters").click()

@@ -9,15 +9,37 @@
       </ul>
       <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="students">
-          <div id='show_student_list'>
-            <%= render partial:'students_list'%>
-          </div>  
+          <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true') do %>
+            <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
+            <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>
+          <% end %>  
+          <b><%= t('school_administration.show_students.filter')%></b>
+          <%= form_tag(apply_filter_to_student_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_form') do %>
+            <table>
+              <tr>
+                <td><lable><%= t('school_administration.show_students.grade')%></lable></td>
+                <td><%= select_tag "grade", options_for_select(school_grades), :class=>'set_filter_size' %></br></td>
+              </tr>
+              <tr>  
+                <td><lable><%= t('school_administration.show_students.first_access')%></lable></td>
+                <td><%= select_tag "first_access", options_for_select(['All','true','false']), :class=>'set_filter_size' %></br></td>
+              </tr>
+              <tr>
+                <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
+                <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
+              </tr>
+            </table>  
+            <%= submit_tag "submit", :id=>"submit_filters"%>
+          <% end %>
+          <%= render partial:'students_list'%>
           <%= paginate @all_students %>
         </div>
         <div class="tab-pane" id="parents">
-          <div id='show_parent_list'>
-            <%= render partial:'parents_list'%>
-          </div>
+          <%= form_tag(search_parent_school_administrations_path, :method => :get, :remote=>'true') do %>
+            <%= text_field_tag('parent_name', nil, placeholder: 'Search parents by name') %> 
+            <%= submit_tag("Search parent", :class=>'btn')%>
+          <% end %>
+          <%= render partial:'parents_list'%>
         </div>
         <div class="tab-pane" id="professors">
           <%= render partial:'professors_list'%>

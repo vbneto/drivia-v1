@@ -1,29 +1,4 @@
 <div id='show_student_list'>
-  <div>
-    <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true') do %>
-      <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
-      <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>
-    <% end %>  
-    <b><%= t('school_administration.show_students.filter')%></b>
-    <%= form_tag(apply_filter_to_student_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_form') do %>
-      <table>
-        <tr>
-          <td><lable><%= t('school_administration.show_students.grade')%></lable></td>
-          <td><%= select_tag "grade", options_for_select(school_grades), :class=>'set_filter_size' %></br></td>
-        </tr>
-        <tr>  
-          <td><lable><%= t('school_administration.show_students.first_access')%></lable></td>
-          <td><%= select_tag "first_access", options_for_select(['All','true','false']), :class=>'set_filter_size' %></br></td>
-        </tr>
-        <tr>
-          <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
-          <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
-        </tr>
-      </table>  
-      <%= submit_tag "submit", :id=>"submit_filters"%>
-    <% end %>
-  </div>
-
   <h5>List of the students of your school</h5>
   <table class="table table-striped table-bordered ">
     <thead>
@@ -54,30 +29,25 @@
           <td id=<%=student.id%> class='student_details' colspan="5">
 
           <table width="590" >  
-            <tr> <th>CPF:</th><td><%= student.cpf%></td> <tr>
-            <tr> <th><%= t('school_administration.student_list.student_name') %></th><td><%= student.student_name%></td> <tr>
-            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student.current_grade%></td> <tr>
+            <tr> <th>CPF:</th><td><%= student.cpf%></td> </tr>
+            <tr> <th><%= t('school_administration.student_list.student_name') %></th><td><%= student.student_name%></td> </tr>
+            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student.current_grade%></td> </tr>
             <% if student.student.present?%>
-              <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= student.user.email %></td> <tr>
-              <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= student.user.phoneprefix %></td> <tr>
-              <tr> <th><%= t('school_administration.student_list.phone') %> </th><td><%= student.user.phone %></td> <tr>
+              <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= student.user.email %></td> </tr>
+              <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= student.user.phoneprefix %></td> </tr>
+              <tr> <th><%= t('school_administration.student_list.phone') %> </th><td><%= student.user.phone %></td> </tr>
             <% end %>
             <% if student.parents.present? %>
-              <% student.parents.each do |parent| %>
-                <tr>  
-                  <th><%= t('school_administration.student_list.parent_name') %></th>
-                    <td><%= link_to parent.user.name, show_parent_school_administrations_path(parent_id: parent.user_id ) %> <%= link_to "", edit_parent_record_school_administrations_path(parent_id: parent.user_id ), class: 'icon-edit edit_parent' %>
-                      <div>
-                      <b> Students: </b>
-                      <% parent.student_from_excels.each do |student| %>
-                        <%= link_to student.student_name.capitalize, users_path(student_id: student.id) %>
-                      <%end%>
-                      <b></div></b>
-                    </td> 
-                <tr>
-              <%end%>
+              <tr>  
+                <th><%= t('school_administration.student_list.parent_name') %></th>
+                <td>
+                  <% student.parents.each do |parent| %>
+                    <%= link_to parent.user.name, show_parent_school_administration_path(parent.user_id ) %> 
+                  <%end%>
+                </td>
+              </tr>
             <% end %>
-            <tr> <th>Birth Day: </th><td><%= student.birth_day.strftime("%d/%m/%Y")%></td> <tr>
+            <tr> <th>Birth Day: </th><td><%= student.birth_day.strftime("%d/%m/%Y")%></td> </tr>
           </table>
           </td>
         </tr>

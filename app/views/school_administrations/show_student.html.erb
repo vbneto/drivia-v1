@@ -1,0 +1,20 @@
+<div id="subject_list" class="span6 move_down">
+  <%= back_button %>
+  <h5>Record of student</h5>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tbody>
+      <tr><th><%= t('school_administration.show_parent.name') %></th><td><%= @student.student_name%></td></tr>
+      <tr><th>CPF</th><td><%= @student.cpf %></td></tr>
+      <tr><th>Email</th><td><%= @student.user.email %></td></tr>
+      <tr><th>PhonePrefix</th><td><%= @student.user.phoneprefix %></td></tr>
+      <tr><th>Phone:</th><td><%= change_date_formate @student.birth_day %></td></tr>
+      <tr><th>School name:</th><td><%= @student.school.name %></td></tr>
+      <tr><th>current Grade:</th><td><%= @student.current_grade %></td></tr>
+      <tr><th>Gender:</th><td><%= @student.gender %></td></tr>
+      </tbody>
+    </thead>
+  </table>
+  <%= link_to show_status(@student), change_student_status_school_administrations_path(student_id: @student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_status(@student) +' This Student?' %>
+  <%= link_to t("school_administration.student_list.edit"), edit_student_record_school_administrations_path(student_from_excel_id: @student), :class => "btn btn-primary" %>
+</div>

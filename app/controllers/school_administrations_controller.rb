@@ -4,8 +4,8 @@ class SchoolAdministrationsController < ApplicationController
   
   def show_users
    @all_students = current_school_administration.student_from_excels.includes(:parents).order("current_grade ASC, student_name ASC").page(params[:page]).per(3)
-   
-   @parents = current_school_administration.all_parents @all_students
+
+   @parents = current_school_administration.all_parents current_school_administration.school_id
    @professors = current_school_administration.grade_from_excels
   end
   
@@ -14,11 +14,15 @@ class SchoolAdministrationsController < ApplicationController
   end
   
   def search_parent
-    @parents = current_school_administration.find_parents(params[:parent_name])
+    @parents = current_school_administration.all_parents(params[:parent_name],current_school_administration.school_id)
   end
   
   def show_parent
-    @parent = User.find(params[:parent_id].to_i)
+    @parent = User.find(params[:id])
+  end
+  
+  def show_student
+    @student = StudentFromExcel.find(params[:id])
   end
   
   def edit_student_record
@@ -33,7 +37,7 @@ class SchoolAdministrationsController < ApplicationController
     @parent_record = User.find(params[:id].to_i)
     if @parent_record.update_attributes(params["user"])
       flash[:notice] = "Records updated"
-      redirect_to show_parent_school_administrations_path(:parent_id => @parent_record)
+      redirect_to show_parent_school_administration_path(@parent_record)
     else
       flash[:error] = "Records not updated" 
       render 'edit_parent_record'
@@ -45,7 +49,7 @@ class SchoolAdministrationsController < ApplicationController
     params[:student_from_excel][:user_attributes][:name] = params[:student_from_excel][:student_name] unless params[:student_from_excel][:user_attributes].nil?
     if @student_record.update_attributes(params["student_from_excel"])
       flash[:notice] = "Records updated"
-      redirect_to show_students_school_administrations_path
+      redirect_to show_users_school_administrations_path
     else
       flash[:error] = "Records not updated" 
       render 'edit_student_record'
@@ -68,7 +72,7 @@ class SchoolAdministrationsController < ApplicationController
     else
       flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."  
     end
-    redirect_to show_students_school_administrations_path
+    redirect_to show_users_school_administrations_path
   end
   
   def apply_filter_to_student

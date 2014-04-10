@@ -16,4 +16,8 @@ module SchoolAdministrationsHelper
     student.is_active_student? ? 'Deactivate' : 'Activate'
   end
   
+  def change_date_formate date
+    date.strftime("%d/%m/%Y")
+  end
+  
 end
