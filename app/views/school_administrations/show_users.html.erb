@@ -2,7 +2,7 @@
 <div id="subject_list" class="span9 move_down">
   <div class="container">
     <div id="content">
-       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+      <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#students" data-toggle="tab">Student</a></li>
         <li><a href="#parents" data-toggle="tab">Parents</a></li>
         <li><a href="#professors" data-toggle="tab">Professors</a></li>
@@ -38,6 +38,19 @@
           <%= form_tag(search_parent_school_administrations_path, :method => :get, :remote=>'true') do %>
             <%= text_field_tag('parent_name', nil, placeholder: 'Search parents by name') %> 
             <%= submit_tag("Search parent", :class=>'btn')%>
+          <% end %>
+          <%= form_tag(apply_filter_to_parent_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_parent_form') do %>
+            <table>
+              <tr>
+                <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
+                <td><%= select_tag "active_parent", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
+              </tr>
+              <tr>  
+                <td><lable>Student Number </lable></td>
+                <td><%= select_tag "student_number", options_for_select(['All',['No students','0'],'1','2','3','4']), :class=>'set_filter_size' %></br></td>
+              </tr>
+            </table>  
+            <%= submit_tag "submit", :id=>"submit_parent_filters"%>
           <% end %>
           <%= render partial:'parents_list'%>
         </div>

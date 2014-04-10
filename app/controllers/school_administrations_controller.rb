@@ -3,14 +3,14 @@ class SchoolAdministrationsController < ApplicationController
   before_filter :require_school_administration!
   
   def show_users
-   @all_students = current_school_administration.student_from_excels.includes(:parents).order("current_grade ASC, student_name ASC").page(params[:page]).per(3)
+   @all_students = current_school_administration.all_students.page(params[:page]).per(3)
 
    @parents = current_school_administration.all_parents current_school_administration.school_id
    @professors = current_school_administration.grade_from_excels
   end
   
   def search_student
-    @all_students = current_school_administration.find_students(params[:student_name]).page(params[:page]).per(3)
+    @all_students = current_school_administration.all_students(params[:student_name]).page(params[:page]).per(3)
   end
   
   def search_parent
@@ -57,7 +57,7 @@ class SchoolAdministrationsController < ApplicationController
   end
 
   def change_student_status
-    student = StudentFromExcel.find(params[:student_id])
+    student = StudentFromExcel.find(params[:id])
     is_saved = false
     if student.is_active_student?
       student.status = User.student_deactive
@@ -66,13 +66,30 @@ class SchoolAdministrationsController < ApplicationController
       student.status = User.student_active
       is_saved = student.save
       student.update_student_parent_fields  if is_saved
-    end    
+    end
     if is_saved
       flash[:notice] = "Status changed successfully."  
     else
-      flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."  
+      flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."
     end
     redirect_to show_users_school_administrations_path
+  end
+  
+  def change_parent_status
+    parent = Parent.find(params[:id])
+    if parent.is_active_parent?
+      parent.status = User.student_deactive
+      is_saved =parent.save
+    elsif parent.is_deactive_parent? 
+      parent.status = User.student_active
+      is_saved =parent.save
+    end
+    if is_saved
+      flash[:notice] = "Status changed successfully."  
+    else
+      flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."
+    end
+    redirect_to show_users_school_administrations_path  
   end
   
   def apply_filter_to_student
@@ -81,6 +98,13 @@ class SchoolAdministrationsController < ApplicationController
     students.select!{|student| student.student.present?.to_s == params[:first_access] } if params[:first_access] != 'All'
     students.select!{|student| student.status == params[:active] } if params[:active] != 'All'
     @all_students = students
+  end
+  
+  def apply_filter_to_parent
+    parents = current_school_administration.all_parents current_school_administration.school_id
+    parents.select!{|parent| parent.status == params[:active_parent] } if params[:active_parent] != 'All'
+    parents.select!{|parent| parent.student_from_excels.count == params[:student_number].to_i } if params[:student_number] != 'All' 
+    @parents = parents
   end
   
 end

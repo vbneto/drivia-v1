@@ -21,12 +21,14 @@ SchoolSystem::Application.routes.draw do
       get "search_parent"
       get "edit_student_record"
       post "update_student"
-      post "change_student_status"
       post "apply_filter_to_student"
+      post "apply_filter_to_parent"
       get "edit_parent_record"
       post "update_parent"  
     end
     member do 
+      post "change_student_status"
+      post "change_parent_status"
       get "show_student"
       get "show_parent"
     end

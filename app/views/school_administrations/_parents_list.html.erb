@@ -6,6 +6,7 @@
       <th><%= t('school_administration.student_list.parent_name') %> </th>
       <th><%= t('school_administration.student_list.age') %></th>
       <th>First Access?</th>
+      <th>Active?</th>
       <th>Students Added</th>
       <th></th>
     </tr>
@@ -15,10 +16,12 @@
         <tr>
           <td><%= link_to parent.user.name, show_parent_school_administration_path(parent.user_id) %></td>
           <td><%= parent.find_age %></td>
-          <td>true</td>
+          <td><%= parent.present?%></td>
+          <td><%= set_parent_status parent %></td>
           <td><%= parent.student_from_excels.count %></td>
           <td>
             <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :class => "btn btn-primary", :onclick => 'expand_parent_details('+parent.id.to_s+')'%>
+            <%= link_to show_parent_status(parent),change_parent_status_school_administration_path(parent.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_parent_status(parent) +' This Parent?' %>
             <%= link_to t("school_administration.student_list.edit"), edit_parent_record_school_administrations_path(parent_id: parent.user_id ), :class => "btn btn-primary" %>
           </td>  
         </tr>
@@ -29,7 +32,7 @@
               <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= parent.user.phoneprefix %></td></tr> 
               <tr> <th><%= t('school_administration.student_list.phone') %> </th><td><%= parent.user.phone %></td> </tr>
               <tr> <th>Birth Day: </th><td><%= parent.birth_day.strftime("%d/%m/%Y") if parent.birth_day.present? %></td> </tr>
-              <tr><th>Risponsible for student:</th>
+              <tr><th>Responsible for student:</th>
                 <td>
                   <% parent.student_from_excels.each do |student| %>
                     <%=link_to student.student_name, show_student_school_administration_path(student.id)%>

@@ -15,5 +15,9 @@ $ ->
   $("#active").on "change", ->
     $("#submit_filters").click()    
 
-  
+  $("#active_parent").on "change", ->
+    $("#submit_parent_filters").click()    
    
+  $("#student_number").on "change", ->
+    $("#submit_parent_filters").click()
+  

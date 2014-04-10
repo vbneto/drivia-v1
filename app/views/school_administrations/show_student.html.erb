@@ -15,6 +15,6 @@
       </tbody>
     </thead>
   </table>
-  <%= link_to show_status(@student), change_student_status_school_administrations_path(student_id: @student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_status(@student) +' This Student?' %>
+  <%= link_to show_student_status(@student), change_student_status_school_administrations_path(student_id: @student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_student_status(@student) +' This Student?' %>
   <%= link_to t("school_administration.student_list.edit"), edit_student_record_school_administrations_path(student_from_excel_id: @student), :class => "btn btn-primary" %>
 </div>
