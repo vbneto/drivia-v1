@@ -12,6 +12,9 @@ $ ->
   $("#first_access").on "change", ->
     $("#submit_filters").click()
   
+  $("#parent_number").on "change", ->
+    $("#submit_filters").click()  
+  
   $("#active").on "change", ->
     $("#submit_filters").click()    
 
@@ -20,4 +23,5 @@ $ ->
    
   $("#student_number").on "change", ->
     $("#submit_parent_filters").click()
+  
   

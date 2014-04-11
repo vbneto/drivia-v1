@@ -28,4 +28,18 @@ module SchoolAdministrationsHelper
     date.strftime("%d/%m/%Y")
   end
   
+  def number_of_students (parents)
+    count = parents.includes(:student_from_excels).map!{|parent| parent.student_from_excels.count}.uniq
+    initial = ['All',['No student','0']]
+    initial.concat(count)
+  end
+  
+  def number_of_parents (students)
+    count = students.includes(:parents).map!{|student| student.parents.count}.uniq
+    initial = ['All',['No parent','0']]
+    initial.concat(count)
+  end
+  
+  
+
 end

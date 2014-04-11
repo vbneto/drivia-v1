@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessor :gender, :birth_day
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :parent_attributes
   attr_accessible :name, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
   validates :name, :presence => true
@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_one :school_administration
   has_one :student_from_excel, :through => :student
   
+  accepts_nested_attributes_for :parent #for updation in parent
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
   def active_for_authentication?

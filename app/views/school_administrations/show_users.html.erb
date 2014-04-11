@@ -28,6 +28,12 @@
                 <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
                 <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
               </tr>
+              <tr>
+                <td><lable>Parent Number </lable></td>
+                <td><%= select_tag "parent_number", options_for_select(number_of_parents(@all_students)), :class=>'set_filter_size' %></br></td>
+              </tr>
+
+
             </table>  
             <%= submit_tag "submit", :id=>"submit_filters"%>
           <% end %>
@@ -47,7 +53,7 @@
               </tr>
               <tr>  
                 <td><lable>Student Number </lable></td>
-                <td><%= select_tag "student_number", options_for_select(['All',['No students','0'],'1','2','3','4']), :class=>'set_filter_size' %></br></td>
+                <td><%= select_tag "student_number", options_for_select(number_of_students(@parents)), :class=>'set_filter_size' %></br></td>
               </tr>
             </table>  
             <%= submit_tag "submit", :id=>"submit_parent_filters"%>

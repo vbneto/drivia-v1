@@ -97,6 +97,7 @@ class SchoolAdministrationsController < ApplicationController
     students.select!{|student| student.current_grade == params[:grade]} if params[:grade] != 'All'
     students.select!{|student| student.student.present?.to_s == params[:first_access] } if params[:first_access] != 'All'
     students.select!{|student| student.status == params[:active] } if params[:active] != 'All'
+    students.select!{|student| student.parents.count == params[:parent_number].to_i } if params[:parent_number] != 'All'
     @all_students = students
   end
   

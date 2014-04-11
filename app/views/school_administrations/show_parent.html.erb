@@ -8,7 +8,7 @@
       <tr><th><%= t('school_administration.show_parent.email') %></th><td><%= @parent.email%></td></tr>
       <tr><th><%= t('school_administration.show_parent.phoneprefix') %></th><td><%= @parent.phoneprefix%></td></tr>
       <tr><th><%= t('school_administration.show_parent.phone') %></th><td><%= @parent.phone%></td></tr>
-      <tr><th>Students</th>
+      <tr><th>Responsible for student</th>
         <td>
           <% @parent.parent.student_from_excels.each do |student|%>
             <%=link_to student.student_name, show_student_school_administration_path(student.id)%>
