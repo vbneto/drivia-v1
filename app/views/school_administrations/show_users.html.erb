@@ -3,7 +3,7 @@
   <div class="container">
     <div id="content">
       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#students" data-toggle="tab">Student</a></li>
+        <li class="active"><a href="#students" data-toggle="tab">Students</a></li>
         <li><a href="#parents" data-toggle="tab">Parents</a></li>
         <li><a href="#professors" data-toggle="tab">Professors</a></li>
       </ul>
@@ -29,7 +29,7 @@
                 <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
               </tr>
               <tr>
-                <td><lable>Parent Number </lable></td>
+                <td><lable>Parents assigned</lable></td>
                 <td><%= select_tag "parent_number", options_for_select(number_of_parents(@all_students)), :class=>'set_filter_size' %></br></td>
               </tr>
 
@@ -47,10 +47,6 @@
           <% end %>
           <%= form_tag(apply_filter_to_parent_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_parent_form') do %>
             <table>
-              <tr>
-                <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
-                <td><%= select_tag "active_parent", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
-              </tr>
               <tr>  
                 <td><lable>Student Number </lable></td>
                 <td><%= select_tag "student_number", options_for_select(number_of_students(@parents)), :class=>'set_filter_size' %></br></td>

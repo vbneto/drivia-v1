@@ -26,7 +26,7 @@
   <div>
     <%= f.fields_for :parent do |builder| %>
       <%= builder.label :birth_day %>
-      <%= builder.text_field :birth_day, :class => 'datepicker' %><br>
+      <%= builder.text_field :birth_day, :value => change_date_formate(@parent_record.parent.birth_day), :class => 'datepicker' %><br>
     <% end %>
   </div>
 

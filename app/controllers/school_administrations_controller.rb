@@ -103,7 +103,6 @@ class SchoolAdministrationsController < ApplicationController
   
   def apply_filter_to_parent
     parents = current_school_administration.all_parents current_school_administration.school_id
-    parents.select!{|parent| parent.status == params[:active_parent] } if params[:active_parent] != 'All'
     parents.select!{|parent| parent.student_from_excels.count == params[:student_number].to_i } if params[:student_number] != 'All' 
     @parents = parents
   end
