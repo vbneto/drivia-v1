@@ -3,14 +3,14 @@ class SchoolAdministrationsController < ApplicationController
   before_filter :require_school_administration!
   
   def show_users
-   @all_students = current_school_administration.all_students.page(params[:page]).per(3)
+   @all_students = current_school_administration.all_students.page(params[:page]).per(30)
 
    @parents = current_school_administration.all_parents current_school_administration.school_id
    @professors = current_school_administration.grade_from_excels
   end
   
   def search_student
-    @all_students = current_school_administration.all_students(params[:student_name]).page(params[:page]).per(3)
+    @all_students = current_school_administration.all_students(params[:student_name]).page(params[:page]).per(30)
   end
   
   def search_parent
@@ -57,15 +57,15 @@ class SchoolAdministrationsController < ApplicationController
   end
 
   def change_student_status
-    student = StudentFromExcel.find(params[:id])
+    student = StudentFromExcel.includes(:student_statuses).where(student_statuses: { school_id: current_school_administration.school_id, student_from_excel_id: params[:id]}).first
     is_saved = false
     if student.is_active_student?
-      student.status = User.student_deactive
-      is_saved = student.save
+      student.student_statuses.first.status = User.student_deactive
+      is_saved = student.student_statuses.first.save
     elsif student.is_deactive_student?
-      student.status = User.student_active
-      is_saved = student.save
-      student.update_student_parent_fields  if is_saved
+      student.student_statuses.first.status = User.student_active
+      is_saved = student.student_statuses.first.save
+      #student.update_student_parent_fields if is_saved
     end
     if is_saved
       flash[:notice] = "Status changed successfully."  

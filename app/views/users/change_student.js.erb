@@ -1,10 +1,15 @@
 $("#select_subject").multiselect('destroy');
 $('#select_subject').find('option').remove();
 
-<% @student_monthly_grades.map(&:subject_name).uniq.each do |subject|%>
-  $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
-<% end %>  
+<% unless @student_monthly_grades.blank? %>
+  <% @student_monthly_grades.map(&:subject_name).uniq.each do |subject|%>
+    $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
+  <% end %>  
+  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 
+  $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
+  $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
+<% end %>
 $("#select_subject").multiselect({
   onChange: function(element, checked) {
     $.post("/users/change_subjects",$("#select_subject_form").serialize());
@@ -16,10 +21,6 @@ $('#student_detail').html("<b>Seeing data of student name :- <%= @student.studen
 $("#student_id_of_select_subject").val(<%= @student.id%>)
 $("#student_id").val(<%= @student.id%>)
 
-drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
-
-$('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
-$('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
 
 <% unless params[:subject_selected].blank? %>
   $('#month_subject_list').remove()

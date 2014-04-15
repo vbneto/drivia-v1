@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  student_from_excel_id: 1
+  school_id: 1
+  status: MyString
+
+two:
+  student_from_excel_id: 1
+  school_id: 1
+  status: MyString

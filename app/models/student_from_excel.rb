@@ -1,7 +1,7 @@
 class StudentFromExcel < ActiveRecord::Base
 
   attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status
-  validates :cpf, uniqueness: true, :if => :is_active_cpf?
+  validates :cpf, uniqueness: true
   attr_accessible :status, :cpf, :as => [:admin]
 
   validates :school_id, presence: true
@@ -16,11 +16,13 @@ class StudentFromExcel < ActiveRecord::Base
   has_one :student
   has_one :school_administration, :through => :school
   has_one :user, :through => :student
+  has_many :student_statuses
   
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   accepts_nested_attributes_for :user
 
-  after_create :update_student_parent_fields
+  #after_create :update_student_parent_fields
+  after_create :update_student_status
   
   def is_active_cpf?
     !(self.status == User.student_deactive || StudentFromExcel.where("cpf = ? and status = ?",self.cpf, User.student_active).blank?)
@@ -35,13 +37,23 @@ class StudentFromExcel < ActiveRecord::Base
         row = Hash[[header, spreadsheet.row(i)].transpose]
         student = find_by_id(row["id"]) || new
         student.attributes = row.to_hash.slice(*accessible_attributes)
-        student.school_id = school_id
-        student.status = User.student_active
-        begin
-          student.save!
-        rescue
-          already_present_students << student.cpf
-        end  
+        student_from_excel = StudentFromExcel.find_by_cpf(student.cpf)
+        if student_from_excel
+          student_status = student_from_excel.student_statuses
+          if student_status.map(&:status).include? User.student_active or student_status.map(&:school_id).include?school_id.to_i
+            already_present_students << student.cpf 
+          else 
+            student_status.create(school_id: school_id, status: User.student_active)  
+          end  
+        else
+          student.school_id = school_id
+          student.status = User.student_active
+          begin
+            student.save!
+          rescue
+            already_present_students << student.cpf
+          end
+        end    
       end
     rescue  
     end
@@ -75,11 +87,13 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def is_active_student?
-    self.status == User.student_active
+    self.student_statuses.map(&:status).include?User.student_active
+    #self.student_statuses.first.status == User.student_active
   end
   
   def is_deactive_student?
-    self.status == User.student_deactive
+    !self.student_statuses.map(&:status).include?User.student_active
+    #self.student_statuses.first.status == User.student_deactive
   end
   
   def find_age
@@ -98,5 +112,9 @@ class StudentFromExcel < ActiveRecord::Base
       student_parent.each{|parent| parent.update_attributes(student_from_excel_id: self.id)} if student_parent.present?
     end
   end
-
+  
+  def update_student_status
+    student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
+    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active) if student_from_excel
+  end
 end
