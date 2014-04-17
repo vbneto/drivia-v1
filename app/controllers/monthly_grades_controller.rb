@@ -3,10 +3,11 @@ class MonthlyGradesController < ApplicationController
   def update_grade
     student = StudentFromExcel.find(params[:student_id])
     student_grade = student.student_grade(params[:subject], params[:month])
-    
+    student_status = student.get_active_status
     if student_grade.blank?
       student_grade = MonthlyGrade.create(:record_date => Date.today,
                 :student_from_excel_id => params[:student_id],
+                :student_status_id => student_status.id ,
                 :subject_name=> params[:subject],
                 :grade => params[:monthly_grade][:grade],
                 :month => Date::MONTHNAMES.index(params[:month]),
@@ -23,10 +24,11 @@ class MonthlyGradesController < ApplicationController
   def update_no_show
     student = StudentFromExcel.find(params[:student_id])
     student_grade = student.student_grade(params[:subject], params[:month])
-    
+    student_status = student.get_active_status
     if student_grade.blank?
       student_grade = MonthlyGrade.create(:record_date => Date.today,
                 :student_from_excel_id => params[:student_id],
+                :student_status_id => student_status.id ,
                 :subject_name=> params[:subject],
                 :no_show => params[:monthly_grade][:no_show],
                 :month => Date::MONTHNAMES.index(params[:month]),

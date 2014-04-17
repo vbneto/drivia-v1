@@ -54,6 +54,7 @@ SchoolSystem::Application.routes.draw do
       post "change_student"
       post "change_subjects"
       post "change_date"
+      post "change_school"
       get "ask_question"
     end
   end

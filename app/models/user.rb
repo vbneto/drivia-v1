@@ -108,9 +108,9 @@ class User < ActiveRecord::Base
     cpf
   end
   
-  def student_monthly_grades student
-    student_monthly_grade = student.monthly_grades
-    student_monthly_grade.group_by {|grade| grade.year}.sort.last[1] unless student_monthly_grade.blank?
+  def student_monthly_grades(student,student_status)
+    student_monthly_grade = student_status.monthly_grades
+    student_monthly_grade.group_by {|grade| grade.year}.sort.last[1] unless student_monthly_grade.blank?  
   end
   
   def professor_grades

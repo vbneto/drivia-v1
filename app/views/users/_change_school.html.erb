@@ -1,0 +1,8 @@
+<div id='change_school'>
+<% if school_options_for_parent.size > 1 %>
+  <label>Select School</label>
+  <%= form_tag(change_school_users_path, :method => :post, :remote => true, :id=>'select_school_form') do %>
+    <%= select_tag "student_status_id", options_for_select(school_options_for_parent) %>
+  <% end %>
+<% end %>
+</div>

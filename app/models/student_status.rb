@@ -1,6 +1,8 @@
 class StudentStatus < ActiveRecord::Base
-  attr_accessible :school_id, :status, :student_from_excel_id
+  attr_accessible :school_id, :status, :student_from_excel_id, :current_grade, :year
   belongs_to :student_from_excel
+  belongs_to :school
+  has_many :monthly_grades
   validate :validate_status_activation
   
   def validate_status_activation

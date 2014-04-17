@@ -1,6 +1,9 @@
 <div id='change_date_range' class="move_right show_border">
   <%= form_tag( change_date_users_path, :method => :post, :remote => true, id:"change_month_form") do %>
     <%= hidden_field_tag :student_id, @student.id %>
+    <% unless @student_school_status.blank? %>
+      <%= hidden_field_tag :student_status_id, @student_school_status.id %>
+    <% end %>  
     <%= t('users.change_date_range.select_year') %>
     <%= select_year(set_selected_year, :start_year => set_start_year, :end_year => set_end_year) %></br>
     <% months = monthly_grades_months %>

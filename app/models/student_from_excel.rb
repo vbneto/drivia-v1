@@ -43,7 +43,7 @@ class StudentFromExcel < ActiveRecord::Base
           if student_status.map(&:status).include? User.student_active or student_status.map(&:school_id).include?school_id.to_i
             already_present_students << student.cpf 
           else 
-            student_status.create(school_id: school_id, status: User.student_active)  
+            student_status.create(school_id: school_id, status: User.student_active, current_grade: student.current_grade, year: Date.today.year)  
           end  
         else
           student.school_id = school_id
@@ -74,16 +74,19 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def student_grade(subject, month)
-    self.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month) and grade.year == Date.today.year }.first
+    self.get_active_status.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month) and grade.year == Date.today.year }.first
   end
 
-  def find_fellow_students_monthly_grade year=nil
-    students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
+  def find_fellow_students_monthly_grade(year=nil, student_status)
+    students_of_current_grade = StudentStatus.where(school_id: student_status.school_id, current_grade: student_status.current_grade, year: student_status.year).includes(:monthly_grades)
+    #students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
+    
     if year.blank?
       students_of_current_grade.map {|student| student.monthly_grades}.flatten  
     else  
       students_of_current_grade.map {|student| student.monthly_grades}.flatten.select{|grade| grade.year==year}
-    end  
+    end
+      
   end
   
   def is_active_student?
@@ -115,6 +118,12 @@ class StudentFromExcel < ActiveRecord::Base
   
   def update_student_status
     student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
-    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active) if student_from_excel
+    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year) if student_from_excel
   end
+  
+  def get_active_status
+    student_status = self.student_statuses.find_by_status(User.student_active)
+    student_status unless student_status.blank?
+  end
+  
 end

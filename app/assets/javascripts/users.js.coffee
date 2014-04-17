@@ -5,8 +5,11 @@
 $ ->
   
   $(document).on "change", "#student_list", ->
-    $("#submit_student_list").click()
+    $.post("/users/change_student",$("#select_student_form").serialize());
   
+  $(document).on "change", "#student_status_id", ->
+    $.post("/users/change_school",$("#select_school_form").serialize());
+    
   $("#select_subject").multiselect
     onChange: (element, checked) ->
       $.post("/users/change_subjects",$("#select_subject_form").serialize());

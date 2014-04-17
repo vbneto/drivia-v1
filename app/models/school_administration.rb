@@ -15,7 +15,7 @@ class SchoolAdministration < ActiveRecord::Base
   
   def all_students student = nil
     if student.blank?
-      StudentFromExcel.includes(:student_statuses).where(student_statuses: { school_id: self.school_id}).order("current_grade ASC, student_name ASC")
+      StudentFromExcel.includes(:student_statuses).where(student_statuses: { school_id: self.school_id, year: Date.today.year.to_s})#.order("current_grade ASC, student_name ASC")
     else
       self.student_from_excels.where("student_name LIKE ?" , "%#{student}%").order("current_grade ASC, student_name ASC")
     end  
