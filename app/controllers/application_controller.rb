@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     elsif current_professor
       professors_path
     elsif current_student or current_parent
-      root_path       
+      users_path       
     end
   end
   
