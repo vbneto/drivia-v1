@@ -75,6 +75,7 @@ en:
       grade: "Grade"
       first_access: "First access?"
       active: "Active? " 
+      parents_assgined: "Parents assignedfdf "
     student_list:
       student_name: "Student Name"
       age: "Age"
@@ -84,7 +85,7 @@ en:
       expand: "Expand"
       edit: "Edit"
       email: "Email"
-      phoneprefix: "Phoneprefix"
+      phoneprefix_for_students: "Phoneprefix for students"
       phone: "Phone"
       parent_name: "Parent Name"
     show_parent:
