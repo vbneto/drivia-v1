@@ -1,5 +1,5 @@
 class StudentStatus < ActiveRecord::Base
-  attr_accessible :school_id, :status, :student_from_excel_id, :current_grade, :year
+  attr_accessible :school_id, :status, :student_from_excel_id, :current_grade, :year, :grade_class
   belongs_to :student_from_excel
   belongs_to :school
   has_many :monthly_grades

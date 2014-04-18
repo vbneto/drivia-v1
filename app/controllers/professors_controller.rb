@@ -9,8 +9,11 @@ class ProfessorsController < ApplicationController
   def show_students
     @school = School.find(params[:school_id])
     @subject = params[:subject]
-    @students = @school.student_from_excels.select{|student| student.current_grade == params[:grade] }
-    @students.select!{|student| student.student_statuses.where('school_id=? and status=?', params[:school_id], User.student_active).first}
+    @grade_name = params[:grade_name]
+    @grade_class = params[:grade_class]
+    
+    @students = @school.student_from_excels#.select{|student| student.current_grade == params[:grade] }
+    @students.select!{|student| student.student_statuses.where('school_id=? and status=? and current_grade=? and grade_class=?', params[:school_id], User.student_active, @grade_name, @grade_class).first}
     @month = params[:month].present? ? params[:month] : Date::MONTHNAMES[Date.today.month]
   end  
   

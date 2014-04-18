@@ -1,5 +1,5 @@
 class GradeFromExcel < ActiveRecord::Base
-  attr_accessible :grade_name, :professor_name, :subject_average, :subject_name, :professor_email
+  attr_accessible :grade_name, :professor_name, :subject_average, :subject_name, :professor_email, :grade_class
   belongs_to :school
   has_one :professor
   

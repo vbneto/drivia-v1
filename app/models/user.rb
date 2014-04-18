@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
   
   accepts_nested_attributes_for :parent #for updation in parent
   #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-  
+=begin
+  #Remove comment when not allowing deactivate student and parent to signin. 
   def active_for_authentication?
     if self.is_student? 
       super && check_student_status(self) 
@@ -51,6 +52,7 @@ class User < ActiveRecord::Base
   def check_parent_status user
     user.parent.student_from_excels.map(&:status).select{|status| status == User.student_active}.size > 0 ? true : false
   end
+=end  
   
   def is_student?
     self.role=="student"

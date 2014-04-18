@@ -3,7 +3,7 @@ class StudentFromExcel < ActiveRecord::Base
   attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status
   validates :cpf, uniqueness: true
   attr_accessible :status, :cpf, :as => [:admin]
-
+  attr_accessor :grade_class
   validates :school_id, presence: true
   validates :cpf, :cpf => true
   validates :student_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
@@ -20,6 +20,7 @@ class StudentFromExcel < ActiveRecord::Base
   
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   accepts_nested_attributes_for :user
+  
 
   #after_create :update_student_parent_fields
   after_create :update_student_status
@@ -38,12 +39,14 @@ class StudentFromExcel < ActiveRecord::Base
         student = find_by_id(row["id"]) || new
         student.attributes = row.to_hash.slice(*accessible_attributes)
         student_from_excel = StudentFromExcel.find_by_cpf(student.cpf)
+        student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
+        
         if student_from_excel
           student_status = student_from_excel.student_statuses
           if student_status.map(&:status).include? User.student_active or student_status.map(&:school_id).include?school_id.to_i
             already_present_students << student.cpf 
           else 
-            student_status.create(school_id: school_id, status: User.student_active, current_grade: student.current_grade, year: Date.today.year)  
+            student_status.create(school_id: school_id, status: User.student_active, current_grade: student.current_grade, year: Date.today.year, grade_class: student.grade_class )  
           end  
         else
           student.school_id = school_id
@@ -118,7 +121,7 @@ class StudentFromExcel < ActiveRecord::Base
   
   def update_student_status
     student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
-    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year) if student_from_excel
+    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year, grade_class: self.grade_class) if student_from_excel
   end
   
   def get_active_status

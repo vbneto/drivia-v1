@@ -41,7 +41,7 @@ module UsersHelper
   end
   
   def student_options_for_parent
-    @parent_students.reject{|student| student.is_deactive_student?}.map{|student| [student.student_name, student.id]}
+    @parent_students.map{|student| [student.student_name, student.id]}
   end
   
   def school_options_for_parent

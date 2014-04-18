@@ -9,6 +9,8 @@ class MonthlyGradesController < ApplicationController
                 :student_from_excel_id => params[:student_id],
                 :student_status_id => student_status.id ,
                 :subject_name=> params[:subject],
+                :grade_name=> params[:grade_name],
+                :grade_class=> params[:grade_class],
                 :grade => params[:monthly_grade][:grade],
                 :month => Date::MONTHNAMES.index(params[:month]),
                 :year => Date.today.year
@@ -30,6 +32,8 @@ class MonthlyGradesController < ApplicationController
                 :student_from_excel_id => params[:student_id],
                 :student_status_id => student_status.id ,
                 :subject_name=> params[:subject],
+                :grade_name=> params[:grade_name],
+                :grade_class=> params[:grade_class],
                 :no_show => params[:monthly_grade][:no_show],
                 :month => Date::MONTHNAMES.index(params[:month]),
                 :year => Date.today.year

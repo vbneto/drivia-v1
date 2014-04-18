@@ -19,12 +19,13 @@
           <% @professor_grades.each do |grade| %>
             <tr>
               <td><%= grade.school.name%></td>
-              <td><%= grade.grade_name %></td>
+              <td><%= grade.grade_name + grade.grade_class %></td>
               <td><%= grade.subject_name %></td>
               <td>
                 <%= form_tag( show_students_professors_path, :method => :post) do %>
                   <%= hidden_field_tag :school_id, grade.school_id %>
-                  <%= hidden_field_tag :grade, grade.grade_name %>
+                  <%= hidden_field_tag :grade_name, grade.grade_name %>
+                  <%= hidden_field_tag :grade_class, grade.grade_class %>
                   <%= hidden_field_tag :subject, grade.subject_name %>
                   <%= submit_tag t("professor.index.submit"),class:"btn btn-normal" %>
                 <% end %>

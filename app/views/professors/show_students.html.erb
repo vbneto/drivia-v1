@@ -3,7 +3,8 @@
   <%= form_tag( show_students_professors_path, :method => :post, :id=> "month_form") do %>
     <%= hidden_field_tag :school_id, @school.id%>
     <%= hidden_field_tag :subject, @subject %>
-    <%= hidden_field_tag :grade, params[:grade] %>
+    <%= hidden_field_tag :grade_name, @grade_name %>
+    <%= hidden_field_tag :grade_class, @grade_class %>
     <%= select_tag "month", options_for_select(MONTH, @month), onchange: "$('#month_form').submit();" %>
   <% end %>  
   <h5><%= t('professor.show_students.show_data_of_month')%> '<%= @month %>'</h5>
@@ -22,12 +23,12 @@
           <% monthly_grade = student.student_grade(@subject, @month) || MonthlyGrade.new %>
           <tr>
             <td><%= student.student_name%></td>
-            <td><%= student.current_grade%></td>
+            <td><%= @grade_name + @grade_class %></td>
             <td>
-              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(:student_id=>student.id, :subject => @subject, :month=> @month), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, month: @month, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
             </td>
             <td>
-              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(:student_id=>student.id, :subject => @subject, :month=> @month), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(:student_id=>student.id, :subject => @subject, :month=> @month, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
             </td>
           </tr>
         <%end%>
