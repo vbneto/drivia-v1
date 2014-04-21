@@ -121,13 +121,12 @@ class UsersController < ApplicationController
     else
       range = (params[:start].to_i..params[:end].to_i).to_a
       @student_monthly_grades = @student_school_status.monthly_grades.where(month: params[:start]..params[:end]).where(year: year)
-      
       all_student_grades = (@student.find_fellow_students_monthly_grade(year.to_i, @student_school_status)).select{|grade| range.include?grade.month}
     end
     @total_no_show = Student.total_no_show @student_monthly_grades
     @subject_average = Student.subject_average(@student_monthly_grades)
     
-    unless selected_subjects.blank?
+    unless selected_subjects.blank? or (@student_monthly_grades.map(&:subject_name) & selected_subjects.split(',')).blank?
       @subject_average.select!{|average| selected_subjects.split(',').include?average[0]} 
       @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]} 
     end  

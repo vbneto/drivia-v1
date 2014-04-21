@@ -26,8 +26,8 @@ $("#student_id_of_subject").val(<%= @student.id%>)
 $("#student_id").val(<%= @student.id%>)
 $("#student_status_id_of_subject").val(<%= @student_school_status.id%>)
 
-<% unless params[:subject_selected].blank? %>
-  $('#month_subject_list').remove()
+$('#month_subject_list').remove()
+<% unless params[:subject_selected].blank? or (@student_monthly_grades.map(&:subject_name) & params[:subject_selected].split(',')).blank?%>
   $('#change_month_form').append("<input type='hidden' name='subject_selected' id='month_subject_list' value='<%= params[:subject_selected]%>'>");
   <% params[:subject_selected].split(',').each do |subject| %>
     $("#select_subject").find("option[value='<%= subject %>']").prop("selected", "selected");

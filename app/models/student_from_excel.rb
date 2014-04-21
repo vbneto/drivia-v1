@@ -40,7 +40,6 @@ class StudentFromExcel < ActiveRecord::Base
         student.attributes = row.to_hash.slice(*accessible_attributes)
         student_from_excel = StudentFromExcel.find_by_cpf(student.cpf)
         student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
-        
         if student_from_excel
           student_status = student_from_excel.student_statuses
           if student_status.map(&:status).include? User.student_active or student_status.map(&:school_id).include?school_id.to_i
@@ -81,7 +80,7 @@ class StudentFromExcel < ActiveRecord::Base
   end
 
   def find_fellow_students_monthly_grade(year=nil, student_status)
-    students_of_current_grade = StudentStatus.where(school_id: student_status.school_id, current_grade: student_status.current_grade, year: student_status.year).includes(:monthly_grades)
+    students_of_current_grade = StudentStatus.where(school_id: student_status.school_id, current_grade: student_status.current_grade, grade_class: student_status.grade_class , year: student_status.year).includes(:monthly_grades)
     #students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
     
     if year.blank?
