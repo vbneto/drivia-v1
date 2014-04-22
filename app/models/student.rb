@@ -4,7 +4,7 @@ class Student < ActiveRecord::Base
   attr_accessible :birth_day, :cpf, :current_grade, :gender, :user_id, :school_id, :student_from_excel_id
  
   def self.all_bimesters_average(monthly_grades)
-    all_bimesters = monthly_grades.map(&:bimester).uniq unless monthly_grades.blank?
+    all_bimesters = monthly_grades.map(&:bimester).uniq.sort unless monthly_grades.blank?
     bimester_average = {}
     unless all_bimesters.blank?
       all_bimesters.each do |bimester|
