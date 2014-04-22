@@ -1,13 +1,13 @@
 <div id="student_detail" class="span">
-  <% if current_user.is_parent? %>
-    <div id="student_detail" class="span">
+  <% if current_parent %>
+    <div id="student_detail" >
       <b>
         <%= t('users.student_parent_dashboard.display_data_of_student') %>
         <%= @parent_students.first.student_name%>
       </b></br>
       <b>
-        From <%= select_default_start_month %> <%= set_selected_year %>
-        To <%= select_default_end_month %> <%= set_selected_year %>
+        From <%= select_default_start_bimester %> <%= set_selected_year %>
+        Untill <%= select_default_end_bimester %> <%= set_selected_year %>
       </b></br>
       <b>
         <%= t('users.student_parent_dashboard.school_name') %> 
@@ -21,7 +21,7 @@
       </b>  
     </div>
   <% end %>
-  <% if current_user.is_student? || current_user.is_school_administration? %>
+  <% if current_student || current_school_administration %>
     <div id="student_detail" class="span">
       <b><%= t('users.student_parent_dashboard.display_data_of_student') %> <%= @student.student_name%></b></br>
       <b>

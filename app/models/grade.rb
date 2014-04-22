@@ -3,7 +3,7 @@ class Grade < ActiveRecord::Base
   attr_accessible :name
   
   def self.initialize_month_graph(hash_of_data)
-    hash_of_data.to_a.insert(0,["Months","Student Grade"])
+    hash_of_data.to_a.insert(0,["Bimester","Student Grade"])
   end
   
   def self.initialize_student_graph(hash_of_data, student)

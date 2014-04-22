@@ -1,15 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  helper_method :bimester,:current_parent, :current_professor, :current_school_administration, :current_student
   
   def require_professor!
-    unless current_user.is_professor?
+    unless current_professor
       flash[:error] = "you need to signin as professor before continue"
       redirect_to root_path 
     end
   end
   
   def require_school_administration!
-    unless current_user.is_school_administration?
+    unless current_school_administration
       flash[:error] = "you need to signin as school administrator before continue"
       redirect_to root_path 
     end
@@ -45,6 +46,10 @@ class ApplicationController < ActionController::Base
   
   def month_number month
     Date::MONTHNAMES.index(month) 
+  end
+  
+  define_method("bimester") do |argument|
+    BIMESTER[argument-1]
   end
 
 end

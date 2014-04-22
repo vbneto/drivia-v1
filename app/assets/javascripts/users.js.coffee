@@ -18,23 +18,12 @@ $ ->
   $(document).on "change", "#date_year", ->
     $('#submit_date_range').click()
   
-  monthNames = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
-      
+  bimesterNames = [ "1st bimester", "2nd bimester", "3rd bimester", "4th bimester" ];
   $(document).on "change", "#start_month", ->
-    start_month = monthNames.indexOf($('#start_month').find(":selected").val());
-    end_month = monthNames.indexOf($('#end_month').find(":selected").val());
-    i = end_month
-    while i >= 0  
-      $("#end_month option[value="+monthNames[i]+"]").prop("disabled",false);
-      i--
-    i = 0
-    while i < start_month
-      $("#end_month option[value="+monthNames[i]+"]").prop("disabled","true");
-      i++
-
-    if end_month < start_month
-      $('#end_month').val(monthNames[start_month]);   
+    start_bimester = bimesterNames.indexOf($('#start_month').find(":selected").val());
+    end_bimester = bimesterNames.indexOf($('#end_month').find(":selected").val());
+    if end_bimester < start_bimester
+      $('#end_month').val(String(bimesterNames[start_bimester]));   
     $('#submit_date_range').click()
     
   $(document).on "change", "#end_month", ->

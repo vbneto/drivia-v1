@@ -1,13 +1,10 @@
 class User < ActiveRecord::Base
   rolify
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
+
   ROLES = ["student", "parent", "school administration", "professor"]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  # Setup accessible (or protected) attributes for your model
   attr_accessor :gender, :birth_day
   attr_accessible :email, :password, :password_confirmation, :remember_me, :parent_attributes
   attr_accessible :name, :phoneprefix, :phone
@@ -24,36 +21,7 @@ class User < ActiveRecord::Base
   has_one :student_from_excel, :through => :student
   
   accepts_nested_attributes_for :parent #for updation in parent
-  #accepts_nested_attributes_for :student, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-=begin
-  #Remove comment when not allowing deactivate student and parent to signin. 
-  def active_for_authentication?
-    if self.is_student? 
-      super && check_student_status(self) 
-    elsif self.is_parent?
-      super && check_parent_status(self)
-    else
-      super  
-    end
-  end
 
-  def inactive_message
-    if self.is_student? || self.is_parent?
-      "Sorry, this account has been deactivated, please contact to school administration."
-    else
-      super
-    end  
-  end
-  
-  def check_student_status user
-    user.student.student_from_excel.status == User.student_active ? true : false  
-  end
-  
-  def check_parent_status user
-    user.parent.student_from_excels.map(&:status).select{|status| status == User.student_active}.size > 0 ? true : false
-  end
-=end  
-  
   def is_student?
     self.role=="student"
   end

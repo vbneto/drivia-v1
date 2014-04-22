@@ -1,5 +1,5 @@
 <div class="span11">
-  <% if current_user.is_student? || current_user.is_parent? || current_user.is_school_administration? %>
+  <% if current_student || current_parent || current_school_administration %>
     <%= render partial:"student_parent_dashboard"%>
   <% end %>
 </div>  

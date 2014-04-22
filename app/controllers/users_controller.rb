@@ -19,17 +19,18 @@ class UsersController < ApplicationController
     @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
     @subject_average = Student.subject_average @student_monthly_grades
     @total_no_show = Student.total_no_show @student_monthly_grades
-    month_average_of_student = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+    bimester_average_of_student = Grade.initialize_month_graph(Student.all_bimesters_average(@student_monthly_grades))
     
     unless @student_monthly_grades.blank?
+      
       all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year, @student_school_status)
       
-      student_available_month = @student_monthly_grades.map(&:month)
-      all_students_grades.select!{|grade| student_available_month.include?grade.month}
+      student_available_bimester = @student_monthly_grades.map(&:bimester)
+      all_students_grades.select!{|grade| student_available_bimester.include?grade.bimester}
       
-      all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_students_grades))
+      all_student_bimester_average = Grade.initialize_month_graph(Student.all_bimesters_average(all_students_grades))
       
-      @month_average = merge_graph(month_average_of_student,all_student_month_average)
+      @month_average = merge_graph(bimester_average_of_student,all_student_bimester_average)
       
       @overall_average = student_monthly_grade_overall_average @student_monthly_grades
       
@@ -83,12 +84,14 @@ class UsersController < ApplicationController
       if year.blank?
         @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
         all_student_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year, @student_school_status)
-        student_available_month = @student_monthly_grades.map(&:month)
-        all_student_grades.select!{|grade| student_available_month.include?grade.month}
-      else  
-        date_range = (params[:start].to_i..params[:end].to_i).to_a 
-        @student_monthly_grades = @student_school_status.monthly_grades.where(month: params[:start]..params[:end]).where(year: year) 
-        all_student_grades = @student.find_fellow_students_monthly_grade(year.to_i, @student_school_status).select{|grade| date_range.include?grade.month}
+        student_available_bimester = @student_monthly_grades.map(&:bimester)
+        all_student_grades.select!{|grade| student_available_bimester.include?grade.bimester}
+      else
+        date_range = (params[:start][0].to_i..params[:end][0].to_i).to_a 
+        @student_monthly_grades = @student_school_status.monthly_grades.where(year: year) 
+        @student_monthly_grades.select!{|grade| date_range.include?grade.bimester[0].to_i}
+          
+        all_student_grades = @student.find_fellow_students_monthly_grade(year.to_i, @student_school_status).select{|grade| date_range.include?grade.bimester[0].to_i}
       end
       
       @total_no_show = Student.total_no_show(@subjects, @student_monthly_grades)
@@ -98,9 +101,9 @@ class UsersController < ApplicationController
       
       @overall_average = student_monthly_grade_overall_average @student_monthly_grades
       
-      @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+      @month_average = Grade.initialize_month_graph(Student.all_bimesters_average(@student_monthly_grades))
       
-      @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
+      @all_student_month_average = Grade.initialize_month_graph(Student.all_bimesters_average(all_student_grades))
       @month_average = merge_graph(@month_average,@all_student_month_average)
       
       @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student)
@@ -110,6 +113,7 @@ class UsersController < ApplicationController
   def change_student
     @student = StudentFromExcel.find(params[:student_list])
     all_student_grades = nil
+    student_grades = nil
     year = params[:year]
     selected_subjects = params[:subject_selected]
     
@@ -117,26 +121,31 @@ class UsersController < ApplicationController
     
     if year.blank? || (!@student.monthly_grades.map(&:year).include?year.to_i) || true
       @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
-      all_student_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year, @student_school_status) unless @student_monthly_grades.blank?
+      student_grades = current_user.student_monthly_grades(@student, @student_school_status)
+      all_student_grades = @student.find_fellow_students_monthly_grade(student_grades.first.year, @student_school_status) unless student_grades.blank?
     else
-      range = (params[:start].to_i..params[:end].to_i).to_a
-      @student_monthly_grades = @student_school_status.monthly_grades.where(month: params[:start]..params[:end]).where(year: year)
-      all_student_grades = (@student.find_fellow_students_monthly_grade(year.to_i, @student_school_status)).select{|grade| range.include?grade.month}
+      range = (params[:start][0].to_i..params[:end][0].to_i).to_a
+      @student_monthly_grades = @student_school_status.monthly_grades.where(year: year)
+      @student_monthly_grades.select!{|grade| range.include?grade.bimester[0].to_i}
+      
+      all_student_grades = (@student.find_fellow_students_monthly_grade(year.to_i, @student_school_status)).select{|grade| range.include?grade.bimester[0].to_i}
     end
-    @total_no_show = Student.total_no_show @student_monthly_grades
-    @subject_average = Student.subject_average(@student_monthly_grades)
+    @total_no_show = Student.total_no_show student_grades
+    @subject_average = Student.subject_average(student_grades)
     
-    unless selected_subjects.blank? or (@student_monthly_grades.map(&:subject_name) & selected_subjects.split(',')).blank?
-      @subject_average.select!{|average| selected_subjects.split(',').include?average[0]} 
-      @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]} 
+    unless selected_subjects.blank? or (student_grades.map(&:subject_name) & selected_subjects.split(',')).blank?
+      @subject_average.select!{|average| selected_subjects.split(',').include?average[0]}
+      @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]}
+      student_grades.select!{|grade| selected_subjects.split(',').include?grade.subject_name }
+      all_student_grades.select!{|grade| selected_subjects.split(',').include?grade.subject_name }
     end  
     
-    unless @student_monthly_grades.blank?
-      @overall_average = student_monthly_grade_overall_average @student_monthly_grades
+    unless student_grades.blank?
+      @overall_average = student_monthly_grade_overall_average student_grades
       
-      @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
+      @month_average = Grade.initialize_month_graph(Student.all_bimesters_average(student_grades))
       
-      @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
+      @all_student_month_average = Grade.initialize_month_graph(Student.all_bimesters_average(all_student_grades))
       
       @month_average = merge_graph(@month_average, @all_student_month_average)
       
@@ -145,8 +154,8 @@ class UsersController < ApplicationController
   end
   
   def change_date
-    start_month = month_number(params[:start_month])
-    end_month = month_number(params[:end_month])
+    start_bimester = params[:start_month]
+    end_bimester = params[:end_month]
     student_status_id = params[:student_status_id]
     year = params[:date][:year]
     selected_subjects = params[:subject_selected]
@@ -154,23 +163,26 @@ class UsersController < ApplicationController
     
     @student_school_status = student_status_id.blank? ? @student.student_statuses.first : StudentStatus.find(student_status_id)
     
-    @student_monthly_grades = @student_school_status.monthly_grades.where(month: start_month..end_month).where(year: year)
+    @student_monthly_grades = @student_school_status.monthly_grades.where(year: year)
+    student_grades = @student_school_status.monthly_grades.where(year: year)
     
-    unless @student_monthly_grades.blank?
-      @total_no_show = Student.total_no_show @student_monthly_grades
-      @subject_average = Student.subject_average(@student_monthly_grades)
-      
+    range = (start_bimester[0].to_i..end_bimester[0].to_i).to_a
+    student_grades.select!{|grade| range.include?grade.bimester[0].to_i}
+    all_student_grades = (@student.find_fellow_students_monthly_grade(student_grades.first.year, @student_school_status)).select{|grade| range.include?grade.bimester[0].to_i}
+    
+    unless student_grades.blank?
+      @total_no_show = Student.total_no_show student_grades
+      @subject_average = Student.subject_average(student_grades)
       unless selected_subjects.blank?
         @subject_average.select!{|average| selected_subjects.split(',').include?average[0]} 
-        @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]} 
+        @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]}
+        student_grades.select!{|grade| selected_subjects.split(',').include?grade.subject_name }
+        all_student_grades.select!{|grade| selected_subjects.split(',').include?grade.subject_name } 
       end
-      @overall_average = student_monthly_grade_overall_average @student_monthly_grades
-      @month_average = Grade.initialize_month_graph(Student.all_months_average(@student_monthly_grades))
-      range = (start_month..end_month).to_a
+      @overall_average = student_monthly_grade_overall_average student_grades
+      @month_average = Grade.initialize_month_graph(Student.all_bimesters_average(student_grades))
       
-      all_student_grades = (@student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year, @student_school_status)).select{|grade| range.include?grade.month}
-      
-      @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grades))
+      @all_student_month_average = Grade.initialize_month_graph(Student.all_bimesters_average(all_student_grades))
       
       @month_average = merge_graph(@month_average, @all_student_month_average)
       @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student)

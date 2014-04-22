@@ -1,6 +1,6 @@
 <div id="student_parent_dashboard">
   <div class="span10">
-    <% if current_user.is_parent? && @parent_students.size > 0 %>
+    <% if current_parent && @parent_students.size > 0 %>
       <div class= "span4">
         <label><%= t('users.student_parent_dashboard.see_data_of_student') %></label>
         <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
@@ -9,7 +9,7 @@
         <%= render partial: "change_school"%>
       </div>
     <% end %>
-    <% if current_user.is_student? %>
+    <% if current_student %>
       <div class= "span4">
         <%= render partial: "change_school"%>
       </div>
@@ -54,7 +54,7 @@
     var options = {
       title: 'Average Of Selected Student',
       vAxis: { title: "Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Month"},
+      hAxis: { title: "Bimester"},
       pointSize: 5
     };
     var options2 = {

@@ -75,13 +75,12 @@ class StudentFromExcel < ActiveRecord::Base
     end  
   end
   
-  def student_grade(subject, month)
-    self.get_active_status.monthly_grades.select{|grade| grade.subject_name == subject and grade.month==Date::MONTHNAMES.index(month) and grade.year == Date.today.year }.first
+  def student_grade(subject, bimester)
+    self.get_active_status.monthly_grades.select{|grade| grade.subject_name == subject and grade.bimester == bimester and grade.year == Date.today.year }.first
   end
 
   def find_fellow_students_monthly_grade(year=nil, student_status)
     students_of_current_grade = StudentStatus.where(school_id: student_status.school_id, current_grade: student_status.current_grade, grade_class: student_status.grade_class , year: student_status.year).includes(:monthly_grades)
-    #students_of_current_grade = StudentFromExcel.find_students_of_current_grade self
     
     if year.blank?
       students_of_current_grade.map {|student| student.monthly_grades}.flatten  

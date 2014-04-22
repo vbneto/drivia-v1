@@ -2,18 +2,18 @@ class Student < ActiveRecord::Base
   belongs_to :user
   belongs_to :student_from_excel
   attr_accessible :birth_day, :cpf, :current_grade, :gender, :user_id, :school_id, :student_from_excel_id
-  
-  def self.all_months_average(monthly_grades)
-    all_months = monthly_grades.map(&:month).uniq unless monthly_grades.blank?
-    month_average = {}
-    unless all_months.blank?
-      all_months.each do |month|
-        grades_of_month = monthly_grades.select{|grade| grade.month == month}
-        grades = grades_of_month.reject{ |grade| grade.grade.blank? }.map(&:grade)
-        month_average.merge!({Date::MONTHNAMES[month] => (grades.inject(:+)/grades.size).round(2)}) unless grades.blank?
+ 
+  def self.all_bimesters_average(monthly_grades)
+    all_bimesters = monthly_grades.map(&:bimester).uniq unless monthly_grades.blank?
+    bimester_average = {}
+    unless all_bimesters.blank?
+      all_bimesters.each do |bimester|
+        grades_of_bimester = monthly_grades.select{|grade| grade.bimester == bimester}
+        grades = grades_of_bimester.reject{ |grade| grade.grade.blank? }.map(&:grade)
+        bimester_average.merge!({bimester => (grades.inject(:+)/grades.size).round(2)}) unless grades.blank?
       end
     end  
-    month_average
+    bimester_average
   end
   
   def self.all_students_average grades

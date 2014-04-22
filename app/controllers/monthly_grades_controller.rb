@@ -2,7 +2,7 @@ class MonthlyGradesController < ApplicationController
  
   def update_grade
     student = StudentFromExcel.find(params[:student_id])
-    student_grade = student.student_grade(params[:subject], params[:month])
+    student_grade = student.student_grade(params[:subject], params[:bimester])
     student_status = student.get_active_status
     if student_grade.blank?
       student_grade = MonthlyGrade.create(:record_date => Date.today,
@@ -12,7 +12,8 @@ class MonthlyGradesController < ApplicationController
                 :grade_name=> params[:grade_name],
                 :grade_class=> params[:grade_class],
                 :grade => params[:monthly_grade][:grade],
-                :month => Date::MONTHNAMES.index(params[:month]),
+                :month => Date.today.month,
+                :bimester => params[:bimester],
                 :year => Date.today.year
                 )
     else
@@ -25,7 +26,7 @@ class MonthlyGradesController < ApplicationController
   
   def update_no_show
     student = StudentFromExcel.find(params[:student_id])
-    student_grade = student.student_grade(params[:subject], params[:month])
+    student_grade = student.student_grade(params[:subject], params[:bimester])
     student_status = student.get_active_status
     if student_grade.blank?
       student_grade = MonthlyGrade.create(:record_date => Date.today,
@@ -35,7 +36,8 @@ class MonthlyGradesController < ApplicationController
                 :grade_name=> params[:grade_name],
                 :grade_class=> params[:grade_class],
                 :no_show => params[:monthly_grade][:no_show],
-                :month => Date::MONTHNAMES.index(params[:month]),
+                :month => Date.today.month,
+                :bimester => params[:bimester],
                 :year => Date.today.year
                 )
     else
