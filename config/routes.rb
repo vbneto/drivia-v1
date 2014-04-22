@@ -40,6 +40,8 @@ SchoolSystem::Application.routes.draw do
       post "show_student_graph"
     end
   end  
+  
+  resources :student_from_excels, only: [:new, :create]
     
   put '/monthly_grades' => 'monthly_grades#update_grade', :as => 'update_grade'
   put '/monthly_grades/no_show' => 'monthly_grades#update_no_show', :as => 'update_no_show'

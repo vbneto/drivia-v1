@@ -1,10 +1,10 @@
 class StudentFromExcel < ActiveRecord::Base
 
-  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status
+  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status, :student_statuses_attributes
   validates :cpf, uniqueness: true
   attr_accessible :status, :cpf, :as => [:admin]
   attr_accessor :grade_class
-  validates :school_id, presence: true
+  #validates :school_id, presence: true
   validates :cpf, :cpf => true
   validates :student_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
   validates :birth_day, presence: true
@@ -20,6 +20,7 @@ class StudentFromExcel < ActiveRecord::Base
   
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :student_statuses
   
 
   #after_create :update_student_parent_fields
@@ -119,8 +120,10 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def update_student_status
-    student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
-    student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year, grade_class: self.grade_class) if student_from_excel
+    unless self.grade_class.blank?
+      student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
+      student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year, grade_class: self.grade_class) if student_from_excel
+    end  
   end
   
   def get_active_status
