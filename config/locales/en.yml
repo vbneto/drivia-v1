@@ -11,7 +11,7 @@ en:
       school_name: "School Name: "
       grade_name: "Grade Name: "
       select_subjects: "Select subjects: " 
-      see_current_month: "See current month"
+      see_current_bimester: "See current bimester"
     change_date_range:
       select_year: "Select Year: "  
       period: "Period: "

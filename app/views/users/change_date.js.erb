@@ -15,6 +15,13 @@
     },
     includeSelectAllOption: true
   });
+  
+  <% if params[:subject_selected].blank? %>
+    $("option", $("#select_subject")).each(function(element) {
+      return $("#select_subject").multiselect("select", $(this).val());
+    });
+  <% end %>
+  
   drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
   
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")

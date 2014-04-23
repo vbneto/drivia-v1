@@ -14,6 +14,9 @@ $ ->
     onChange: (element, checked) ->
       $.post("/users/change_subjects",$("#select_subject_form").serialize());
     includeSelectAllOption: true
+  
+  $("option", $("#select_subject")).each (element) ->
+    $("#select_subject").multiselect "select", $(this).val()
     
   $(document).on "change", "#date_year", ->
     $('#submit_date_range').click()
@@ -29,11 +32,10 @@ $ ->
   $(document).on "change", "#end_month", ->
     $('#submit_date_range').click()
     
-  $(document).on "click", "#current_month", ->
-    current_date = new Date();
-    $('#date_year').val(current_date.getFullYear());
-    $('#start_month').val(monthNames[current_date.getMonth()]);
-    $('#end_month').val(monthNames[current_date.getMonth()]);
+  $(document).on "click", "#current_bimester", ->
+    current_bimester = $('#end_month option:last-child').val();
+    $('#start_month').val(current_bimester);
+    $('#end_month').val(current_bimester);
     $('#submit_date_range').click()
       
   

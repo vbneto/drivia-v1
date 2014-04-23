@@ -12,18 +12,6 @@ module UsersHelper
     @student_monthly_grades.first.year unless @student_monthly_grades.blank?
   end
   
-  def monthly_grades_months
-    unless @student_monthly_grades.blank?
-      if params[:date].blank? || true
-        @student_school_status.monthly_grades.select{|grade| grade.year == set_end_year}.map(&:month).uniq.sort.map{|m| Date::MONTHNAMES[m]}
-      else
-        @student.student_statuses.first.monthly_grades.select{|grade| grade.year == params[:date][:year].to_i}.map(&:month).uniq.sort.map{|m| Date::MONTHNAMES[m]}
-      end
-    else
-      Date::MONTHNAMES[Date.today.month].split
-    end  
-  end
-  
   def monthly_grades_bimesters
     unless @student_monthly_grades.blank?
       @student_school_status.monthly_grades.select{|grade| grade.year == set_end_year}.map(&:bimester).uniq.sort.map{|b| b}
@@ -36,7 +24,7 @@ module UsersHelper
     if params[:start_month].blank?
       monthly_grades_bimesters.first
     else
-      (monthly_grades_bimesters.include?params[:start_month]) ? params[:start_month] : monthly_grades_months.first
+      (monthly_grades_bimesters.include?params[:start_month]) ? params[:start_month] : monthly_grades_bimesters.first
     end  
   end
   

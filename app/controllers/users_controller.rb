@@ -133,7 +133,8 @@ class UsersController < ApplicationController
     @total_no_show = Student.total_no_show student_grades
     @subject_average = Student.subject_average(student_grades)
     
-    unless selected_subjects.blank? or (student_grades.map(&:subject_name) & selected_subjects.split(',')).blank?
+    @matched_subjects = student_grades.map(&:subject_name) & selected_subjects.split(',') unless selected_subjects.blank?
+    unless selected_subjects.blank? or @matched_subjects.blank?
       @subject_average.select!{|average| selected_subjects.split(',').include?average[0]}
       @total_no_show.select!{|no_show| selected_subjects.split(',').include?no_show[0]}
       student_grades.select!{|grade| selected_subjects.split(',').include?grade.subject_name }

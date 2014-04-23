@@ -13,12 +13,19 @@ $('#select_subject').find('option').remove();
 
   $('#student_detail').html("<b>Display data of student name - <%= @student.student_name%></b></br><b>From <%= select_default_start_bimester %> <%= set_selected_year %> Untill <%= select_default_end_bimester %> <%= set_selected_year %></b></br><b>School Name - <%= @student_school_status.school.name %></br><b>Grade Name - <%= @student_monthly_grades.first.grade_name+@student_monthly_grades.first.grade_class %></b>");
 <% end %>
+
 $("#select_subject").multiselect({
   onChange: function(element, checked) {
     $.post("/users/change_subjects",$("#select_subject_form").serialize());
   },
   includeSelectAllOption: true
 });
+
+<% if params[:subject_selected].blank? or @matched_subjects.blank? %>
+  $("option", $("#select_subject")).each(function(element) {
+    return $("#select_subject").multiselect("select", $(this).val());
+  });
+<% end %>
 
 $('#sub_input_year,#sub_input_start,#sub_input_end').remove();
 
