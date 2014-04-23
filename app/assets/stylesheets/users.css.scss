@@ -61,7 +61,12 @@ label{
   padding-top: 15px;
 }
 
-#graph{
+#student_parent_graph{
   margin-top: -124px;
   position: relative;
+}
+
+#subject_list table td span.dis_block{
+  display: block;
+  cursor: text;
 }

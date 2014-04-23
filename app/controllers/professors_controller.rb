@@ -19,7 +19,7 @@ class ProfessorsController < ApplicationController
   
   def show_student_graph
     all_student_grade_with_subject = student_of_current_grade_and_subject params
-    @all_student_month_average = Grade.initialize_month_graph(Student.all_months_average(all_student_grade_with_subject))
+    @all_student_month_average = Grade.initialize_month_graph(Student.all_bimesters_average(all_student_grade_with_subject))
   end
   
   private
