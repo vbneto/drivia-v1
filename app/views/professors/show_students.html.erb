@@ -25,10 +25,10 @@
             <td><%= student.student_name%></td>
             <td><%= @grade_name + @grade_class %></td>
             <td>
-              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
             </td>
             <td>
-              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
             </td>
           </tr>
         <%end%>

@@ -19,8 +19,10 @@ en:
       
     show_average_or_no_show:
       subject: "Subject" 
-      average: "Average" 
-      overall_average: "OverAll Average"
+      average: "Average"
+      grade: "Grade" 
+      your_overall_average: "Your overall average"
+      class_overall_average: "Class overall average"
       no_show: "No Show"
       
     registration_form:

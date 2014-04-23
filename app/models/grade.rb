@@ -2,8 +2,14 @@ class Grade < ActiveRecord::Base
   has_many :subjects
   attr_accessible :name
   
-  def self.initialize_month_graph(hash_of_data)
-    hash_of_data.to_a.insert(0,["Bimester","Student Grade"])
+  def self.initialize_month_graph(student_grade,user)
+    hash_of_grade = Student.all_bimesters_average(student_grade)
+    if user.is_parent? or user.is_school_administration?
+      student_name = student_grade.first.student_from_excel.student_name
+      hash_of_grade.to_a.insert(0,["Bimester",student_name])
+    elsif user.is_student?
+      hash_of_grade.to_a.insert(0,["Bimester","You"])
+    end  
   end
   
   def self.initialize_student_graph(hash_of_data, student)

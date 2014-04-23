@@ -1,13 +1,7 @@
 $('#subject_list table > tbody').empty();
 $('#no_show_list table > tbody').empty();
 <% unless params[:subjects].blank? %>
-  <% @subject_average.each do |subject,average| %>
-    $('#subject_list table > tbody').append("<tr><td><%= subject %></td><td><%= average %></td></tr>");
-  <% end %>
-  
-  <% @total_no_show.each do |subject,no_show|%>
-    $('#no_show_list table > tbody').append("<tr><td><%= subject %></td><td><%= no_show %></td></tr>");
-  <% end %> 
+  $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
   
   $('#stu_subject_list').remove()
   $('#select_student_form').append("<input type='hidden' name='subject_selected' id='stu_subject_list' value='<%= params[:subjects].join(',')%>'>");
@@ -15,11 +9,6 @@ $('#no_show_list table > tbody').empty();
   $('#month_subject_list').remove()
   $('#change_month_form').append("<input type='hidden' name='subject_selected' id='month_subject_list' value='<%= params[:subjects].join(',')%>'>");
   
-  <% if @subjects.size == 1%>
-    $('#overall_average').text('');
-  <% else %>
-    $('#overall_average').text('Overall Average: <%= @overall_average %>');
-  <% end %>
   
   drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
 <% else %>

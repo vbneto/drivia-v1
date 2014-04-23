@@ -52,7 +52,6 @@
     var data = google.visualization.arrayToDataTable(current_student_average);
     var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
-      title: 'Average Of Selected Student',
       vAxis: { title: "Average", minValue: 0, maxValue: 10 },
       hAxis: { title: "Bimester"},
       pointSize: 5
@@ -60,7 +59,7 @@
     var options2 = {
       title: 'Average Of All Students Of the Grade',
       vAxis: { title: "Student Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Student name"},
+      hAxis: { title: "Student"},
       pointSize: 5,
       lineSize: 0,
       series: {
