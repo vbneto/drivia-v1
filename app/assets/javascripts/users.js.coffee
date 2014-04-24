@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  
   $(document).on "change", "#student_list", ->
     $.post("/users/change_student",$("#select_student_form").serialize());
   
@@ -37,5 +36,11 @@ $ ->
     $('#start_month').val(current_bimester);
     $('#end_month').val(current_bimester);
     $('#submit_date_range').click()
-      
+  
+  $('.loading').hide();
+  $(document).ajaxStart ->
+    $(this).find('.loading').show()
+  
+  $(document).ajaxStop ->
+    $(this).find('.loading').hide()
   
