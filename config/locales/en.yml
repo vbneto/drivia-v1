@@ -76,6 +76,7 @@ en:
       first_access: "First access?"
       active: "Active? " 
       parents_assgined: "Parents assignedfdf "
+      register_new_student: "Register New Student"
     student_list:
       student_name: "Student Name"
       age: "Age"

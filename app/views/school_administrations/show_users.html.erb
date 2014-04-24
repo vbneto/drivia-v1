@@ -9,7 +9,7 @@
       </ul>
       <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="students">
-          <%= link_to "Register new", new_student_from_excel_path, :class=> 'btn' %>
+          <%= link_to t('school_administration.show_students.register_new_student'), new_student_from_excel_path, :class=> 'btn btn-primary move-right' %>
           <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true') do %>
             <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
             <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>
