@@ -25,7 +25,7 @@
     <b><%= t('users.student_parent_dashboard.select_subjects') %></b>
     <%= form_tag(change_subjects_users_path, :id=>'select_subject_form') do %>
       <%= hidden_field_tag :student_id_of_subject, @student.id %>
-      <%= hidden_field_tag :student_status_id_of_subject, @student_school_status.id %>
+      <%= hidden_field_tag :student_status_id_of_subject, @student_school_status.id unless @student_school_status.blank? %>
       <select id="select_subject" name="subjects[]" multiple="multiple">
         <% @subject_average.each do |subject,average| %>
           <option value="<%= subject %>"><%= subject %></option>

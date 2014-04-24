@@ -1,5 +1,4 @@
 <%= back_button %>
-<%= link_to "register new student", new_student_from_excel_path %>
 <div id="subject_list" class="span9 move_down">
   <div class="container">
     <div id="content">
@@ -10,6 +9,7 @@
       </ul>
       <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="students">
+          <%= link_to "Register new", new_student_from_excel_path, :class=> 'btn' %>
           <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true') do %>
             <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
             <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>

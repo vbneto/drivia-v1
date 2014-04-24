@@ -10,11 +10,11 @@ class StudentFromExcelsController < ApplicationController
     school_id = current_school_administration.school_id
     if @student
       student_status = @student.student_statuses
-      if @student.student_is_active? school_id
+      if @student.get_active_status
         flash[:error] = 'student is already present or active in other school'
         render 'new'
       else 
-        student_status.create(school_id: school_id, status: User.student_active, current_grade: params[:student_from_excel][:current_grade], year: Date.today.year, grade_class: params[:student_from_excel][:student_status][:grade_class])
+        student_status.create(params[:student_from_excel][:student_statuses_attributes]["0"].merge!(:school_id=> school_id, :status=> User.student_active))
         flash[:notice] = "Student is added successfylly"
         redirect_to show_users_school_administrations_path  
       end

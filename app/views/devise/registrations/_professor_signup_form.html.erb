@@ -30,3 +30,10 @@
 
   <div><%= f.submit "Sign up",class:"btn btn-normal", onclick:"return validate_form()" %></div>
 <% end %>
+
+<script type="text/javascript">
+  $('#student_from_excel_birth_day').datepicker({
+    format: "dd/mm/yyyy",
+    startView: 2
+  });
+</script>

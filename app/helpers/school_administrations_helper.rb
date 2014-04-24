@@ -25,7 +25,7 @@ module SchoolAdministrationsHelper
   end
   
   def change_date_formate date
-    date.strftime("%d/%m/%Y")
+    date.strftime("%d/%m/%Y") unless date.blank?
   end
   
   def number_of_students (parents)

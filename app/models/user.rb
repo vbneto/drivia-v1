@@ -111,8 +111,10 @@ class User < ActiveRecord::Base
   end
   
   def student_monthly_grades(student,student_status)
-    student_monthly_grade = student_status.monthly_grades
-    student_monthly_grade.group_by {|grade| grade.year}.sort.last[1] unless student_monthly_grade.blank?  
+    unless student_status.blank?
+      student_monthly_grade = student_status.monthly_grades 
+      student_monthly_grade.group_by {|grade| grade.year}.sort.last[1] unless student_monthly_grade.blank?  
+    end
   end
   
   def professor_grades
