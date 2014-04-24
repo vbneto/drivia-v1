@@ -88,7 +88,7 @@ class UsersController < ApplicationController
         student_available_bimester = @student_monthly_grades.map(&:bimester)
         all_student_grades.select!{|grade| student_available_bimester.include?grade.bimester}
       else
-        date_range = (params[:start][0].to_i..params[:end][0].to_i).to_a 
+        date_range = (params[:start_month][0].to_i..params[:end_month][0].to_i).to_a 
         @student_monthly_grades = @student_school_status.monthly_grades.where(year: year) 
         @student_monthly_grades.select!{|grade| date_range.include?grade.bimester[0].to_i}
           
@@ -126,7 +126,7 @@ class UsersController < ApplicationController
       student_grades = current_user.student_monthly_grades(@student, @student_school_status)
       all_student_grades = @student.find_fellow_students_monthly_grade(student_grades.first.year, @student_school_status) unless student_grades.blank?
     else
-      range = (params[:start][0].to_i..params[:end][0].to_i).to_a
+      range = (params[:start_month][0].to_i..params[:end_month][0].to_i).to_a
       @student_monthly_grades = @student_school_status.monthly_grades.where(year: year)
       @student_monthly_grades.select!{|grade| range.include?grade.bimester[0].to_i}
       

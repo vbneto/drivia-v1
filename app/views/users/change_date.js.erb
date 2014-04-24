@@ -34,8 +34,7 @@
       $("#select_subject").multiselect('refresh');
     <% end %>
   <% end %>
-  
-  $('#student_detail').html("<b>Display data of student name - <%= @student.student_name%></b><br><b>From <%= select_default_start_bimester %> <%= set_selected_year %> Untill <%= select_default_end_bimester %> <%= set_selected_year %></b></br><b>School Name - <%= @student_school_status.school.name %></br><b>Grade Name - <%= @student_monthly_grades.first.grade_name+@student_monthly_grades.first.grade_class %></b>");
+  $('#student_detail').replaceWith("<%= j render 'change_student_details'%>")
   
   $("#stu_input_year,#stu_input_start,#stu_input_end").remove();
   
@@ -46,8 +45,8 @@
   $("#sub_input_year,#sub_input_start,#sub_input_end").remove();
   
   $('#select_subject_form').append("<input type='hidden' name='year' id='sub_input_year' value="+<%=params[:date][:year]%>+">");
-  $('#select_subject_form').append("<input type='hidden' name='start' id='sub_input_start' value="+'"<%=params[:start_month]%>"'+">");
-  $('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+'"<%=params[:end_month]%>"'+">");
+  $('#select_subject_form').append("<input type='hidden' name='start_month' id='sub_input_start' value="+'"<%=params[:start_month]%>"'+">");
+  $('#select_subject_form').append("<input type='hidden' name='end_month' id='sub_input_end' value="+'"<%=params[:end_month]%>"'+">");
   
   $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
   
