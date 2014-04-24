@@ -94,9 +94,15 @@ class SchoolAdministrationsController < ApplicationController
   
   def apply_filter_to_student
     students = current_school_administration.student_from_excels
-    students.select!{|student| student.current_grade == params[:grade]} if params[:grade] != 'All'
+    school_id = current_school_administration.school_id
+    if params[:grade] != 'All'
+      grade_class = params[:grade][-1]
+      params[:grade].slice! -1
+      students.select!{|student| (student.current_school_status school_id).current_grade == params[:grade]} 
+      students.select!{|student| (student.current_school_status school_id).grade_class == grade_class} 
+    end  
     students.select!{|student| student.student.present?.to_s == params[:first_access] } if params[:first_access] != 'All'
-    students.select!{|student| student.status == params[:active] } if params[:active] != 'All'
+    students.select!{|student| (student.current_school_status school_id).status == params[:active] } if params[:active] != 'All'
     students.select!{|student| student.parents.count == params[:parent_number].to_i } if params[:parent_number] != 'All'
     @all_students = students
   end
