@@ -1,6 +1,6 @@
 <div id="student_parent_dashboard">
   <div class="span10">
-    <% if current_user.is_parent? && @parent_students.size > 0 %>
+    <% if current_parent && @parent_students.size > 0 %>
       <div class= "span4">
         <label><%= t('users.student_parent_dashboard.see_data_of_student') %></label>
         <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
@@ -9,7 +9,7 @@
         <%= render partial: "change_school"%>
       </div>
     <% end %>
-    <% if current_user.is_student? %>
+    <% if current_student %>
       <div class= "span4">
         <%= render partial: "change_school"%>
       </div>
@@ -18,7 +18,7 @@
   </div>    
   <div class="span10 move_down">
     <%= render partial:"student_details" %>  
-    <%=link_to t('users.student_parent_dashboard.see_current_month'), "javascript: void(0)", :id=>"current_month",class: 'btn move_right' %>
+    <%=link_to t('users.student_parent_dashboard.see_current_bimester'), "javascript: void(0)", :id=>"current_bimester",class: 'btn move_right' %>
   </div>
 
   <div class='span10 move_down'>
@@ -36,7 +36,7 @@
   </div>
   <%= render partial:"show_average_and_noshow"%>
 
-  <div id="graph" class="span7">
+  <div id="student_parent_graph" class="span7">
     <div id="chart_div" style="width: 700px; height: 500px;"></div>
     <div id="chart_div2" style="width: 700px; height: 500px;"></div>
   </div>
@@ -52,15 +52,14 @@
     var data = google.visualization.arrayToDataTable(current_student_average);
     var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
-      title: 'Average Of Selected Student',
       vAxis: { title: "Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Month"},
+      hAxis: { title: "Bimester"},
       pointSize: 5
     };
     var options2 = {
       title: 'Average Of All Students Of the Grade',
       vAxis: { title: "Student Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Student name"},
+      hAxis: { title: "Student"},
       pointSize: 5,
       lineSize: 0,
       series: {

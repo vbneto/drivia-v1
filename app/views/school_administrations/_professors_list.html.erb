@@ -13,7 +13,7 @@
       <% @professors.each do |professor| %>
         <tr>
           <td><%= link_to professor.professor_name, "#" %></td>
-          <td><%= professor.grade_name %></td>
+          <td><%= professor_current_grade professor %></td>
           <td><%= professor.subject_name %></td>
           <td>
             <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :class => "btn btn-primary"%>

@@ -10,15 +10,22 @@ $('#select_subject').find('option').remove();
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
   $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
   $('#change_school').replaceWith("<%= j render 'change_school'%>")
-
-  $('#student_detail').html("<b>Display data of student name - <%= @student.student_name%></b></br><b>From <%= select_default_start_month %> <%= set_selected_year %> To <%= select_default_end_month %> <%= set_selected_year %></b></br><b>School Name - <%= @student_school_status.school.name %></br><b>Grade Name - <%= @student_monthly_grades.first.grade_name+@student_monthly_grades.first.grade_class %></b>");
+  $('#student_detail').replaceWith("<%= j render 'change_student_details'%>")
+  
 <% end %>
+
 $("#select_subject").multiselect({
   onChange: function(element, checked) {
     $.post("/users/change_subjects",$("#select_subject_form").serialize());
   },
   includeSelectAllOption: true
 });
+
+<% if params[:subject_selected].blank? or @matched_subjects.blank? %>
+  $("option", $("#select_subject")).each(function(element) {
+    return $("#select_subject").multiselect("select", $(this).val());
+  });
+<% end %>
 
 $('#sub_input_year,#sub_input_start,#sub_input_end').remove();
 

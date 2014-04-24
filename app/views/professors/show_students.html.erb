@@ -1,13 +1,13 @@
 <div id="subject_list" class="span6 move_down">
-  <h5><%= t('professor.show_students.you_can_assign_month_grade_to_following_students') %></h5>
+  <h5><%= t('professor.show_students.you_can_assign_bimester_grade_to_following_students') %></h5>
   <%= form_tag( show_students_professors_path, :method => :post, :id=> "month_form") do %>
     <%= hidden_field_tag :school_id, @school.id%>
     <%= hidden_field_tag :subject, @subject %>
     <%= hidden_field_tag :grade_name, @grade_name %>
     <%= hidden_field_tag :grade_class, @grade_class %>
-    <%= select_tag "month", options_for_select(MONTH, @month), onchange: "$('#month_form').submit();" %>
+    <%= select_tag "bimester", options_for_select(BIMESTER, @bimester), onchange: "$('#month_form').submit();" %>
   <% end %>  
-  <h5><%= t('professor.show_students.show_data_of_month')%> '<%= @month %>'</h5>
+  <h5><%= t('professor.show_students.show_data_of_month')%> '<%= @bimester %>'</h5>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
@@ -20,15 +20,15 @@
     <tbody>
       <%if @students.present? %>
         <% @students.each do |student| %>
-          <% monthly_grade = student.student_grade(@subject, @month) || MonthlyGrade.new %>
+          <% monthly_grade = student.student_grade(@subject, @bimester) || MonthlyGrade.new %>
           <tr>
             <td><%= student.student_name%></td>
             <td><%= @grade_name + @grade_class %></td>
             <td>
-              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, month: @month, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
             </td>
             <td>
-              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(:student_id=>student.id, :subject => @subject, :month=> @month, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!" %>  
+              <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
             </td>
           </tr>
         <%end%>

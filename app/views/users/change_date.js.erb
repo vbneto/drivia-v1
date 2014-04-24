@@ -4,7 +4,7 @@
 <% else %>
   $("#select_subject").multiselect('destroy');
   $('#select_subject').find('option').remove();
-
+  
   <% @student_monthly_grades.map(&:subject_name).uniq.each do |subject|%>
     $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
   <% end %> 
@@ -16,8 +16,14 @@
     includeSelectAllOption: true
   });
   
+  <% if params[:subject_selected].blank? %>
+    $("option", $("#select_subject")).each(function(element) {
+      return $("#select_subject").multiselect("select", $(this).val());
+    });
+  <% end %>
+  
   drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
-
+  
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
   
   <% unless params[:subject_selected].blank? %>
@@ -28,35 +34,34 @@
       $("#select_subject").multiselect('refresh');
     <% end %>
   <% end %>
-    
-  $('#student_detail').html("<b>Display data of student name - <%= @student.student_name%></b><br><b>From <%= select_default_start_month %> <%= set_selected_year %> To <%= select_default_end_month %> <%= set_selected_year %></b></br><b>School Name - <%= @student_school_status.school.name %></br><b>Grade Name - <%= @student_monthly_grades.first.grade_name+@student_monthly_grades.first.grade_class %></b>");
+  $('#student_detail').replaceWith("<%= j render 'change_student_details'%>")
   
   $("#stu_input_year,#stu_input_start,#stu_input_end").remove();
   
   $('#select_student_form').append("<input type='hidden' name='year' id='stu_input_year' value="+<%=params[:date][:year]%>+">");
-  $('#select_student_form').append("<input type='hidden' name='start' id='stu_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
-  $('#select_student_form').append("<input type='hidden' name='end' id='stu_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
-
+  $('#select_student_form').append("<input type='hidden' name='start' id='stu_input_start' value="+'"<%=params[:start_month]%>"'+">");
+  $('#select_student_form').append("<input type='hidden' name='end' id='stu_input_end' value="+'"<%=params[:end_month]%>"'+">");
+  
   $("#sub_input_year,#sub_input_start,#sub_input_end").remove();
   
   $('#select_subject_form').append("<input type='hidden' name='year' id='sub_input_year' value="+<%=params[:date][:year]%>+">");
-  $('#select_subject_form').append("<input type='hidden' name='start' id='sub_input_start' value="+<%=Date::MONTHNAMES.index(params[:start_month])%>+">");
-  $('#select_subject_form').append("<input type='hidden' name='end' id='sub_input_end' value="+<%=Date::MONTHNAMES.index(params[:end_month])%>+">");
-
+  $('#select_subject_form').append("<input type='hidden' name='start_month' id='sub_input_start' value="+'"<%=params[:start_month]%>"'+">");
+  $('#select_subject_form').append("<input type='hidden' name='end_month' id='sub_input_end' value="+'"<%=params[:end_month]%>"'+">");
+  
   $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
   
-  var monthNames = [ "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December" ];
-  var start_month = monthNames.indexOf($('#start_month').find(":selected").val());
-  var end_month = monthNames.indexOf($('#end_month').find(":selected").val());
-  var i = end_month
+  var bimesterNames = [ "1st bimester", "2nd bimester", "3rd bimester", "4th bimester" ];
+  var start_bimester = bimesterNames.indexOf($('#start_month').find(":selected").val());
+  var  end_bimester = bimesterNames.indexOf($('#end_month').find(":selected").val());
+  var i = end_bimester
   while( i >= 0 ){  
-    $("#end_month option[value="+monthNames[i]+"]").prop("disabled",false);
+    $("#end_month option[value='"+String(bimesterNames[i])+"']").prop("disabled",false);
     i--
   }
   i = 0
-  while (i < start_month){
-    $("#end_month option[value="+monthNames[i]+"]").prop("disabled","true");
+  while (i < start_bimester){
+    $("#end_month option[value='"+String(bimesterNames[i])+"']").prop("disabled","true");
     i++
   }  
-<% end %>
+
+<% end %>  

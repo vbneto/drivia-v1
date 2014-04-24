@@ -18,8 +18,8 @@
           <td><%= link_to student.student_name, users_path(student_id: student.id) %></td>
           <td><%= student.find_age %></td>
 
-          <td><%= student.student_statuses.first.current_grade %></td>
-          <td><%=student.parents.count unless student.parents.blank? %></td>
+          <td><%= student_current_grade student %></td>
+          <td><%= student_parents_count student %></td>
 
           <td><%= is_student_first_access student %></td>
           <td><%= set_student_status student%></td>

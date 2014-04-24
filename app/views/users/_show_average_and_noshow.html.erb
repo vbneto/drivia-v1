@@ -4,22 +4,29 @@
       <thead>
       <tr>
         <th><%= t('users.show_average_or_no_show.subject') %></th>
-        <th><%= t('users.show_average_or_no_show.average') %></th>
+        <% if select_default_start_bimester == select_default_end_bimester %>
+          <th><%= t('users.show_average_or_no_show.grade') %></th>
+        <% else %>
+          <th><%= t('users.show_average_or_no_show.average') %></th>  
+        <% end %>  
       </tr>
       </thead>
       <tbody> 
-       <%if @subject_average.size > 0%>
+       <% if @subject_average.size > 0 %>
           <% @subject_average.each do |subject,average| %>
             <tr>
               <td><%= subject %></td>
               <td><%= average %></td>
             </tr>
-          <%end%>
+          <% end %>
         <% end %>
       </tbody>
     </table>
     <div id="overall_average" class="move_down">
-      <%= t('users.show_average_or_no_show.overall_average') %> <%= @overall_average %>
+      <% if @subject_average.size > 1 %>
+        <%= t('users.show_average_or_no_show.your_overall_average') %> <%= @student_overall_average %><br>
+      <% end %>  
+      <%= t('users.show_average_or_no_show.class_overall_average') %> <%= @class_overall_average %>
     </div>
   </div>
 

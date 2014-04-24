@@ -11,16 +11,18 @@ en:
       school_name: "School Name: "
       grade_name: "Grade Name: "
       select_subjects: "Select subjects: " 
-      see_current_month: "See current month"
+      see_current_bimester: "See current bimester"
     change_date_range:
       select_year: "Select Year: "  
-      select_month: "Select Month(s): "
-      from: "From:"
-      to: "To:"
+      period: "Period: "
+      untill: "Untill:"
+      
     show_average_or_no_show:
       subject: "Subject" 
-      average: "Average" 
-      overall_average: "OverAll Average"
+      average: "Average"
+      grade: "Grade" 
+      your_overall_average: "Your overall average"
+      class_overall_average: "Class overall average"
       no_show: "No Show"
       
     registration_form:
@@ -56,7 +58,7 @@ en:
       view_average_graph: "View Average Graph"
       submit: "Submit"
     show_students:
-      you_can_assign_month_grade_to_following_students: "You can assign month grade to Following students"  
+      you_can_assign_bimester_grade_to_following_students: "You can assign bimester grade to Following students"  
       show_data_of_month: "Show Data Of Month "
       student_name: "Student Name "
       grade: "Grade"
