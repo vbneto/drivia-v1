@@ -23,9 +23,9 @@ class SchoolAdministration < ActiveRecord::Base
   
   def all_parents (parent= nil ,school)
     if parent.blank?
-      Parent.joins(:student_from_excels => :school_administration).where(student_from_excels: { school_id: school }).uniq.includes(:user)
+      Parent.includes(:student_from_excels=>:student_statuses).where(student_statuses:{school_id:school}).includes(:user)
     else
-      Parent.joins(:student_from_excels => :school_administration).where(student_from_excels: { school_id: school }).includes(:user).where("users.name LIKE ?", "%#{parent}%")
+      Parent.includes(:student_from_excels=>:student_statuses).where(student_statuses:{school_id:school}).includes(:user).where("users.name LIKE ?", "%#{parent}%")
     end
   end
   

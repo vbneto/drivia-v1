@@ -6,7 +6,6 @@ class GradeFromExcel < ActiveRecord::Base
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
     already_present_grades = []
-    notice = ""
     begin
       header = spreadsheet.row(1)
       (2..spreadsheet.last_row).each do |i|

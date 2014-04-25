@@ -15,7 +15,7 @@
       </b></br>
       <b>
         <%= t('users.student_parent_dashboard.school_name') %> 
-        <%= @parent_students.first.school.name %>
+        <%= @student_school_status.school.name %>
       </b></br>
       <b>
          <%= t('users.student_parent_dashboard.grade_name') %> 
@@ -36,7 +36,7 @@
         For: <%= select_default_start_bimester %> <%= set_selected_year %>
       <% end %>  
       </b></br>
-      <b><%= t('users.student_parent_dashboard.school_name') %> <%=@student_school_status.school.name %></br>
+      <b><%= t('users.student_parent_dashboard.school_name') %> <%= @student_school_status.school.name %></br>
       <b><%= t('users.student_parent_dashboard.grade_name') %> 
       <% unless @student_monthly_grades.blank? %>
         <%= @student_monthly_grades.first.grade_name  + @student_monthly_grades.first.grade_class %></b>  

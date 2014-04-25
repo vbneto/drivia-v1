@@ -35,7 +35,7 @@
           <table width="590" >  
             <tr> <th>CPF:</th><td><%= student.cpf%></td> </tr>
             <tr> <th><%= t('school_administration.student_list.student_name') %></th><td><%= student.student_name%></td> </tr>
-            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student.current_grade%></td> </tr>
+            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student_current_grade student %></td> </tr>
             <% if student.student.present?%>
               <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= student.user.email %></td> </tr>
               <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= student.user.phoneprefix %></td> </tr>
