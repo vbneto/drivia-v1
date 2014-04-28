@@ -38,6 +38,8 @@ SchoolSystem::Application.routes.draw do
     collection do
       post "show_students"
       post "show_student_graph"
+      get "new_professor_record"
+      post "register_new_professor_record"
     end
   end  
   

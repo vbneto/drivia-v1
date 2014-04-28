@@ -1,6 +1,7 @@
 class ProfessorsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :require_professor!
+  before_filter :require_professor!, except: ['new_professor_record', 'register_new_professor_record']
+  before_filter :require_school_administration!, only: ['new_professor_record', 'register_new_professor_record']
   
   def index
     @professor_grades = current_user.professor_grades
@@ -20,6 +21,16 @@ class ProfessorsController < ApplicationController
   def show_student_graph
     all_student_grade_with_subject = student_of_current_grade_and_subject params
     @all_student_month_average = Grade.initialize_month_graph(all_student_grade_with_subject, current_user)
+  end
+  
+  def new_professor_record
+    @professor_record = ProfessorRecord.new
+    @professor_record.school_grades.build
+  end
+  
+  def register_new_professor_record
+    debugger
+    puts""
   end
   
   private

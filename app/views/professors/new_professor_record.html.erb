@@ -1,0 +1,48 @@
+<div class="span6 move_down">
+  <%= back_button %>  
+  <h5>Records for Professor</h5>
+  <%= nested_form_for @professor_record, url: register_new_professor_record_professors_path, method: :post do|f|%>
+    <% if @professor_record.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@professor_record.errors.count, "error") %>Something went wrong!</h2>
+        <ul>
+          <% @professor_record.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %><br>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %><br>
+  </div>
+  <div>
+    <%= f.fields_for :school_grades do |builder| %>
+      <%= builder.label :grade_name %>
+      <%= builder.text_field :grade_name_id %><br>
+      <%= builder.label :grade_class %>
+      <%= builder.text_field :grade_class %><br>
+      <%= builder.label :subject %>
+      <%= builder.text_field :subject_id %><br>
+      <%= builder.label :subject_average %>
+      <%= builder.text_field :subject_average %><br>
+      <%= builder.link_to_remove "Remove" %>
+    <% end %>
+    <%= f.link_to_add "Add more grades", :school_grades %>
+  </div>
+  <%= f.submit "save", :class=>'btn'%>
+  <%end%>
+</div>
+
+<script type="text/javascript">
+  $('#professor_record').datepicker({
+    format: "dd/mm/yyyy",
+    startView: 2
+  });
+  
+</script>
+
