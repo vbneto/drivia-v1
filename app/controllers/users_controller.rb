@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       end
     elsif @role == User.find_professor_role
       @email = params[:email]
-      @professor = GradeFromExcel.find_by_professor_email(@email)
+      @professor = ProfessorRecord.find_by_email(@email)
       if @professor.nil?
         flash[:error]= "Professor with given email was not found"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       end
     end
-    render ask_question_users_path  
+    render ask_question_users_path 
   end
   
   def change_subjects

@@ -15,7 +15,7 @@ ActiveAdmin.register School do
   end
   
   member_action :import_grade_csv, :method => :post do
-    already_present_grades = GradeFromExcel.grade_list(params[:file],params[:id])
+    already_present_grades = SchoolGrade.grade_list(params[:file],params[:id])
     flash[:notice] = "List of grades imported."
     if already_present_grades.size > 0
       flash[:notice] = "This are the grades which is already present "+ already_present_grades.join(", ")

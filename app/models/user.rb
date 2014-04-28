@@ -86,7 +86,10 @@ class User < ActiveRecord::Base
   end
   
   def professor_grades
-    GradeFromExcel.where(:professor_email => self.email)
+    school_grades = []
+    ProfessorRecord.find_by_email(self.email).professor_schools.each{|school| school_grades<< school.school_grades}
+    school_grades.flatten
+    #GradeFromExcel.where(:professor_email => self.email)
   end
   
   def self.student_active

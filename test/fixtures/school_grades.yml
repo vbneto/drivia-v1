@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  grade_name_id: 1
+  subject_id: 1
+  professor_school_id: 1
+  grade_class: MyString
+  subject_average: 1.5
+
+two:
+  grade_name_id: 1
+  subject_id: 1
+  professor_school_id: 1
+  grade_class: MyString
+  subject_average: 1.5

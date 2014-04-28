@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  professor_record_id: 1
+  school_id: 1
+
+two:
+  professor_record_id: 1
+  school_id: 1
