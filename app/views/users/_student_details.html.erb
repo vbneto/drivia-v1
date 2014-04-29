@@ -3,7 +3,7 @@
     <div id="student_detail" >
       <b>
         <%= t('users.student_parent_dashboard.display_data_of_student') %>
-        <%= @parent_students.first.student_name%>
+        <%= @parent_students.first.student_name %>
       </b></br>
       <b>
       <% if select_default_start_bimester != select_default_end_bimester  %>
@@ -14,8 +14,8 @@
       <% end %>  
       </b></br>
       <b>
-        <%= t('users.student_parent_dashboard.school_name') %> 
-        <%= @parent_students.first.school.name %>
+        <%= t('users.student_parent_dashboard.school_name') %>
+        <%= @student_school_status.school.name %>
       </b></br>
       <b>
          <%= t('users.student_parent_dashboard.grade_name') %> 

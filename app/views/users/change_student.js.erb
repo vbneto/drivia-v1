@@ -5,7 +5,7 @@ $('#select_subject').find('option').remove();
   <% @student_monthly_grades.map(&:subject_name).uniq.each do |subject|%>
     $("#select_subject").append($("<option value='<%= subject %>'><%= subject %></option>"));
   <% end %>  
-  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
+  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade.to_json %>);
 
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
   $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")

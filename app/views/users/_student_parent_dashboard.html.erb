@@ -45,26 +45,70 @@
 
 <script>
   var current_student_average = <%= raw @month_average %>
-  var particular_students_average = <%= raw @average_particular_student_of_current_grade %>
+  var particular_students_average = <%= raw @average_particular_student_of_current_grade.to_json %>
   google.setOnLoadCallback(drawChart(current_student_average, particular_students_average ));
-  
   function drawChart(current_student_average, particular_students_average) {
     var data = google.visualization.arrayToDataTable(current_student_average);
     var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
-      vAxis: { title: "Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Bimester"},
+      backgroundColor:'#FFFFCC',
+      vAxis: { title: "Average", minValue: 0, maxValue: 10,
+               titleTextStyle: {fontName: 'Times-Roman',
+                                 fontSize: 16,
+                                 bold: true,
+                                 italic: true,
+                                 color: 'blue',     // The color of the text.
+                                 auraColor: '#d799ae', // The color of the text outline.
+                                 opacity: 0.8
+                                } 
+             },
+      hAxis: { title: "Bimester",
+               titleTextStyle: {fontName: 'Times-Roman',
+                                 fontSize: 16,
+                                 bold: true,
+                                 italic: true,
+                                 color: 'blue',     // The color of the text.
+                                 auraColor: '#d799ae', // The color of the text outline.
+                                 opacity: 0.8
+                                } 
+             },
       pointSize: 5
     };
     var options2 = {
-      title: 'Average Of All Students Of the Grade',
-      vAxis: { title: "Student Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Student"},
+      backgroundColor:'#B2B28F',
+      vAxis: { title: "Student Average", minValue: 0, maxValue: 10, 
+               titleTextStyle: {fontName: 'Times-Roman',
+                                 fontSize: 16,
+                                 bold: true,
+                                 italic: true,
+                                 color: 'blue',     // The color of the text.
+                                 auraColor: '#d799ae', // The color of the text outline.
+                                 opacity: 0.8
+                                 } 
+              },
+      hAxis: { title: "Student", 
+               titleTextStyle: {fontName: 'Times-Roman',
+               fontSize: 16,
+               bold: true,
+               italic: true,
+               color: 'blue',     // The color of the text.
+               auraColor: '#d799ae', // The color of the text outline.
+               opacity: 0.8
+               }
+             },
       pointSize: 5,
-      lineSize: 0,
+      interpolateNulls: true,
       series: {
             0: {
+                lineWidth: 0,
                 color: 'green'
+            },
+            1: {
+                lineWidth: 0,
+                color: 'blue'
+            },
+            2: {
+                color: 'red'
             }
         }
     };

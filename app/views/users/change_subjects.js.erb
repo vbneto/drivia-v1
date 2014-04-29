@@ -9,7 +9,7 @@ $('#no_show_list table > tbody').empty();
   $('#month_subject_list').remove()
   $('#change_month_form').append("<input type='hidden' name='subject_selected' id='month_subject_list' value='<%= params[:subjects].join(',')%>'>");
   
-  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade %>);
+  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade.to_json %>);
   
 <% else %>
   $('#overall_average').text('');
