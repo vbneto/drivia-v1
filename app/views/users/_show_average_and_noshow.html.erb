@@ -25,8 +25,12 @@
     <div id="overall_average" class="move_down">
       <% if @subject_average.size > 1 %>
         <%= t('users.show_average_or_no_show.your_overall_average') %> <%= @student_overall_average %><br>
-      <% end %>  
-      <%= t('users.show_average_or_no_show.class_overall_average') %> <%= @class_overall_average %>
+      <% end %>
+      <% if @subject_average.size == 1 %>  
+        <%= t('users.show_average_or_no_show.class_average') %> <%= @class_overall_average %>
+      <% else %>
+        <%= t('users.show_average_or_no_show.class_overall_average') %> <%= @class_overall_average %>
+      <%end%>
     </div>
   </div>
 

@@ -23,6 +23,7 @@ en:
       grade: "Grade" 
       your_overall_average: "Your overall average"
       class_overall_average: "Class overall average"
+      class_average: "Class average"
       no_show: "No Show"
       
     registration_form:

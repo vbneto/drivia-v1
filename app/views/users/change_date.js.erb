@@ -22,7 +22,7 @@
     });
   <% end %>
   
-  drawChart(<%= raw @month_average%>, <%= raw @average_particular_student_of_current_grade.to_json %>);
+  drawChart(<%= set_month_average_to_graph %>, <%= set_average_particular_student_to_graph %>);
   
   $('#change_date_range').replaceWith("<%= j render 'change_date_range'%>")
   
