@@ -3,6 +3,7 @@ class SchoolGrade < ActiveRecord::Base
   belongs_to :subject
   belongs_to :grade_name
   belongs_to :professor_school
+  has_one :professor_record, through: :professor_school
   has_one :school, through: :professor_school
   validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id]
   validate :unique_professor
@@ -16,9 +17,9 @@ class SchoolGrade < ActiveRecord::Base
         row = Hash[[header, spreadsheet.row(i)].transpose]
         grade = find_by_id(row["id"]) || new
         grade.attributes = row.to_hash.slice(*accessible_attributes)
-        grade_name = GradeName.find_by_name(row["grade_name"]) || GradeName.create(name: row["grade_name"])
+        grade_name = GradeName.find_or_create_by_name(row["grade_name"])
         grade.grade_name_id = grade_name.id 
-        subject = Subject.find_by_name(row["subject_name"]) || Subject.create(name: row["subject_name"])
+        subject = Subject.find_or_create_by_name(row["subject_name"])
         grade.subject_id = subject.id
         professor_record = ProfessorRecord.find_by_email(row["professor_email"])
         if professor_record.blank?
@@ -31,7 +32,7 @@ class SchoolGrade < ActiveRecord::Base
         begin
           grade.save!
         rescue
-          already_present_grades << row['professor_email']
+          already_present_grades << row['subject_name']+" "+row['grade_name']+row['grade_class']
         end  
       end
     rescue

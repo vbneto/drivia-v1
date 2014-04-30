@@ -4,17 +4,37 @@ class ProfessorRecord < ActiveRecord::Base
   has_many :schools, :through => :professor_schools
   has_many :school_grades, :through => :professor_schools
   has_one :professor
-  attr_accessible :school_grades_attributes
+
   accepts_nested_attributes_for :school_grades
   
-  before_save :update_params
-  
-  private
-  
-  def update_params
-    debugger
-    puts "Test"
-    
-  end
+  def self.create_professor_record(params,school_id)
+    professor_name = params[:professor_record][:name]
+    professor_email = params[:professor_record][:email]
+    already_present_grades = []
+    params[:professor_record][:school_grades_attributes].each do |school_grade|
+      school_grade[1].delete('_destroy')
+      row = school_grade[1]
+      grade = SchoolGrade.new
+      grade.attributes = row
+      grade_name = GradeName.find_or_create_by_name(row["grade_name_id"])
+      grade.grade_name_id = grade_name.id 
+      subject = Subject.find_or_create_by_name(row["subject_id"])
+      grade.subject_id = subject.id
+      professor_record = ProfessorRecord.find_by_email(professor_email)
+      if professor_record.blank?
+        professor = ProfessorRecord.create(name: professor_name, email: professor_email)
+        grade.professor_school_id = ProfessorSchool.create(professor_record_id: professor.id, school_id: school_id).id
+      else
+        professor = ProfessorSchool.where("professor_record_id=? and school_id= ?", professor_record.id, school_id)
+        grade.professor_school_id = professor.first.id
+      end
+      begin
+        grade.save!
+      rescue
+        already_present_grades << grade.subject.name+" "+grade.grade_name.name+" "+grade.grade_class
+      end   
+    end
+    already_present_grades
+  end  
   
 end

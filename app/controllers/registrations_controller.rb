@@ -39,8 +39,7 @@ class RegistrationsController < Devise::RegistrationsController
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
         parent.student_parents.create(student_from_excel_id: @student.id)
       elsif @user_role == User.find_professor_role
-        debugger
-        Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, grade_from_excel_id: @professor.id)  
+        Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, professor_record_id: @professor.id)  
       end  
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

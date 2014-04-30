@@ -61,6 +61,6 @@ module SchoolAdministrationsHelper
   end
   
   def professor_current_grade professor
-    professor.grade_name + professor.grade_class
+    professor.grade_name.name + professor.grade_class
   end
 end

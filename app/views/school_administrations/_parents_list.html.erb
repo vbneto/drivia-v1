@@ -24,7 +24,7 @@
           <td id='parent_<%=parent.id%>' class='parent_details' colspan="5">
             <table width="590" >  
               <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= parent.user.email %></td> </tr>
-              <tr> <th><%= t('school_administration.student_list.phoneprefix_for_students') %></th><td><%= parent.user.phoneprefix %></td></tr> 
+              <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= parent.user.phoneprefix %></td></tr> 
               <tr> <th><%= t('school_administration.student_list.phone') %> </th><td><%= parent.user.phone %></td> </tr>
               <tr> <th>Birth Day </th><td><%= parent.birth_day.strftime("%d/%m/%Y") if parent.birth_day.present? %></td> </tr>
               <tr><th>Responsible for students</th>

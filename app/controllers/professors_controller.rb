@@ -29,8 +29,15 @@ class ProfessorsController < ApplicationController
   end
   
   def register_new_professor_record
-    debugger
-    puts""
+    invalid_grades = ProfessorRecord.create_professor_record(params, current_school_administration.school_id)
+    if invalid_grades.blank?
+      flash[:notice] = "All grades of professor added successfully"
+      redirect_to show_users_school_administrations_path
+    else
+      flash[:error] = "This are the grades which are already theach by any professors: "+invalid_grades.join(', ')
+      flash[:notice] = "All other grades of professor added successfully"
+      redirect_to new_professor_record_professors_path
+    end  
   end
   
   private

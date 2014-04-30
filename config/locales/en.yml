@@ -88,7 +88,7 @@ en:
       expand: "Expand"
       edit: "Edit"
       email: "Email"
-      phoneprefix_for_students: "Phoneprefix for students"
+      phoneprefix: "Phoneprefix"
       phone: "Phone"
       parent_name: "Parent Name"
     show_parent:

@@ -18,7 +18,8 @@ ActiveAdmin.register School do
     already_present_grades = SchoolGrade.grade_list(params[:file],params[:id])
     flash[:notice] = "List of grades imported."
     if already_present_grades.size > 0
-      flash[:notice] = "This are the grades which is already present "+ already_present_grades.join(", ")
+      flash[:error] = "This are the grades which is already present "+ already_present_grades.join(", ")
+      flash[:notice] = "Other than below all grades are successfully saved"
     end
     redirect_to action: :index
   end
