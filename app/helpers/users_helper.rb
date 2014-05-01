@@ -52,13 +52,15 @@ module UsersHelper
   
   def set_average_particular_student_to_graph
     average = @average_particular_student_of_current_grade
-    if current_parent or current_school_administration
-      average.insert(0,['student',@student.student_name, 'coleagues'])
-    elsif current_student
-      average.insert(0,['student','You', 'Coleagues'])
-    end
-    @subject_average.size == 1 ? average[0][3] = 'Class average' : average[0][3] = 'Class overall average'
-    raw average.to_json
+    unless average.blank?
+      if current_parent or current_school_administration
+        average.insert(0,['student',@student.student_name, 'coleagues']) 
+      elsif current_student
+        average.insert(0,['student','You', 'Coleagues']) 
+      end
+      @subject_average.size == 1 ? average[0][3] = 'Class average' : average[0][3] = 'Class overall average'
+      raw average.to_json
+    end  
   end
   
 end
