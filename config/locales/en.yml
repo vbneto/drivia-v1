@@ -6,8 +6,8 @@ en:
     home:
       welcome_to_school_system: "Welcome to school system"
     student_parent_dashboard:
-      see_data_of_student: "See data of student: "
-      display_data_of_student: "Display data of student: "
+      select_student: "Select student: "
+      data_of: "Data of "
       school_name: "School Name: "
       grade_name: "Grade Name: "
       select_subjects: "Select subjects: " 

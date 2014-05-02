@@ -1,0 +1,183 @@
+
+body{
+  margin:0;
+  padding: 0;
+  background-color: #f3f5f8 !important;
+}
+header{
+  width: 100%;
+  min-height: 85px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+header .logo{
+  margin-top: 25px;
+  display: inline-block;
+}
+header .user_name{
+  font-size: 12px;
+  color: #666;
+  margin: 10px 0 0;
+  padding-right: 25px;
+}
+.top_menu ul li{
+  margin: 0 15px;
+}
+.top_menu ul li a{
+  font-size: 15px;
+  color: #222620;
+  padding: 8px 15px;
+}
+.top_menu ul li a:hover, .top_menu ul li a:focus{
+  background: none !important;
+  color: #616161 !important;
+}
+.top_menu ul li.active a{
+  background: none !important;
+  border: #000 solid 1px;
+  border-radius: 0;
+  color: #222620 !important;
+}
+
+
+.middle_section{
+  background-color: #fff;
+  padding: 20px 0;
+}
+.middle_section select{
+  padding: 5px;
+  min-height: 25px;
+}
+.middle_section .row{
+  margin: 0;
+}
+.name_data{
+  color: #666;
+  margin-top: 20px;
+}
+.name_data span{
+  font-size: 14px;
+}
+a.current_month_btn{
+  background-color: #ff5817;
+  min-height: 35px;
+  color: #fff;
+  width: 18%;
+  text-align: center;
+  line-height: 35px;
+  margin-top: -75px;
+  margin-right: 12px;
+}
+a.current_month_btn:hover{
+  color: #fff;
+  text-decoration: none;
+}
+.section1{
+  background-color: #f3f5f8;
+  margin-top: 50px !important;
+}
+.section1:first-child{
+  padding: 20px;
+}
+.section1 table{
+  margin: 0;
+}
+.section1 td, .section1 th{
+  padding-left: 15% !important;
+  width: 50%;
+  border-left: #666 solid 1px;
+  border-bottom: #666 solid 1px !important;
+}
+.section1 td:first-child, .section1 th:first-child{
+  border-left: none;
+}
+.section1 tr.overall_average td{
+  background-color: #7ab5f0;
+  border: none !important;
+  color: #fff;
+}
+.right_section img{
+  margin-top: 80px;
+}
+footer ul{
+  width: 42%;
+  margin: 15px auto;
+}
+
+.place_inline{
+  line-height: 30px;
+}
+.padd_zero_right{
+  padding-right: 0px ;
+}
+
+.padd_zero_left{
+  padding-left: 0px;
+}
+/* ==== Globa classes ==== */
+
+.padd_none{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+@media(min-width: 701px) and (max-width: 1000px){
+  footer ul{
+    width: 65%;
+  }
+  .right_section img{
+    width: 100%;
+  }
+  a.current_month_btn{
+    width: 30%;
+  }
+  .middle_section select{
+    padding: 5px 0;
+    font-size: 12px;
+  }
+}
+@media(min-width: 320px) and (max-width: 700px){
+  .middle_section .select_form select{
+    margin: 5px 0;
+  }
+  a.current_month_btn{
+    width: 50%;
+  }
+  .right_section img{
+    width: 100%;
+  }
+  footer ul{
+    width: auto;
+  }
+  .top_menu ul li a{
+    padding: 0 3px;
+    font-size: 13px;
+  }
+  .top_menu ul li{
+    margin: 10px 0;
+  }
+  .user_name{
+    text-align: left !important;
+  }
+  .user_name + .top_menu ul{
+    float: left !important;
+  }
+  .user_name + .top_menu ul li{
+    margin: 10px 3px;
+  }
+  .user_name + .top_menu ul li a{
+    font-size: 14px;
+  }
+}
+@media(min-width: 320px) and (max-width: 700px) and (orientation:landscape){
+  footer ul{
+    width: 65%;
+    margin: 15px auto 0;
+    float: none !important;
+  }
+  .user_name + .top_menu ul li a{
+    font-size: 15px;
+  }
+  .user_name + .top_menu ul li{
+    margin: 10px;
+  }
+}

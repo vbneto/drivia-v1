@@ -1,47 +1,60 @@
-<div id="student_parent_dashboard">
-  <div class="span10">
-    <% if current_parent && @parent_students.size > 0 %>
-      <div class= "span4">
-        <label><%= t('users.student_parent_dashboard.see_data_of_student') %></label>
-        <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
-          <%= select_tag "student_list", options_for_select(student_options_for_parent) %>
-        <% end %>
-        <%= render partial: "change_school"%>
-      </div>
-    <% end %>
-    <% if current_student %>
-      <div class= "span4">
-        <%= render partial: "change_school"%>
-      </div>
-    <% end %>
-    <%=render partial:"change_date_range"%>  
-  </div>    
-  <div class="span10 move_down">
-    <%= render partial:"student_details" %>  
-    <%=link_to t('users.student_parent_dashboard.see_current_bimester'), "javascript: void(0)", :id=>"current_bimester",class: 'btn move_right' %>
+<div class="row">
+  <div class="col-md-5 col-sm-5 col-xs-12 padd_none" id="student_parent_dashboard">
+    <div class="row">
+      <% if current_parent && @parent_students.size > 0 %>
+        <div class="col-md-3 col-sm-3 col-xs-6 padd_none">
+          <%= t('users.student_parent_dashboard.select_student') %>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 padd_none">
+          <%= form_tag(change_student_users_path, :method => :post, :remote => true, :id=>'select_student_form') do %>
+            <%= select_tag "student_list", options_for_select(student_options_for_parent) %>
+          <% end %>
+          <%= render partial: "change_school"%>
+        </div>  
+      <% end %>
+      <% if current_student %>
+        <div class= "col-md-4">
+          <%= render partial: "change_school"%>
+        </div>
+      <% end %>
+      <div class="clearfix"></div>
+      <%= render partial:"student_details" %>
+    </div>
   </div>
-
-  <div class='span10 move_down'>
-    <b><%= t('users.student_parent_dashboard.select_subjects') %></b>
-    <%= form_tag(change_subjects_users_path, :id=>'select_subject_form') do %>
-      <%= hidden_field_tag :student_id_of_subject, @student.id %>
-      <%= hidden_field_tag :student_status_id_of_subject, @student_school_status.id unless @student_school_status.blank? %>
-      <select id="select_subject" name="subjects[]" multiple="multiple">
-        <% @subject_average.each do |subject,average| %>
-          <option value="<%= subject %>"><%= subject %></option>
-        <% end %>
-      </select>  
-    <% end %>
-    
+  <div class="col-md-7 col-sm-7 col-xs-12 change_bimester" >
+    <%=render partial:"change_date_range"%> 
   </div>
-  <%= render partial:"show_average_and_noshow"%>
+  <div class="clearfix"></div>
+  <div class="col-md-12 col-sm-12 col-xs-12 padd_none">
+    <%=link_to t('users.student_parent_dashboard.see_current_bimester'), "javascript: void(0)", :id=>"current_bimester",class: "current_month_btn pull-right" %>
+  </div>
+</div>
 
-  <div id="student_parent_graph" class="span7">
+<!--- second row start -->
+<div class="row">
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="row section1">
+      <p><%= t('users.student_parent_dashboard.select_subjects') %></p>
+      <%= form_tag(change_subjects_users_path, :id=>'select_subject_form') do %>
+        <%= hidden_field_tag :student_id_of_subject, @student.id %>
+        <%= hidden_field_tag :student_status_id_of_subject, @student_school_status.id unless @student_school_status.blank? %>
+        <select id="select_subject" class="col-md-10 col-sm-10 col-xs-10" name="subjects[]" multiple="multiple">
+          <% @subject_average.each do |subject,average| %>
+            <option value="<%= subject %>"><%= subject %></option>
+          <% end %>
+        </select>  
+      <% end %>
+    </div>
+    <%= render partial:"show_average_and_noshow" %>
+  </div>
+  <div id="student_parent_graph" class="col-md-6 col-sm-6 col-xs-10 padd_none text-right right_section move-down">
     <div id="chart_div" style="width: 700px; height: 500px;"></div>
     <div id="chart_div2" style="width: 700px; height: 500px;"></div>
   </div>
 </div>
 
+
+<!--- middle content end -->
 
 <script>
   var current_student_average = <%= set_month_average_to_graph %>

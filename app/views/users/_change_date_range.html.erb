@@ -1,16 +1,26 @@
-<div id='change_date_range' class="move_right show_border">
+<div class="row select_form" id='change_date_range'>
   <%= form_tag( change_date_users_path, :method => :post, :remote => true, id:"change_month_form") do %>
     <%= hidden_field_tag :student_id, @student.id %>
     <% unless @student_school_status.blank? %>
       <%= hidden_field_tag :student_status_id, @student_school_status.id %>
     <% end %>
-    <%= t('users.change_date_range.select_year') %>
-    <%= select_year(set_selected_year, :start_year => set_start_year, :end_year => set_end_year) %></br>
+    <div class="col-md-2 col-sm-2 col-xs-4 text-right padd_none place_inline">
+      <%= t('users.change_date_range.select_year') %>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-8">
+      <%= select_year(set_selected_year, :start_year => set_start_year, :end_year => set_end_year) %>
+    </div>  
     <% bimesters = monthly_grades_bimesters %>
-    <%= t('users.change_date_range.period') %>
-    <%= select_tag "start_month", options_for_select(bimesters, select_default_start_bimester) %>
-    <%= t('users.change_date_range.untill') %> <%= select_tag "end_month", options_for_select(bimesters, select_default_end_bimester) %>
+    <div class="col-md-1 col-sm-2 col-xs-4 padd_none text-right place_inline padd_right padd_zero_right" >
+      <%= t('users.change_date_range.period') %>
+    </div>
+    <div class="col-md-3 col-sm-2 col-xs-3 padd_zero_right" >
+      <%= select_tag "start_month", options_for_select(bimesters, select_default_start_bimester) %>
+    </div> 
+    <div class="col-md-1 col-sm-1 col-xs-2 place_inline padd_zero_left" ><%= t('users.change_date_range.untill') %></div>
+    <div class="col-md-2 col-sm-2 col-xs-3 padd_none"> 
+      <%= select_tag "end_month", options_for_select(bimesters, select_default_end_bimester) %>
+    </div>  
     <%= submit_tag "submit", :class=>"btn", id:'submit_date_range'%>
   <% end %>
 </div>
-

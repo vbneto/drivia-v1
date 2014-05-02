@@ -1,20 +1,21 @@
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <!--<a class="brand" href="#">SchoolSystem</a>-->
-      <%= link_to image_tag('logo.png'), root_path, id: "logo" %>
-      <div class="container nav-collapse nav_header">
-        <ul class="nav nav_header_container">
+<header>
+  <div class="container">
+    <div class="col-md-6 col-sm-4 col-xs-12 padd_none">
+      <%= link_to image_tag('logo.png'), root_path, class: "logo" %>
+    </div>
+    <div class="col-md-6 col-sm-8 col-xs-12 padd_none">
+      <div class="row user_name text-right">
+        <% if current_user.present? %>
+          <b class='user_name'>Hello <%= current_user.name %></b>
+        <% end %>
+      </div>
+      <div class="row top_menu">
+        <ul class="nav nav-pills pull-right">
           <% if !current_user.present? %>
             <li><%=link_to "Sign up", signup_users_path, :class => 'nav_header_icon' %></li>
             <li><%=link_to "Sign in", new_user_session_path, :class => 'nav_header_icon' %></li>
           <% elsif current_school_administration %>
-            <li><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
+            <li class="active"><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
           <% elsif current_professor %>
@@ -26,14 +27,13 @@
             <% if current_parent %>
               <li><%= link_to "Students",new_student_parents_path, :class => 'nav_header_icon' %></li>
             <% end %>  
-            <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
-            <li><%= link_to "Sign out",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon' %></li>  
-          <%end%>  
+            <li><%= link_to "My account",edit_user_registration_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "Logout",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon' %></li>  
+          <%end%>
         </ul>
-      </div><!--/.nav-collapse -->
-      <% if current_user.present? %>
-        <b class='user_name'>Hello <%= current_user.name %></b>
-      <% end %>  
+      </div>
     </div>
   </div>
-</div>
+</header>
+
+    

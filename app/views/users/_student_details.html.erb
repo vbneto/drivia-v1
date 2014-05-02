@@ -1,46 +1,40 @@
-<div id="student_detail" class="span">
-  <% if current_parent %>
-    <div id="student_detail" >
-      <b>
-        <%= t('users.student_parent_dashboard.display_data_of_student') %>
-        <%= @parent_students.first.student_name %>
-      </b></br>
-      <b>
+<div class="col-md-12 col-sm-12 col-xs-12 padd_none name_data" id="student_detail">
+  <h4>
+    <% if current_parent %>
+      <%= t('users.student_parent_dashboard.data_of') %>
+      <%= @parent_students.first.student_name %>
       <% if select_default_start_bimester != select_default_end_bimester  %>
         From <%= select_default_start_bimester %> <%= set_selected_year %>
         Untill <%= select_default_end_bimester %> <%= set_selected_year %>
       <% else %>
-        For: <%= select_default_start_bimester %> <%= set_selected_year %>
-      <% end %>  
-      </b></br>
-      <b>
+      For: <%= select_default_start_bimester %> <%= set_selected_year %>
+      <% end %><br/>    
+      <span>
         <%= t('users.student_parent_dashboard.school_name') %>
-        <%= @student_school_status.school.name %>
-      </b></br>
-      <b>
-         <%= t('users.student_parent_dashboard.grade_name') %> 
-         <% unless @student_monthly_grades.blank? %>
-           <%= @student_monthly_grades.first.grade_name  + @student_monthly_grades.first.grade_class %>
-         <% end %>
-      </b>  
-    </div>
-  <% end %>
-  <% if current_student || current_school_administration %>
-    <div id="student_detail" class="span">
-      <b><%= t('users.student_parent_dashboard.display_data_of_student') %> <%= @student.student_name %></b></br>
-      <b>
+        <%= @student_school_status.school.name %>,
+        <%= t('users.student_parent_dashboard.grade_name') %> 
+        <% unless @student_monthly_grades.blank? %>
+          <%= @student_monthly_grades.first.grade_name+ '-'  + @student_monthly_grades.first.grade_class %>
+        <% end %>
+      </span>  
+    <% end %>
+    <% if current_student || current_school_administration %>
+      <%= t('users.student_parent_dashboard.data_of') %>
+      <%= @student.student_name %>
       <% if select_default_start_bimester != select_default_end_bimester  %>
         From <%= select_default_start_bimester %> <%= set_selected_year %>
         Untill <%= select_default_end_bimester %> <%= set_selected_year %>
       <% else %>
-        For: <%= select_default_start_bimester %> <%= set_selected_year %>
-      <% end %>  
-      </b></br>
-      <b><%= t('users.student_parent_dashboard.school_name') %> <%=@student_school_status.school.name %></br>
-      <b><%= t('users.student_parent_dashboard.grade_name') %> 
-      <% unless @student_monthly_grades.blank? %>
-        <%= @student_monthly_grades.first.grade_name  + @student_monthly_grades.first.grade_class %></b>  
-      <% end %>
-    </div>
-  <% end %>
+      For: <%= select_default_start_bimester %> <%= set_selected_year %>
+      <% end %><br/>    
+      <span>
+        <%= t('users.student_parent_dashboard.school_name') %>
+        <%= @student_school_status.school.name %>,
+        <%= t('users.student_parent_dashboard.grade_name') %> 
+        <% unless @student_monthly_grades.blank? %>
+          <%= @student_monthly_grades.first.grade_name+ '-'  + @student_monthly_grades.first.grade_class %>
+        <% end %>
+      </span>  
+    <% end %>  
+  </h4>  
 </div>

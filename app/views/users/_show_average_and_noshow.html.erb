@@ -1,57 +1,65 @@
-<div id='show_average_and_noshow' class="span3 move_down">
-  <div id="subject_list" >
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-      <tr>
-        <th><%= t('users.show_average_or_no_show.subject') %></th>
-        <% if select_default_start_bimester == select_default_end_bimester %>
-          <th><%= t('users.show_average_or_no_show.grade') %></th>
-        <% else %>
-          <th><%= t('users.show_average_or_no_show.average') %></th>  
-        <% end %>  
-      </tr>
-      </thead>
-      <tbody> 
-       <% if @subject_average.size > 0 %>
-          <% @subject_average.each do |subject,average| %>
-            <tr>
-              <td><%= subject %></td>
-              <td><%= average %></td>
-            </tr>
+<div id='show_average_and_noshow'>
+  <div class="row section1">
+    <div id="subject_list" class="table-responsive">
+      <table class="table">
+        <thead>
+          <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
+          <th>
+            <strong>
+              <% if select_default_start_bimester == select_default_end_bimester %>
+                <%= t('users.show_average_or_no_show.grade') %>
+              <% else %>
+                <%= t('users.show_average_or_no_show.average') %>
+              <% end %>  
+            </strong>
+          </th>
+        </thead>
+        <tbody>
+          <% if @subject_average.size > 0 %>
+            <% @subject_average.each do |subject,average| %>
+              <tr>
+                <td><%= subject %></td>
+                <td><%= average %></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
-    </table>
-    <div id="overall_average" class="move_down">
-      <% if @subject_average.size > 1 %>
-        <% if current_parent || current_professor %>
-          <%= @student.student_name + t('users.show_average_or_no_show.overall_average') %> <%= @student_overall_average %><br>
-        <%elsif current_student%>
-          <%= t('users.show_average_or_no_show.your_overall_average') %> <%= @student_overall_average %><br>
-        <%end%>  
-      <% end %>  
-      <%= t('users.show_average_or_no_show.class_overall_average') %> <%= @class_overall_average %>
+          <tr id="overall_average" class="overall_average">
+            <% if @subject_average.size > 1 %>
+              <% if current_parent || current_professor %>
+                <td><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
+                <td><%= @student_overall_average %></td>
+              <%elsif current_student%>
+                <td><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
+                <td><%= @student_overall_average %></td>
+              <%end%>  
+            <% end %>  
+          </tr>
+          <tr id="overall_average" class="overall_average">
+            <td><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
+            <td><%= @class_overall_average %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>  
+  <div class="row section1">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
+          <th><strong><%= t('users.show_average_or_no_show.no_show') %></strong></th>
+        </thead>
+        <tbody>
+          <%if @total_no_show.size > 0%>
+            <% @total_no_show.each do |subject,no_show| %>
+              <tr>
+                <td><%= subject %></td>
+                <td><%= no_show %></td>
+              </tr>
+            <%end%>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
-
-  <div id="no_show_list" class="move_down">
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-      <tr>
-        <th><%= t('users.show_average_or_no_show.subject') %></th>
-        <th><%= t('users.show_average_or_no_show.no_show') %></th>
-      </tr>
-      </thead>
-      <tbody> 
-        <%if @total_no_show.size > 0%>
-          <% @total_no_show.each do |subject,no_show| %>
-            <tr>
-              <td><%= subject %></td>
-              <td><%= no_show %></td>
-            </tr>
-          <%end%>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+</div>  

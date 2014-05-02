@@ -1,12 +1,6 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.alignment {
-  width:500px; 
-  margin:0 315px;
-  background-color:#D2D2D4;
-  padding:20px;
-}
 
 #date_month {
   width: 100px;
@@ -74,4 +68,22 @@ label{
 #subject_list table td span.dis_block{
   display: block;
   cursor: text;
+}
+
+#chart_div {
+  margin-top: 173px;
+  margin-left: 72px;
+}
+#chart_div2{
+  margin-top: 10px;
+  margin-left: 72px;
+}
+
+#student_parent_dashboard{
+ padding-left: 15px !important;
+}
+
+.change_bimester{
+  padding-right: 15px; 
+  padding-left: 0px;
 }
