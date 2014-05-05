@@ -26,16 +26,16 @@
           <tr id="overall_average" class="overall_average">
             <% if @subject_average.size > 1 %>
               <% if current_parent || current_professor %>
-                <td><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
+                <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
                 <td><%= @student_overall_average %></td>
               <%elsif current_student%>
-                <td><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
+                <td nowrap="nowrap"><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
                 <td><%= @student_overall_average %></td>
               <%end%>  
             <% end %>  
           </tr>
           <tr id="overall_average" class="overall_average">
-            <td><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
+            <td nowrap="nowrap"><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
             <td><%= @class_overall_average %></td>
           </tr>
         </tbody>

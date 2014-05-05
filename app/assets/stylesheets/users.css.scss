@@ -65,6 +65,11 @@ label{
   position: relative;
 }
 
+.chart{
+  width: 700px; 
+  height: 500px;
+}
+
 #subject_list table td span.dis_block{
   display: block;
   cursor: text;
@@ -72,11 +77,11 @@ label{
 
 #chart_div {
   margin-top: 173px;
-  margin-left: 72px;
+  margin-left: 38%;
 }
 #chart_div2{
   margin-top: 10px;
-  margin-left: 72px;
+  margin-left: 38%;
 }
 
 #student_parent_dashboard{
