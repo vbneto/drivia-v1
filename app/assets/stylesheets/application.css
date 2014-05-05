@@ -17,7 +17,6 @@
   margin-top: 80px;
 }
  
- 
 .nav_header {
   margin-top: -52px;
   width: 775px !important;
@@ -30,4 +29,9 @@
 .user_name { 
   float: right;
   margin-top: -18px;
+}
+
+input[type]
+{
+  height: 0% !important;
 }
