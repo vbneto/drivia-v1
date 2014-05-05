@@ -95,5 +95,10 @@
     var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
     chart2.draw(data2, options2);
   }
+  
+  $(window).resize(function() {
+    return drawChart(current_student_average, particular_students_average);
+  });
+
 </script>
 

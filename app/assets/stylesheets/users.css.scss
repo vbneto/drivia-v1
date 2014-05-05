@@ -7,7 +7,7 @@
 }
 
 #date_year {
-  width: 100px;
+  width: 90%;
 }
 
 .move_right {
@@ -36,7 +36,7 @@ label{
 } 
 
 #start_month, #end_month{
-  width: 120px;  
+  width: 80%;  
 }
 
 #submit_student_list, #submit_subject_list, #submit_date_range {
@@ -60,13 +60,8 @@ label{
   padding-top: 15px;
 }
 
-#student_parent_graph{
-  margin-top: -124px;
-  position: relative;
-}
-
 .chart{
-  width: 700px; 
+  width: 100%; 
   height: 500px;
 }
 
@@ -82,4 +77,8 @@ label{
 .change_bimester{
   padding-right: 15px; 
   padding-left: 0px;
+}
+
+#student_list{
+  width: 90%;
 }

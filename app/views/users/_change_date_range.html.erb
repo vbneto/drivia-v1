@@ -18,7 +18,7 @@
       <%= select_tag "start_month", options_for_select(bimesters, select_default_start_bimester) %>
     </div> 
     <div class="col-md-1 col-sm-1 col-xs-2 place_inline padd_zero_left" ><%= t('users.change_date_range.untill') %></div>
-    <div class="col-md-2 col-sm-2 col-xs-3 padd_none"> 
+    <div class="col-md-3 col-sm-2 col-xs-3 padd_none"> 
       <%= select_tag "end_month", options_for_select(bimesters, select_default_end_bimester) %>
     </div>  
     <%= submit_tag "submit", :class=>"btn", id:'submit_date_range'%>
