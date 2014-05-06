@@ -2,64 +2,64 @@
   <div class="row section1">
     <div id="subject_list" class="table-responsive">
       <table class="table">
-        <thead>
-          <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
-          <th>
-            <strong>
-              <% if select_default_start_bimester == select_default_end_bimester %>
-                <%= t('users.show_average_or_no_show.grade') %>
-              <% else %>
-                <%= t('users.show_average_or_no_show.average') %>
-              <% end %>  
-            </strong>
-          </th>
-        </thead>
-        <tbody>
-          <% if @subject_average.size > 0 %>
+        <% if !@subject_average.blank? %>
+          <thead>
+            <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
+            <th>
+              <strong>
+                <% if select_default_start_bimester == select_default_end_bimester %>
+                  <%= t('users.show_average_or_no_show.grade') %>
+                <% else %>
+                  <%= t('users.show_average_or_no_show.average') %>
+                <% end %>  
+              </strong>
+            </th>
+          </thead>
+          <tbody>
             <% @subject_average.each do |subject,average| %>
               <tr>
                 <td><%= subject %></td>
                 <td><%= average %></td>
               </tr>
             <% end %>
-          <% end %>
-          <tr id="overall_average" class="overall_average">
-            <% if @subject_average.size > 1 %>
-              <% if current_parent || current_professor %>
-                <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
-                <td><%= @student_overall_average %></td>
-              <%elsif current_student%>
-                <td nowrap="nowrap"><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
-                <td><%= @student_overall_average %></td>
-              <%end%>  
-            <% end %>  
-          </tr>
-          <tr id="overall_average" class="overall_average">
-            <td nowrap="nowrap"><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
-            <td><%= @class_overall_average %></td>
-          </tr>
+            <tr id="overall_average" class="overall_average">
+              <% if @subject_average.size > 1 %>
+                <% if current_parent || current_professor %>
+                  <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
+                  <td><%= @student_overall_average %></td>
+                <%elsif current_student%>
+                  <td nowrap="nowrap"><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
+                  <td><%= @student_overall_average %></td>
+                <%end%>  
+              <% end %>  
+            </tr>
+            <tr class="class_average">
+              <td nowrap="nowrap"><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
+              <td><%= @class_overall_average %></td>
+            </tr>
         </tbody>
+      <% end %>    
       </table>
     </div>
-  </div>  
-  <div class="row section1">
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
-          <th><strong><%= t('users.show_average_or_no_show.no_show') %></strong></th>
-        </thead>
-        <tbody>
-          <%if @total_no_show.size > 0%>
+  </div>
+  <% if !@total_no_show.blank? %>  
+    <div class="row section1">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <th><strong><%= t('users.show_average_or_no_show.subject') %></strong></th>
+            <th><strong><%= t('users.show_average_or_no_show.no_shows') %></strong></th>
+          </thead>
+          <tbody>
             <% @total_no_show.each do |subject,no_show| %>
               <tr>
                 <td><%= subject %></td>
                 <td><%= no_show %></td>
               </tr>
             <%end%>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>  

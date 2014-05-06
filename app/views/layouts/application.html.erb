@@ -15,14 +15,13 @@
   </head>
   <body>
     <%= render partial:"layouts/header"%>
-    <div class="container middle_section">
-      
-      <%= bootstrap_flash %>
+    <%= bootstrap_flash %>
+    <div>
       <%= yield %>        
     </div> <!-- /container -->
     <footer>
-      <div class="container top_menu">
-        <ul class="nav nav-pills">
+      <div class="top_menu">
+        <ul class="align-center nav nav-pills">
           <li><a href="#">Política de privacidade</a></li>
           <li><a href="#">Termos de uso</a></li>
           <li><a href="#">Contato</a></li>

@@ -24,8 +24,8 @@
   <div class="col-md-7 col-sm-7 col-xs-12 change_bimester" >
     <%=render partial:"change_date_range"%> 
   </div>
-  <div class="clearfix"></div>
-  <div class="col-md-12 col-sm-12 col-xs-12 padd_none">
+
+  <div class="col-md-2 col-sm-2 col-xs-2 padd_none current_month_margin pull-right">
     <%=link_to t('users.student_parent_dashboard.see_current_bimester'), "javascript: void(0)", :id=>"current_bimester",class: "current_month_btn pull-right" %>
   </div>
 </div>
@@ -67,25 +67,36 @@
       backgroundColor:'#F8F8F8',
       vAxis: { title: "Average", minValue: 0, maxValue: 10},
       hAxis: { title: "Bimester"},
-      pointSize: 5
+      lineWidth: 3,
+      pointSize: 7,
+      series: {
+            0: {
+                color: '#0655a4',
+            },
+            1: {
+                color: '#FF5817',
+            }
+      }
     };
     var options2 = {
       backgroundColor:'#F8F8F8',
       vAxis: { title: "Average", minValue: 0, maxValue: 10},
       hAxis: { title: "Student"},
-      pointSize: 5,
       interpolateNulls: true,
       series: {
             0: {
                 lineWidth: 0,
-                color: 'green'
+                color: '#0655a4',
+                pointSize: 7
             },
             1: {
                 lineWidth: 0,
-                color: 'blue'
+                color: '#818181',
+                pointSize: 7
             },
             2: {
-                color: 'red'
+                lineWidth: 4,
+                color: '#FF5817'
             }
         }
     };

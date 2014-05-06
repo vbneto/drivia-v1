@@ -14,5 +14,6 @@ $('#no_show_list table > tbody').empty();
 <% else %>
   $('#overall_average').text('');
   drawChart([["Months","Grade"]],[["Months","Grade"]]);  
+  $('#show_average_and_noshow').replaceWith("<%= j render 'show_average_and_noshow'%>")
 <% end %>
 

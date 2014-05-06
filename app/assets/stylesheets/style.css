@@ -62,7 +62,7 @@ a.current_month_btn{
   background-color: #ff5817;
   min-height: 35px;
   color: #fff;
-  width: 18%;
+  width: 100%;
   text-align: center;
   line-height: 35px;
   margin-top: 30px;
@@ -95,6 +95,10 @@ a.current_month_btn:hover{
   border: none !important;
   color: #fff;
 }
+.section1 tr.class_average td{
+  border: none !important;
+}
+
 .right_section img{
   margin-top: 80px;
 }
@@ -179,4 +183,74 @@ footer ul{
   .user_name + .top_menu ul li{
     margin: 10px;
   }
+}
+/* *** login-page.html ** *** */
+.middle-margin-none{
+  margin-bottom:0px !important;
+  }
+.list-margin{
+  margin:23px 15px !important;  
+}
+.login-main{
+  background-color:#f1f1f2; 
+}
+.login-main h2{
+  color:#636467;
+  text-align:center;  
+}
+.login-main-box{
+  width:355px;
+  margin:100px auto;  
+}
+.login-main-box input{
+  background-color: #FFFFFF;
+    border: medium none;
+    min-height: 44px;
+  color:#636467;
+  margin-top:20px;
+}
+.top-space{
+    margin-top:50px !important;
+}
+.forgot-pass{
+  padding-top:20px; 
+}
+.forgot-pass a{
+  color:#636467;
+  text-decoration:none !important;
+  padding-top:10px;
+  display:block;  
+}
+.forgot-pass a:hover,focus{
+  color:#636467;    
+}
+input.login{
+  background-color:#f04e23;
+  padding:8px;
+  display:block;
+  color:#FFFFFF;  
+  text-decoration:none !important;
+  text-align:center;
+}
+input.login:hover,focus{
+    color:#FFFFFF;  
+}
+.login-main-box .row{
+  margin:0 51px !important; 
+}
+.click-here {
+    padding-left:30px;
+    padding-top:50px;
+}
+.click-here a{
+    text-decoration:none !important;
+    color:#636467;    
+}
+.click-here a:hover,focus{
+    color:#636467;    
+}
+
+/*Added new css style*/
+.current_month_margin{
+    margin-right: 3.5%
 }

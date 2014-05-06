@@ -1,11 +1,11 @@
-<div class="alignment">
+<div class="align-center col-md-4">
   <div class="panel panel-default">
     <div class="panel panel-heading">
       <h5 class="panel-title " >
         <% if @role == User.find_student_role %>
           <%= t('users_ask_question.are_you')%> <%= @student.student_name%>?
         <% elsif @role == User.find_parent_role %>
-          <%= t('users_ask_question.are_you_responsible_for')%><%= @student.student_name%>?
+          <%= t('users_ask_question.are_you_responsible_for')%> <%= @student.student_name%>?
         <% elsif @role == User.find_professor_role %>
           <%= t('users_ask_question.are_you')%> <%= @professor.professor_name %>?
         <% end %>
