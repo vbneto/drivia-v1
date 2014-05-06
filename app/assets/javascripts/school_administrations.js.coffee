@@ -21,5 +21,13 @@ $ ->
    
   $("#student_number").on "change", ->
     $("#submit_parent_filters").click()
+    
+  $("a[data-toggle='tab']").on "shown.bs.tab", (e) ->
+    localStorage.setItem "lastTab", $(e.target).attr("href")
+    
+  lastTab = localStorage.getItem("lastTab")
+  if lastTab
+    $("#tabs a[href='"+lastTab+"']").tab "show"  
+    return    
   
   
