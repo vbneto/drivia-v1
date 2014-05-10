@@ -37,6 +37,7 @@ ActiveAdmin.register School do
   form do |f|
     f.inputs "Details" do
       f.input :name
+      f.input :school_average
     end
     f.has_many :student_from_excels do |student|
       student.inputs "Students" do

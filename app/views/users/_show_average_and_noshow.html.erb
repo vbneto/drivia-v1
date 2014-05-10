@@ -1,5 +1,5 @@
 <div id='show_average_and_noshow'>
-  <div class="row section1">
+  <div class="row section1 padding-none">
     <div id="subject_list" class="table-responsive">
       <table class="table">
         <% if !@subject_average.blank? %>
@@ -16,12 +16,16 @@
             </th>
           </thead>
           <tbody>
-            <% @subject_average.each do |subject,average| %>
-              <tr>
-                <td><%= subject %></td>
-                <td><%= average %></td>
-              </tr>
+            <% if @subject_average.size > 1 %>
+              <% @subject_average.each do |subject,average| %>
+                <tr>
+                  <td><%= subject %></td>
+                  <td><%= average %></td>
+                </tr>
+              <% end %>
             <% end %>
+            
+          <% if @student_overall_average.to_f >= @school_average.to_f %>
             <tr id="overall_average" class="overall_average">
               <% if @subject_average.size > 1 %>
                 <% if current_parent || current_professor %>
@@ -30,13 +34,47 @@
                 <%elsif current_student%>
                   <td nowrap="nowrap"><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
                   <td><%= @student_overall_average %></td>
-                <%end%>  
+                <%end%> 
+              <% else %>  
+                <% @subject_average.each do |subject,average| %>
+                  <tr id="overall_average" class="overall_average">
+                    <td><%= subject %></td>
+                    <td><%= average %></td>
+                  </tr>
+                <% end %>
               <% end %>  
             </tr>
             <tr class="class_average">
               <td nowrap="nowrap"><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
               <td><%= @class_overall_average %></td>
             </tr>
+          <% else %>
+            <tr id="overall_average" class="overall_average_red">
+                <% if @subject_average.size > 1 %>
+                  <% if current_parent || current_professor %>
+                    <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
+                    <td><%= @student_overall_average %></td>
+                  <%elsif current_student%>
+                    <td nowrap="nowrap"><%= t('users.show_average_or_no_show.your_overall_average') %></td> 
+                    <td><%= @student_overall_average %></td>
+                  <%end%>  
+                <% else %>
+                <% @subject_average.each do |subject,average| %>
+                  <tr id="overall_average" class="overall_average_red">
+                    <td><%= subject %></td>
+                    <td><%= average %></td>
+                  </tr>
+                <% end %>
+                </tr>
+               
+                <% end %>
+                 
+              </tr>
+            <tr class="class_average">
+                <td nowrap="nowrap"><%= t('users.show_average_or_no_show.class_overall_average') %></td> 
+                <td><%= @class_overall_average %></td>
+            </tr>
+          <% end %>        
         </tbody>
       <% end %>    
       </table>

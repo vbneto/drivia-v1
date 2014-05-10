@@ -6,7 +6,7 @@ class StudentFromExcel < ActiveRecord::Base
   attr_accessor :grade_class
   #validates :school_id, presence: true
   validates :cpf, :cpf => true
-  validates :student_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
+  validates :student_name, presence: true, format: { with: /^[^0-9!@#\$%\^&*+_=]+$/, message: "Only letters allowed" }
   validates :birth_day, presence: true
   
   belongs_to :school

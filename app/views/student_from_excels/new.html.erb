@@ -1,46 +1,48 @@
-<div id="subject_list" class="span6 move_down">
-  <%= back_button %>  
-  <h5>Records for student</h5>
-  <%= form_for @student, url: student_from_excels_path(:id => @student), method: :post do|f|%>
-    <% if @student.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@student.errors.count, "error") %>Something went wrong!</h2>
-        <ul>
-          <% @student.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  <div>
-    <%= f.label :student_name %>
-    <%= f.text_field :student_name %><br>
+<div class='container middle_section'>
+  <div id="subject_list" class="span6 move_down">
+    <%= back_button %>  
+    <h5>Records for student</h5>
+    <%= form_for @student, url: student_from_excels_path(:id => @student), method: :post do|f|%>
+      <% if @student.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@student.errors.count, "error") %>Something went wrong!</h2>
+          <ul>
+            <% @student.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    <div>
+      <%= f.label :student_name %>
+      <%= f.text_field :student_name %><br>
+    </div>
+    <div>
+      <%= f.label :gender %>
+      <%= f.label :male %><%= f.radio_button 'gender', 'male' %>
+      <%= f.label :female %><%= f.radio_button 'gender', 'female' %><br>
+    </div>
+    <div>  
+      <%= f.label :cpf %>
+      <%= f.text_field :cpf %><br>
+    </div>  
+    <div>
+      <%= f.label :birth_day %>
+      <%= f.text_field :birth_day, :class => 'datepicker' %><br>
+    </div>
+    <div>
+      <%= f.fields_for :student_statuses do |builder| %>
+        <%= builder.label :current_grade %>
+        <%= builder.text_field :current_grade %><br>
+        <%= builder.label :grade_class %>
+        <%= builder.text_field :grade_class %><br>
+        <%= builder.hidden_field :year, :value=>Date.today.year %>
+      <% end %>
+    </div>
+    <%= f.submit "save", :class=>'btn'%>
+    <%end%>
   </div>
-  <div>
-    <%= f.label :gender %>
-    <%= f.label :male %><%= f.radio_button 'gender', 'male' %>
-    <%= f.label :female %><%= f.radio_button 'gender', 'female' %><br>
-  </div>
-  <div>  
-    <%= f.label :cpf %>
-    <%= f.text_field :cpf %><br>
-  </div>  
-  <div>
-    <%= f.label :birth_day %>
-    <%= f.text_field :birth_day, :class => 'datepicker' %><br>
-  </div>
-  <div>
-    <%= f.fields_for :student_statuses do |builder| %>
-      <%= builder.label :current_grade %>
-      <%= builder.text_field :current_grade %><br>
-      <%= builder.label :grade_class %>
-      <%= builder.text_field :grade_class %><br>
-      <%= builder.hidden_field :year, :value=>Date.today.year %>
-    <% end %>
-  </div>
-  <%= f.submit "save", :class=>'btn'%>
-  <%end%>
-</div>
+</div>  
 
 <script type="text/javascript">
   $('#student_from_excel_birth_day').datepicker({
