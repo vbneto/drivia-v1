@@ -19,10 +19,9 @@ class UsersController < ApplicationController
     @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
     @subject_average = Student.subject_average @student_monthly_grades
     @total_no_show = Student.total_no_show @student_monthly_grades
-    bimester_average_of_student = Grade.initialize_month_graph(@student_monthly_grades, current_user)
     
     unless @student_monthly_grades.blank?
-      
+      bimester_average_of_student = Grade.initialize_month_graph(@student_monthly_grades, current_user)
       all_students_grades = @student.find_fellow_students_monthly_grade(@student_monthly_grades.first.year, @student_school_status)
       
       student_available_bimester = @student_monthly_grades.map(&:bimester)
@@ -42,7 +41,7 @@ class UsersController < ApplicationController
   def create_registration_with_cpf
     @role = params[:user]
     if (@role == User.find_student_role || @role == User.find_parent_role)
-      @cpf = User.check_cpf params[:cpf]
+      @cpf = params[:cpf]
       @student = StudentFromExcel.find_by_cpf(@cpf)
       if @student.nil?
         flash[:error]= "student with given cpf was not found"
@@ -58,13 +57,13 @@ class UsersController < ApplicationController
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       end
     elsif @role == User.find_professor_role
-      @email = params[:email]
-      @professor = GradeFromExcel.find_by_professor_email(@email)
+      @professor = GradeFromExcel.find_by_code(params[:code])
+      @email = @professor.professor_email
       if @professor.nil?
-        flash[:error]= "Professor with given email was not found"
+        flash[:error]= "Professor with given code was not found"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
-      elsif User.find_by_email(@email).present?
-        flash[:error]= "Professor with given email was already present"
+      elsif !User.where(email: @email).blank?
+        flash[:error]= "Professor with given code was already present"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       end
     end
@@ -105,7 +104,7 @@ class UsersController < ApplicationController
       
       @month_average = Grade.initialize_month_graph(@student_monthly_grades,current_user)
       
-      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user)
+      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user) if @student_monthly_grades
       @month_average = merge_graph(@month_average,@all_student_month_average)
       
       @average_particular_student_of_current_grade = Grade.initialize_student_graph((Student.all_students_average all_student_grades), @student, current_user, @class_overall_average)
@@ -149,7 +148,7 @@ class UsersController < ApplicationController
       
       @month_average = Grade.initialize_month_graph(student_grades,current_user)
       
-      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user)
+      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user) if @student_monthly_grades
       
       @month_average = merge_graph(@month_average, @all_student_month_average)
       
@@ -187,7 +186,7 @@ class UsersController < ApplicationController
       @class_overall_average = student_monthly_grade_overall_average all_student_grades
       
       @month_average = Grade.initialize_month_graph(student_grades,current_user)
-      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user)
+      @all_student_month_average = Grade.initialize_month_graph(all_student_grades,current_user) if @student_monthly_grades
       
       @month_average = merge_graph(@month_average, @all_student_month_average)
       
@@ -209,7 +208,7 @@ class UsersController < ApplicationController
       student_available_month = @student_monthly_grades.map(&:month)
       all_students_grades.select!{|grade| student_available_month.include?grade.month}
       
-      all_student_month_average = Grade.initialize_month_graph(all_students_grades,current_user)
+      all_student_month_average = Grade.initialize_month_graph(all_students_grades,current_user) if @student_monthly_grades
       
       @month_average = merge_graph(month_average_of_student,all_student_month_average)
       

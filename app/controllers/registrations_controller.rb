@@ -13,20 +13,16 @@ class RegistrationsController < Devise::RegistrationsController
   end
   
   def create
-    @user_role = params[:user][:role]
-    params[:user].delete :role
-    if @user_role != User.find_professor_role
-      cpf = params[:user][:cpf]
-      @student = StudentFromExcel.where(:cpf=>cpf).first 
-      params[:user].delete :cpf
-    else
+    @user_role = params[:user].delete(:role)
+    if @user_role == User.find_professor_role
       @professor = GradeFromExcel.find_by_professor_email(params[:user][:email])  
+    else
+      cpf = params[:user].delete(:cpf)
+      @student = StudentFromExcel.find_by_cpf(cpf)
     end  
     if @user_role == User.find_parent_role || @user_role == User.find_professor_role 
-      gender = params[:user][:gender]
-      birth_day = params[:user][:birth_day]
-      params[:user].delete :gender
-      params[:user].delete :birth_day
+      gender = params[:user].delete(:gender)
+      birth_day = params[:user].delete(:birth_day)
     end
       
     build_resource(params[:user])
@@ -52,7 +48,6 @@ class RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      #respond_with resource
       redirect_to new_user_registration_path(cpf: cpf, user: @user_role), :notice=> "Please completly fill the form"
     end
   end

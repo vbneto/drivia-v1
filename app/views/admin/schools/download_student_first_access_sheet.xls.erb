@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">student_name</Data></Cell>
+        <Cell><Data ss:Type="String">ra</Data></Cell>
+        <Cell><Data ss:Type="String">parent_name_1</Data></Cell>
+        <Cell><Data ss:Type="String">parent_name_2</Data></Cell>
+        <Cell><Data ss:Type="String">code</Data></Cell>
+      </Row>
+    <% @student_details.each do |student| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= student.student_name%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student.first_ra %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student.parent_name_1 %></Data></Cell>
+        <Cell><Data ss:Type="Sstring"><%= student.parent_name_1 %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student.cpf %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

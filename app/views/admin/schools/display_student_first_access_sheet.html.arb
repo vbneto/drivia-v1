@@ -1,0 +1,12 @@
+panel "First Access Details" do
+  table_for @student_details do
+    column :student_name
+    column "RA", :first_ra
+    column "First Parent", :parent_name_1
+    column "Second Parent", :parent_name_2
+    column "First Access Code", :cpf
+  end
+  strong { link_to "Download student first access sheet", download_student_first_access_sheet_admin_school_path(id: params[:id], format: "xls") }
+end  
+
+

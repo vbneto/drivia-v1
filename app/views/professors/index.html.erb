@@ -1,48 +1,49 @@
-<div id="subject_list" class="span5 move_down">
-  <% if @professor_grades.present? %>
-    <h5><%= t('professor.index.following_are_the_subjects_that_you_teach') %></h5>
-  <% else %>
-    <h5><%= t('professor.index.currently_there_is_no_subject_which_you_teaches') %></h5>
-  <% end %>
-  <table class="table table-striped table-bordered table-condensed">
-      <thead>
-      <tr>
-        <th><%= t('professor.index.school') %></th>
-        <th><%= t('professor.index.grade') %></th>
-        <th><%= t('professor.index.subject') %></th>
-        <th><%= t('professor.index.view_students') %></th>
-        <th><%= t('professor.index.view_average_graph') %></th>
-      </tr>
-      </thead>
-      <tbody> 
-        <%if @professor_grades.present? %>
-          <% @professor_grades.each do |grade| %>
-            <tr>
-              <td><%= grade.school.name%></td>
-              <td><%= grade.grade_name + grade.grade_class %></td>
-              <td><%= grade.subject_name %></td>
-              <td>
-                <%= form_tag( show_students_professors_path, :method => :post) do %>
-                  <%= hidden_field_tag :school_id, grade.school_id %>
-                  <%= hidden_field_tag :grade_name, grade.grade_name %>
-                  <%= hidden_field_tag :grade_class, grade.grade_class %>
-                  <%= hidden_field_tag :subject, grade.subject_name %>
-                  <%= submit_tag t("professor.index.submit"),class:"btn btn-normal" %>
-                <% end %>
-              </td>
-              <td>
-                <%= form_tag( show_student_graph_professors_path, :method => :post) do %>
-                  <%= hidden_field_tag :school_id, grade.school_id %>
-                  <%= hidden_field_tag :grade, grade.grade_name %>
-                  <%= hidden_field_tag :subject, grade.subject_name %>
-                  <%= submit_tag t("professor.index.submit"),class:"btn btn-primary" %>
-                <% end %>
-              </td>
-            </tr>
-          <%end%>
-        <% end %>
-      </tbody>
-    </table>
+<div class="container">  
+  <div id="subject_list" class="span5 move_down">
+    <% if @professor_grades.present? %>
+      <h5><%= t('professor.index.following_are_the_subjects_that_you_teach') %></h5>
+    <% else %>
+      <h5><%= t('professor.index.currently_there_is_no_subject_which_you_teaches') %></h5>
+    <% end %>
+    <table class="table table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th><%= t('professor.index.school') %></th>
+          <th><%= t('professor.index.grade') %></th>
+          <th><%= t('professor.index.subject') %></th>
+          <th><%= t('professor.index.view_students') %></th>
+          <th><%= t('professor.index.view_average_graph') %></th>
+        </tr>
+        </thead>
+        <tbody> 
+          <%if @professor_grades.present? %>
+            <% @professor_grades.each do |grade| %>
+              <tr>
+                <td><%= grade.school.name%></td>
+                <td><%= grade.grade_name + grade.grade_class %></td>
+                <td><%= grade.subject_name %></td>
+                <td>
+                  <%= form_tag( show_students_professors_path, :method => :post) do %>
+                    <%= hidden_field_tag :school_id, grade.school_id %>
+                    <%= hidden_field_tag :grade_name, grade.grade_name %>
+                    <%= hidden_field_tag :grade_class, grade.grade_class %>
+                    <%= hidden_field_tag :subject, grade.subject_name %>
+                    <%= submit_tag t("professor.index.submit"),class:"btn btn-normal" %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= form_tag( show_student_graph_professors_path, :method => :post) do %>
+                    <%= hidden_field_tag :school_id, grade.school_id %>
+                    <%= hidden_field_tag :grade, grade.grade_name %>
+                    <%= hidden_field_tag :subject, grade.subject_name %>
+                    <%= submit_tag t("professor.index.submit"),class:"btn btn-primary" %>
+                  <% end %>
+                </td>
+              </tr>
+            <%end%>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
 </div>
-
 

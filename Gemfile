@@ -50,4 +50,5 @@ gem 'jquery-rails', "2.3.0"
 # To use debugger
 group :development do
   gem 'debugger'
+  gem "letter_opener"
 end

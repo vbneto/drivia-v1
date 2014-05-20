@@ -19,8 +19,8 @@
             <%= text_field_tag :cpf %>
           </div>
         <% else %>
-          <div><%= label_tag :email %>
-            <%= text_field_tag :email,"" ,:required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
+          <div><%= label_tag :code %>
+            <%= text_field_tag :code,"" ,:required => true %>
           </div>
         <% end %>  
         <div>

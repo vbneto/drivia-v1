@@ -1,13 +1,11 @@
 class StudentFromExcel < ActiveRecord::Base
 
-  attr_accessible :birth_day, :cpf, :current_grade, :gender, :student_name, :school_id, :user_attributes, :status, :student_statuses_attributes
+  attr_accessible :cpf, :student_name, :school_id, :first_ra, :user_attributes, :student_statuses_attributes
   validates :cpf, uniqueness: true
   attr_accessible :status, :cpf, :as => [:admin]
-  attr_accessor :grade_class
+  attr_accessor :grade_class, :current_grade, :birth_day, :gender, :status, :ra
   #validates :school_id, presence: true
-  validates :cpf, :cpf => true
-  validates :student_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
-  validates :birth_day, presence: true
+  validates :student_name, presence: true#, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
   
   belongs_to :school
   has_many :student_parents
@@ -22,7 +20,6 @@ class StudentFromExcel < ActiveRecord::Base
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :student_statuses
   
-
   #after_create :update_student_parent_fields
   after_create :update_student_status
   
@@ -33,32 +30,21 @@ class StudentFromExcel < ActiveRecord::Base
   def self.student_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
     already_present_students = []
-    begin
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        row = Hash[[header, spreadsheet.row(i)].transpose]
-        student = find_by_id(row["id"]) || new
-        student.attributes = row.to_hash.slice(*accessible_attributes)
-        student_from_excel = StudentFromExcel.find_by_cpf(student.cpf)
-        student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
-        if student_from_excel
-          student_status = student_from_excel.student_statuses
-          if student_status.map(&:status).include? User.student_active or student_status.map(&:school_id).include?school_id.to_i
-            already_present_students << student.cpf 
-          else 
-            student_status.create(school_id: school_id, status: User.student_active, current_grade: student.current_grade, year: Date.today.year, grade_class: student.grade_class )  
-          end  
-        else
-          student.school_id = school_id
-          student.status = User.student_active
-          begin
-            student.save!
-          rescue
-            already_present_students << student.cpf
-          end
-        end    
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      student = find_by_first_ra(row["ra"].to_i) || new
+      student.attributes = row.to_hash.slice(*accessible_attributes)
+      student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
+      student.current_grade = row['current_grade']
+      student.ra = row['ra']
+      if student.new_record?
+        student.first_ra = row["ra"].to_i
+        student.cpf = self.generate_unique_code 
       end
-    rescue  
+      student.new_record? ? (student.parent_name_1 = row['parent_name']) : (student.parent_name_2 = row['parent_name'])
+      student.school_id = school_id
+      student.valid? ? student.save! : already_present_students << student.cpf
     end
     already_present_students  
   end
@@ -74,6 +60,15 @@ class StudentFromExcel < ActiveRecord::Base
     rescue
       nil
     end  
+  end
+  
+  def self.generate_unique_code
+    unique_code = nil
+    code_array = [('a'..'z'), ('A'..'Z'), (0..25)].map { |i| i.to_a }.flatten
+    begin
+      unique_code = (0...50).map { code_array[rand(code_array.length)] }.join.first(16)
+    end while self.all.map(&:cpf).include? unique_code
+    unique_code
   end
   
   def student_grade(subject, bimester)
@@ -93,12 +88,10 @@ class StudentFromExcel < ActiveRecord::Base
   
   def is_active_student?
     self.student_statuses.map(&:status).include?User.student_active
-    #self.student_statuses.first.status == User.student_active
   end
   
   def is_deactive_student?
     !self.student_statuses.map(&:status).include?User.student_active
-    #self.student_statuses.first.status == User.student_deactive
   end
   
   def find_age
@@ -119,9 +112,11 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def update_student_status
-    unless self.grade_class.blank?
-      student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
-      student_from_excel.student_statuses.create(school_id: self.school_id, status: User.student_active, current_grade: self.current_grade, year: Date.today.year, grade_class: self.grade_class) if student_from_excel
+    student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
+    if self.grade_class.blank?
+      student_from_excel.student_statuses.create(school_id: self.school_id, ra: self.ra.to_i, status: User.student_active, current_grade: self.current_grade, year: Date.today.year) if student_from_excel
+    else
+      student_from_excel.student_statuses.create(school_id: self.school_id, ra: self.ra.to_i, status: User.student_active, current_grade: self.current_grade, year: Date.today.year, grade_class: self.grade_class) if student_from_excel
     end  
   end
   
@@ -132,6 +127,13 @@ class StudentFromExcel < ActiveRecord::Base
   
   def current_school_status school_id
     self.student_statuses.where(school_id: school_id).first 
+  end
+  
+  def parent_names
+    parent_names = []
+    parent_names << self.parent_name_1 if self.parent_name_1
+    parent_names << self.parent_name_2 if self.parent_name_1
+    parent_names
   end
   
 end

@@ -71,12 +71,13 @@ class User < ActiveRecord::Base
     find_user_role "professor"
   end
   
-  def self.check_cpf cpf
+=begin  def self.check_cpf cpf
     if cpf.size == 11
       {'3' => '.', '7' => '.', '11' => '-'}.each{|k,v| cpf.insert(k.to_i, v)}
     end
     cpf
   end
+=end
   
   def student_monthly_grades(student,student_status)
     unless student_status.blank?

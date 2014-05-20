@@ -13,6 +13,8 @@ class GradeFromExcel < ActiveRecord::Base
         row = Hash[[header, spreadsheet.row(i)].transpose]
         grade = find_by_id(row["id"]) || new
         grade.attributes = row.to_hash.slice(*accessible_attributes)
+        already_present_professor = find_by_professor_email(grade.professor_email)
+        grade.code = already_present_professor ? already_present_professor.code : StudentFromExcel.generate_unique_code
         grade.school_id = school_id
         begin
           grade.save!
