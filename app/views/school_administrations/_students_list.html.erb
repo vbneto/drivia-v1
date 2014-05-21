@@ -4,7 +4,6 @@
     <thead>
     <tr>
       <th><%= t('school_administration.student_list.student_name') %></th>
-      <th><%= t('school_administration.student_list.age') %></th>
       <th><%= t('school_administration.student_list.current_grade') %></th>
       <th>Parents Assigned</th>
       <th><%= t('school_administration.student_list.first_access') %></th>
@@ -16,8 +15,6 @@
       <% @all_students.each do |student| %>
         <tr>
           <td><%= link_to student.student_name, users_path(student_id: student.id) %></td>
-          <td><%= student.find_age %></td>
-
           <td><%= student_current_grade student %></td>
           <td><%= student_parents_count student %></td>
 
@@ -33,9 +30,9 @@
           <td id='student_<%=student.id%>' class='student_details' colspan="5">
 
           <table width="590" >  
-            <tr> <th>CPF:</th><td><%= student.cpf%></td> </tr>
+            <tr> <th>CPF:</th><td><%= student.cpf%> </td> </tr>
             <tr> <th><%= t('school_administration.student_list.student_name') %></th><td><%= student.student_name%></td> </tr>
-            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student.current_grade%></td> </tr>
+            <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student_current_grade student %></td> </tr>
             <% if student.student.present?%>
               <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= student.user.email %></td> </tr>
               <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= student.user.phoneprefix %></td> </tr>
@@ -51,7 +48,6 @@
                 </td>
               </tr>
             <% end %>
-            <tr> <th>Birth Day: </th><td><%= student.birth_day.strftime("%d/%m/%Y")%></td> </tr>
           </table>
           </td>
         </tr>

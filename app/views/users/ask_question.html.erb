@@ -15,7 +15,7 @@
       <% if @role != User.find_professor_role %>
         <%= link_to t("users.ask_question.yes"), new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
       <% else %>
-        <%= link_to t("users.ask_question.yes"), new_user_registration_path(email: @email, user: @role), :class=>"btn" %>
+        <%= link_to t("users.ask_question.yes"), new_user_registration_path(code: @code, user: @role), :class=>"btn" %>
       <% end %>  
       <%= link_to t("users.ask_question.no"), new_registration_with_cpf_users_path(role:@role), :class=>"btn" %>
     </div>

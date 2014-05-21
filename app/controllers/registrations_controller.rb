@@ -6,16 +6,20 @@ class RegistrationsController < Devise::RegistrationsController
       cpf = params[:cpf]
       @student = StudentFromExcel.find_by_cpf(cpf)
     else
-      email = params[:email]
-      @professor = GradeFromExcel.find_by_professor_email(email)
+      code = params[:code]
+      @professor = GradeFromExcel.find_by_code(code)
     end  
     super
   end
   
   def create
     @user_role = params[:user].delete(:role)
+    if User.where("role = ? and email = ?", @user_role, params[:user][:email]).first
+      redirect_to new_user_session_path , :notice=> "#{@user_role} is already present with this email please sign in" and return
+    end
     if @user_role == User.find_professor_role
-      @professor = GradeFromExcel.find_by_professor_name(params[:user][:name])
+      code = params[:user].delete(:code)
+      @professor = GradeFromExcel.find_by_code(code)
     else
       cpf = params[:user].delete(:cpf)
       @student = StudentFromExcel.find_by_cpf(cpf)
@@ -24,10 +28,10 @@ class RegistrationsController < Devise::RegistrationsController
       gender = params[:user].delete(:gender)
       birth_day = params[:user].delete(:birth_day)
     end
-      
     build_resource(params[:user])
     #resource.tag_list = params[:tags]   #******** here resource is user 
     resource.role = @user_role
+    resource.name = @professor.professor_name if @professor
     if resource.save
       if @user_role == User.find_student_role
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 

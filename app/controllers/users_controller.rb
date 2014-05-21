@@ -57,12 +57,12 @@ class UsersController < ApplicationController
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       end
     elsif @role == User.find_professor_role
-      @professor = GradeFromExcel.find_by_code(params[:code])
-      @email = @professor.professor_email
+      @code = params[:code]
+      @professor = GradeFromExcel.find_by_code(@code)
       if @professor.nil?
         flash[:error]= "Professor with given code was not found"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
-      elsif !User.where(email: @email).blank?
+      elsif @professor.professor
         flash[:error]= "Professor with given code was already present"
         redirect_to new_registration_with_cpf_users_path(role: @role) and return
       end

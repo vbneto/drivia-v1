@@ -1,0 +1,21 @@
+<div class="align-center col-md-4">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="panel-title " >
+        Please inform your New Code to merge the account
+      </h5>
+    </div>
+    <div class="panel-body">
+      <%= form_tag( merge_new_student_account_path, :method => :post ) do %>
+        <div><%= label_tag :code %>
+          <%= text_field_tag :code %>
+        </div>
+        <%= submit_tag "Submit",class:"btn btn-normal" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+

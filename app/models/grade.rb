@@ -4,7 +4,7 @@ class Grade < ActiveRecord::Base
   
   def self.initialize_month_graph(student_grade,user)
     hash_of_grade = Student.all_bimesters_average(student_grade)
-    if user.is_parent? or user.is_professor?
+    if user.is_parent? or user.is_school_administration?
       student_name = student_grade.first.student_from_excel.student_name
       hash_of_grade.to_a.insert(0,["Bimester",student_name])
     elsif user.is_student?

@@ -1,6 +1,6 @@
 class StudentFromExcel < ActiveRecord::Base
 
-  attr_accessible :cpf, :student_name, :school_id, :first_ra, :user_attributes, :student_statuses_attributes
+  attr_accessible :student_name, :school_id, :first_ra, :user_attributes, :student_statuses_attributes, :parent_name_1, :parent_name_2
   validates :cpf, uniqueness: true
   attr_accessible :status, :cpf, :as => [:admin]
   attr_accessor :grade_class, :current_grade, :birth_day, :gender, :status, :ra
