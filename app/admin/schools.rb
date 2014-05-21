@@ -5,12 +5,23 @@ ActiveAdmin.register School do
   member_action :upload_grade_csv do
   end
   
-  member_action :display_student_first_access_sheet do
+  member_action :student_first_access_sheet do
     @student_details = School.find(params[:id]).student_from_excels
+  end
+  
+  member_action :professor_first_access_sheet do
+    @professor_details = School.find(params[:id]).grade_from_excels.select([:professor_name, :code]).uniq
   end
   
   member_action :download_student_first_access_sheet do
     @student_details = School.find(params[:id]).student_from_excels
+    respond_to do |format|
+      format.xls
+    end
+  end
+  
+  member_action :download_professor_first_access_sheet do
+    @professor_details = School.find(params[:id]).grade_from_excels.select([:professor_name, :code]).uniq
     respond_to do |format|
       format.xls
     end
@@ -22,8 +33,7 @@ ActiveAdmin.register School do
     if already_present_students.size > 0
       flash[:notice] = "This are the CPF which is either already present or invalid "+ already_present_students.join(", ")
     end
-    redirect_to display_student_first_access_sheet_admin_school_path
-    #redirect_to action: :index
+    redirect_to student_first_access_sheet_admin_school_path
   end
   
   member_action :import_grade_csv, :method => :post do
@@ -32,7 +42,7 @@ ActiveAdmin.register School do
     if already_present_grades.size > 0
       flash[:notice] = "This are the grades which is already present "+ already_present_grades.join(", ")
     end
-    redirect_to action: :index
+    redirect_to professor_first_access_sheet_admin_school_path
   end
   
   index do
@@ -43,8 +53,11 @@ ActiveAdmin.register School do
     column "Upload Grade/professors List" do |school|
       link_to "Upload Grade/professors CSV", upload_grade_csv_admin_school_path(school)
     end
-    column "Display student first access sheet" do |school|
-      link_to "Display student first access sheet",display_student_first_access_sheet_admin_school_path(school)
+    column "student first access sheet" do |school|
+      link_to "Display student first access sheet",student_first_access_sheet_admin_school_path(school)
+    end
+    column "professor first access sheet" do |school|
+      link_to "professor first access sheet", professor_first_access_sheet_admin_school_path(school)
     end
     default_actions
   end

@@ -1,5 +1,5 @@
 class GradeFromExcel < ActiveRecord::Base
-  attr_accessible :grade_name, :professor_name, :subject_average, :subject_name, :professor_email, :grade_class
+  attr_accessible :grade_name, :professor_name, :subject_average, :subject_name, :professor_email, :grade_class, :knowledge_area
   belongs_to :school
   has_one :professor
   
@@ -7,22 +7,19 @@ class GradeFromExcel < ActiveRecord::Base
     spreadsheet = open_spreadsheet(file)
     already_present_grades = []
     notice = ""
-    begin
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        row = Hash[[header, spreadsheet.row(i)].transpose]
-        grade = find_by_id(row["id"]) || new
-        grade.attributes = row.to_hash.slice(*accessible_attributes)
-        already_present_professor = find_by_professor_email(grade.professor_email)
-        grade.code = already_present_professor ? already_present_professor.code : StudentFromExcel.generate_unique_code
-        grade.school_id = school_id
-        begin
-          grade.save!
-        rescue
-          already_present_grades << grade.grade_name
-        end  
-      end
-    rescue
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      grade = find_by_id(row["id"]) || new
+      grade.attributes = row.to_hash.slice(*accessible_attributes)
+      already_present_professor = self.where("professor_name = ? and school_id = ?", grade.professor_name, school_id).first
+      grade.code = already_present_professor ? already_present_professor.code : User.generate_unique_code
+      grade.school_id = school_id
+      begin
+        grade.save!
+      rescue
+        already_present_grades << grade.grade_name
+      end  
     end
     already_present_grades  
   end

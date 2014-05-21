@@ -15,7 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user_role = params[:user].delete(:role)
     if @user_role == User.find_professor_role
-      @professor = GradeFromExcel.find_by_professor_email(params[:user][:email])  
+      @professor = GradeFromExcel.find_by_professor_name(params[:user][:name])
     else
       cpf = params[:user].delete(:cpf)
       @student = StudentFromExcel.find_by_cpf(cpf)

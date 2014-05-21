@@ -3,7 +3,7 @@ class ProfessorsController < ApplicationController
   before_filter :require_professor!
   
   def index
-    @professor_grades = current_user.professor_grades
+    @professor_grades = current_professor.professor_grades
   end
   
   def show_students

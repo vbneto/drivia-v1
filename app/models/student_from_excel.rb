@@ -40,7 +40,7 @@ class StudentFromExcel < ActiveRecord::Base
       student.ra = row['ra']
       if student.new_record?
         student.first_ra = row["ra"].to_i
-        student.cpf = self.generate_unique_code 
+        student.cpf = User.generate_unique_code 
       end
       student.new_record? ? (student.parent_name_1 = row['parent_name']) : (student.parent_name_2 = row['parent_name'])
       student.school_id = school_id
@@ -60,15 +60,6 @@ class StudentFromExcel < ActiveRecord::Base
     rescue
       nil
     end  
-  end
-  
-  def self.generate_unique_code
-    unique_code = nil
-    code_array = [('a'..'z'), ('A'..'Z'), (0..25)].map { |i| i.to_a }.flatten
-    begin
-      unique_code = (0...50).map { code_array[rand(code_array.length)] }.join.first(16)
-    end while self.all.map(&:cpf).include? unique_code
-    unique_code
   end
   
   def student_grade(subject, bimester)

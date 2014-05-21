@@ -86,15 +86,20 @@ class User < ActiveRecord::Base
     end
   end
   
-  def professor_grades
-    GradeFromExcel.where(:professor_email => self.email)
-  end
-  
   def self.student_active
     STUDENT_STATUS[0]
   end
   
   def self.student_deactive
     STUDENT_STATUS[1]
+  end
+  
+  def self.generate_unique_code
+    unique_code = nil
+    code_array = [('a'..'z'), ('A'..'Z'), (0..25)].map { |i| i.to_a }.flatten
+    begin
+      unique_code = (0...50).map { code_array[rand(code_array.length)] }.join.first(16)
+    end while (StudentFromExcel.all.map(&:cpf).include? unique_code or GradeFromExcel.all.map(&:code).include? unique_code)
+    unique_code
   end
 end

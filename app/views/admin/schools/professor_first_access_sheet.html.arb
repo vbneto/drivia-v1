@@ -1,0 +1,9 @@
+panel "First Access Details" do
+  table_for @professor_details do
+    column :professor_name
+    column "First Access Code", :code
+  end
+  strong { link_to "Download professor first access sheet", download_professor_first_access_sheet_admin_school_path(id: params[:id], format: "xls") }
+end  
+
+
