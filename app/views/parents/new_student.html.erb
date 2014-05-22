@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
       <% @students.each do |student| %>
-        <%= student.student_name %> - <%= student.school.name %></br>
+        <%= student.student_name %> - <%= student.active_school.name %></br>
       <% end %>
       <%= form_tag create_registration_with_cpf_parents_path do %>
         <div>

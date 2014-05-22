@@ -14,6 +14,7 @@ class RegistrationsController < Devise::RegistrationsController
   
   def create
     @user_role = params[:user].delete(:role)
+    # TODO: implement using uniquness
     if User.where("role = ? and email = ?", @user_role, params[:user][:email]).first
       redirect_to new_user_session_path , :notice=> "#{@user_role} is already present with this email please sign in" and return
     end
@@ -29,7 +30,6 @@ class RegistrationsController < Devise::RegistrationsController
       birth_day = params[:user].delete(:birth_day)
     end
     build_resource(params[:user])
-    #resource.tag_list = params[:tags]   #******** here resource is user 
     resource.role = @user_role
     resource.name = @professor.professor_name if @professor
     if resource.save

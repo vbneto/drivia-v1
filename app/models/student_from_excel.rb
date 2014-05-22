@@ -116,6 +116,10 @@ class StudentFromExcel < ActiveRecord::Base
     student_status unless student_status.blank?
   end
   
+  def active_school
+    get_active_status.school
+  end
+  
   def current_school_status school_id
     self.student_statuses.where(school_id: school_id).first 
   end

@@ -95,11 +95,15 @@ class User < ActiveRecord::Base
   end
   
   def self.generate_unique_code
-    unique_code = nil
-    code_array = [('a'..'z'), ('A'..'Z'), (0..25)].map { |i| i.to_a }.flatten
+    codes = StudentFromExcel.all.map(&:cpf) + GradeFromExcel.all.map(&:code)
     begin
-      unique_code = (0...50).map { code_array[rand(code_array.length)] }.join.first(16)
-    end while (StudentFromExcel.all.map(&:cpf).include? unique_code or GradeFromExcel.all.map(&:code).include? unique_code)
+      unique_code = long_code
+    end while (codes.include? unique_code)
     unique_code
   end
+  
+  def self.long_code
+    Array.new(16){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
+  end
+  
 end

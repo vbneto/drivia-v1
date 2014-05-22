@@ -18,6 +18,9 @@ $("#select_subject").multiselect({
   },
   includeSelectAllOption: true
 });
+$("option", $("#select_subject")).each(function(element) {
+  return $("#select_subject").multiselect("select", $(this).val());
+});
 
 $('#sub_input_year,#sub_input_start,#sub_input_end').remove();
 
