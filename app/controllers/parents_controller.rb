@@ -5,19 +5,20 @@ class ParentsController < ApplicationController
   end
   
   def create_registration_with_cpf
-    @cpf = User.check_cpf params[:cpf]
+    @cpf = params[:cpf]
     @student = StudentFromExcel.find_by_cpf(@cpf)
     parent = Parent.find_by_user_id(current_user.id)
     if @student.nil?
-      redirect_to new_registration_with_cpf_users_path, :notice => "student with given cpf was not found" and return
+      flash[:error] = "student with given cpf was not found"
+      redirect_to new_student_parents_path and return
     elsif @student.student_parents.size > 0
-      if @student.student_parents.select{|student| student.parent_id== parent.id }.size == 1
-        redirect_to root_path, :notice => "You were already added this student"
-        return
+      unless @student.student_parents.select{|student| student.parent_id == parent.id }.blank?
+        flash[:error] = "You were already added this student"
+        redirect_to new_student_parents_path and return
       end  
     elsif @student.student_parents.size == 2    
-      redirect_to root_path, :notice => "There are already two parents signup with this cpf #{@cpf}"
-      return
+      flash[:error] = "There are already two parents signup with this cpf #{@cpf}"
+      redirect_to new_student_parents_path and return
     end  
     render ask_question_parents_path
   end

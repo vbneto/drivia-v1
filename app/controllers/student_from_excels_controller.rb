@@ -25,15 +25,24 @@ class StudentFromExcelsController < ApplicationController
   end
   
   def merge_student_account
-    new_student_status = StudentFromExcel.find_by_cpf(params[:code]).student_statuses.first
-    current_student_from_excel = current_student.student_from_excel
-    new_student_status.student_from_excel_id = current_student_from_excel.id
-    if new_student_status.save
-      flash[:notice] = "Student is added successfylly"
+    new_student = StudentFromExcel.find_by_cpf(params[:code])
+    if new_student
+      new_student_status = new_student.student_statuses.first
+      old_student = current_student.student_from_excel
+      new_student_status.student_from_excel_id = old_student.id
+      if new_student_status.save
+        new_student.destroy
+        old_student.cpf = params[:code]
+        old_student.save
+        flash[:notice] = "Student is added successfylly"
+      else
+        flash[:error] = "Student is already active in any other school please contact to school administration"
+      end
+      redirect_to users_path
     else
-      flash[:error] = "Student is already active in any other school please contact to school administration"
-    end
-    redirect_to users_path
+      flash[:error] = "Student with given code is not available please contact to school administration"
+      redirect_to new_student_parents_path
+    end  
   end
   
 end
