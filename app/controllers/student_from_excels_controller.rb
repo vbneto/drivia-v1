@@ -14,8 +14,7 @@ class StudentFromExcelsController < ApplicationController
     @student.cpf = User.generate_unique_code
     @student.student_statuses.first.ra = @student.first_ra
     if @student.save
-      flash[:notice] = "Student is added successfylly"
-      redirect_to show_users_school_administrations_path
+      redirect_to show_users_school_administrations_path, :notice => "Student is added successfylly"
     else
       render 'new'
     end
@@ -40,8 +39,7 @@ class StudentFromExcelsController < ApplicationController
       end
       redirect_to users_path
     else
-      flash[:error] = "Student with given code is not available please contact to school administration"
-      redirect_to new_student_parents_path
+      redirect_to new_student_parents_path, :flash => { :error => "Student with given code is not available please contact to school administration"}
     end  
   end
   

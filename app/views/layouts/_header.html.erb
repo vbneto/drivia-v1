@@ -21,6 +21,7 @@
           <% elsif current_professor %>
             <li><%= link_to "Dashboard",professors_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "Add New account",add_new_professor_account_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Logout",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
           <% elsif current_parent || current_student %>
             <li><%= link_to "Dashboard",users_path%></li>
@@ -29,7 +30,7 @@
             <% end %>  
             <li><%= link_to "My account",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <% if current_student %>
-              <li><%= link_to "Add New account",add_new_account_path, :class => 'nav_header_icon' %></li>
+              <li><%= link_to "Add New account",add_new_student_account_path, :class => 'nav_header_icon' %></li>
             <% end %>
             <li><%= link_to "Logout",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon' %></li>  
           <%end%>

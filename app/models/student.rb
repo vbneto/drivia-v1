@@ -53,6 +53,4 @@ class Student < ActiveRecord::Base
     end  
     total_no_show.sort_by {|k,v| v}.reverse
   end
-  
-  
 end

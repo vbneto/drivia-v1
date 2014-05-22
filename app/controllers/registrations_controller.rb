@@ -14,13 +14,13 @@ class RegistrationsController < Devise::RegistrationsController
   
   def create
     @user_role = params[:user].delete(:role)
-    # TODO: implement using uniquness
-    if User.where("role = ? and email = ?", @user_role, params[:user][:email]).first
-      redirect_to new_user_session_path , :notice=> "#{@user_role} is already present with this email please sign in" and return
+    #Todo
+    if User.where(email: params[:user][:email]).first
+      redirect_to new_user_session_path, :flash=>{:error=>"#{@user_role} is already present with this email please sign in"} and return
     end
     if @user_role == User.find_professor_role
-      code = params[:user].delete(:code)
-      @professor = GradeFromExcel.find_by_code(code)
+      cpf = params[:user].delete(:code)
+      @professor = GradeFromExcel.find_by_code(cpf)
     else
       cpf = params[:user].delete(:cpf)
       @student = StudentFromExcel.find_by_cpf(cpf)
@@ -51,8 +51,9 @@ class RegistrationsController < Devise::RegistrationsController
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
       end
     else
+      flash[:error] = resource.errors.full_messages
       clean_up_passwords resource
-      redirect_to new_user_registration_path(cpf: cpf, user: @user_role), :notice=> "Please completly fill the form"
+      redirect_to new_user_registration_path(cpf: cpf, user: @user_role)
     end
   end
     

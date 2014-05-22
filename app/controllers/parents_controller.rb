@@ -9,16 +9,13 @@ class ParentsController < ApplicationController
     @student = StudentFromExcel.find_by_cpf(@cpf)
     parent = Parent.find_by_user_id(current_user.id)
     if @student.nil?
-      flash[:error] = "student with given cpf was not found"
-      redirect_to new_student_parents_path and return
+      redirect_to new_student_parents_path, :flash =>{ :error => "student with given cpf was not found"} and return
     elsif @student.student_parents.size > 0
       unless @student.student_parents.select{|student| student.parent_id == parent.id }.blank?
-        flash[:error] = "You were already added this student"
-        redirect_to new_student_parents_path and return
+        redirect_to new_student_parents_path, :flash =>{ :error => "You were already added this student"} and return
       end  
     elsif @student.student_parents.size == 2    
-      flash[:error] = "There are already two parents signup with this cpf #{@cpf}"
-      redirect_to new_student_parents_path and return
+      redirect_to new_student_parents_path, :flash =>{ :error => "There are already two parents signup with this cpf #{@cpf}"} and return
     end  
     render ask_question_parents_path
   end
