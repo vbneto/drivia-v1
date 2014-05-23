@@ -9,7 +9,7 @@ SchoolSystem::Application.routes.draw do
     collection  do
       get "new_student"
       get "ask_question"
-      post "create_registration_with_cpf"
+      post "create_registration_with_code"
       get "add_student"
     end
   end  
@@ -53,8 +53,8 @@ SchoolSystem::Application.routes.draw do
   
   resources :users do
     collection do
-      get "new_registration_with_cpf"
-      post "create_registration_with_cpf"
+      get "new_registration_with_code"
+      post "create_registration_with_code"
       get "signup"
       post "find_parent_or_student_for_signup"
       post "change_student"

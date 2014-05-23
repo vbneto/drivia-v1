@@ -11,7 +11,7 @@ class StudentFromExcelsController < ApplicationController
     school_id = current_school_administration.school_id
     params[:student_from_excel][:student_statuses_attributes]["0"].merge!(:school_id=>school_id, :status=>User.student_active)
     @student = StudentFromExcel.new(params[:student_from_excel])
-    @student.cpf = User.generate_unique_code
+    @student.code = User.generate_unique_code
     @student.student_statuses.first.ra = @student.first_ra
     if @student.save
       redirect_to show_users_school_administrations_path, :notice => "Student is added successfylly"
@@ -24,14 +24,14 @@ class StudentFromExcelsController < ApplicationController
   end
   
   def merge_student_account
-    new_student = StudentFromExcel.find_by_cpf(params[:code])
+    new_student = StudentFromExcel.find_by_code(params[:code])
     if new_student
       new_student_status = new_student.student_statuses.first
       old_student = current_student.student_from_excel
       new_student_status.student_from_excel_id = old_student.id
       if new_student_status.save
         new_student.destroy
-        old_student.cpf = params[:code]
+        old_student.code = params[:code]
         old_student.save
         flash[:notice] = "Student is added successfylly"
       else

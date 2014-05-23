@@ -1,7 +1,7 @@
 class Student < ActiveRecord::Base
   belongs_to :user
   belongs_to :student_from_excel
-  attr_accessible :birth_day, :cpf, :current_grade, :gender, :user_id, :school_id, :student_from_excel_id
+  attr_accessible :birth_day, :code, :current_grade, :gender, :user_id, :school_id, :student_from_excel_id
  
   def self.all_bimesters_average(monthly_grades)
     all_bimesters = monthly_grades.map(&:bimester).uniq.sort unless monthly_grades.blank?
@@ -12,7 +12,7 @@ class Student < ActiveRecord::Base
         grades = grades_of_bimester.reject{ |grade| grade.grade.blank? }.map(&:grade)
         bimester_average.merge!({bimester => (grades.inject(:+)/grades.size).round(2)}) unless grades.blank?
       end
-    end  
+    end 
     bimester_average
   end
   

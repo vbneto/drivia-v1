@@ -3,20 +3,20 @@
     <div class="panel panel-heading">
       <h5 class="panel-title " >
         <% if @role == User.find_student_role %>
-          <%= t('users.registration_form.please_inform_your_cpf_to_continue') %>
+          <%= t('users.registration_form.please_inform_your_code_to_continue') %>
         <% elsif @role == User.find_parent_role %>
-          <%= t('users.registration_form.please_inform_the_cpf_of_one_student_who_you_are_responsible_for_to_continue') %>
+          <%= t('users.registration_form.please_inform_the_code_of_one_student_who_you_are_responsible_for_to_continue') %>
         <% elsif @role == User.find_professor_role %>
           <%= t('users.registration_form.please_inform_your_registered_email_to_continue') %>
         <% end %>
       </h5>
     </div>
     <div class="panel-body">
-      <%= form_tag( create_registration_with_cpf_users_path, :method => :post ) do %>
+      <%= form_tag( create_registration_with_code_users_path, :method => :post ) do %>
         <%= hidden_field_tag :user, @role%>
         <% if @role != 'professor'%>
-          <div><%= label_tag :cpf %>
-            <%= text_field_tag :cpf %>
+          <div><%= label_tag :code %>
+            <%= text_field_tag :code %>
           </div>
         <% else %>
           <div><%= label_tag :code %>

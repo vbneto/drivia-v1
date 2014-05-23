@@ -71,14 +71,6 @@ class User < ActiveRecord::Base
     find_user_role "professor"
   end
   
-=begin  def self.check_cpf cpf
-    if cpf.size == 11
-      {'3' => '.', '7' => '.', '11' => '-'}.each{|k,v| cpf.insert(k.to_i, v)}
-    end
-    cpf
-  end
-=end
-  
   def student_monthly_grades(student,student_status)
     unless student_status.blank?
       student_monthly_grade = student_status.monthly_grades 
@@ -95,7 +87,7 @@ class User < ActiveRecord::Base
   end
   
   def self.generate_unique_code
-    codes = StudentFromExcel.all.map(&:cpf) + GradeFromExcel.all.map(&:code)
+    codes = StudentFromExcel.all.map(&:code) + GradeFromExcel.all.map(&:code)
     begin
       unique_code = long_code
     end while (codes.include? unique_code)

@@ -4,9 +4,9 @@
       <h5 class="panel-title " >First Access</h5>
     </div>
     <div class="panel-body">
-      <%= link_to t("users.sign_up.i_am_a_student"), new_registration_with_cpf_users_path(:role=>"student"), :class=>"btn" %>
-      <%= link_to t("users.sign_up.i_am_a_parent"), new_registration_with_cpf_users_path(:role=>"parent"), :class=>"btn" %>
-      <%= link_to t("users.sign_up.i_am_a_professor"), new_registration_with_cpf_users_path(:role=>"professor"), :class=>"btn" %>
+      <%= link_to t("users.sign_up.i_am_a_student"), new_registration_with_code_users_path(:role=>"student"), :class=>"btn" %>
+      <%= link_to t("users.sign_up.i_am_a_parent"), new_registration_with_code_users_path(:role=>"parent"), :class=>"btn" %>
+      <%= link_to t("users.sign_up.i_am_a_professor"), new_registration_with_code_users_path(:role=>"professor"), :class=>"btn" %>
     </div>
   </div>
 </div>

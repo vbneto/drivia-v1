@@ -3,8 +3,8 @@ class RegistrationsController < Devise::RegistrationsController
   def new
     @user_role = params[:user]
     if @user_role != User.find_professor_role
-      cpf = params[:cpf]
-      @student = StudentFromExcel.find_by_cpf(cpf)
+      code = params[:code]
+      @student = StudentFromExcel.find_by_code(code)
     else
       code = params[:code]
       @professor = GradeFromExcel.find_by_code(code)
@@ -19,11 +19,11 @@ class RegistrationsController < Devise::RegistrationsController
       redirect_to new_user_session_path, :flash=>{:error=>"#{@user_role} is already present with this email please sign in"} and return
     end
     if @user_role == User.find_professor_role
-      cpf = params[:user].delete(:code)
-      @professor = GradeFromExcel.find_by_code(cpf)
+      code = params[:user].delete(:code)
+      @professor = GradeFromExcel.find_by_code(code)
     else
-      cpf = params[:user].delete(:cpf)
-      @student = StudentFromExcel.find_by_cpf(cpf)
+      code = params[:user].delete(:code)
+      @student = StudentFromExcel.find_by_code(code)
     end  
     if @user_role == User.find_parent_role || @user_role == User.find_professor_role 
       gender = params[:user].delete(:gender)
@@ -53,7 +53,7 @@ class RegistrationsController < Devise::RegistrationsController
     else
       flash[:error] = resource.errors.full_messages
       clean_up_passwords resource
-      redirect_to new_user_registration_path(cpf: cpf, user: @user_role)
+      redirect_to new_user_registration_path(code: code, user: @user_role)
     end
   end
     

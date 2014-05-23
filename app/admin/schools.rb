@@ -31,7 +31,7 @@ ActiveAdmin.register School do
     already_present_students = StudentFromExcel.student_list(params[:file], params[:id])
     flash[:notice] = "List of students imported."
     if already_present_students.size > 0
-      flash[:notice] = "This are the CPF which is either already present or invalid "+ already_present_students.join(", ")
+      flash[:notice] = "This are the Code which is either already present or invalid "+ already_present_students.join(", ")
     end
     redirect_to student_first_access_sheet_admin_school_path
   end
@@ -69,7 +69,7 @@ ActiveAdmin.register School do
     f.has_many :student_from_excels do |student|
       student.inputs "Students" do
         student.input :student_name 
-        student.input :cpf 
+        student.input :code 
         student.input :birth_day
         student.inputs "gender" do
           student.collection_select :gender, ['male','female'], :to_s, :humanize

@@ -5,7 +5,7 @@
     <thead>
       <tbody>
       <tr><th><%= t('school_administration.show_parent.name') %></th><td><%= @student.student_name%></td></tr>
-      <tr><th>CPF</th><td><%= @student.cpf %></td></tr>
+      <tr><th>Code</th><td><%= @student.code %></td></tr>
       <% unless @student.user.blank? %>
         <tr><th>Email</th><td><%= @student.user.email %></td></tr>
         <tr><th>PhonePrefix</th><td><%= @student.user.phoneprefix %></td></tr>

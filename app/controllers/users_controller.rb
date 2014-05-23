@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:home, :new_registration_with_cpf, :create_registration_with_cpf, :signup]
+  before_filter :authenticate_user!, :except => [:home, :new_registration_with_code, :create_registration_with_code, :signup]
   
   def home
   end
@@ -38,33 +38,33 @@ class UsersController < ApplicationController
     end  
   end
   
-  def create_registration_with_cpf
+  def create_registration_with_code
     @role = params[:user]
     if (@role == User.find_student_role || @role == User.find_parent_role)
-      @cpf = params[:cpf]
-      @student = StudentFromExcel.find_by_cpf(@cpf)
+      @code = params[:code]
+      @student = StudentFromExcel.find_by_code(@code)
       if @student.nil?
-        flash[:error]= "student with given cpf was not found"
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        flash[:error]= "student with given code was not found"
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       elsif @role == User.find_student_role && !@student.student.blank?
-        flash[:error]= "student was already signup with this cpf #{@cpf}"
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        flash[:error]= "student was already signup with this code #{@code}"
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       elsif @student.is_deactive_student?
         flash[:error]= "Sorry, this account has been deactivated, please contact to school administration." 
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       elsif @role == User.find_parent_role && @student.student_parents.size == 2
-        flash[:error]= "There are already two parents signup with this cpf #{@cpf}"
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        flash[:error]= "There are already two parents signup with this code #{@code}"
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       end
     elsif @role == User.find_professor_role
       @code = params[:code]
       @professor = GradeFromExcel.find_by_code(@code)
       if @professor.nil?
         flash[:error]= "Professor with given code was not found"
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       elsif @professor.professor
         flash[:error]= "Professor with given code was already present"
-        redirect_to new_registration_with_cpf_users_path(role: @role) and return
+        redirect_to new_registration_with_code_users_path(role: @role) and return
       end
     end
     render ask_question_users_path  
@@ -219,7 +219,7 @@ class UsersController < ApplicationController
     end  
   end
   
-  def new_registration_with_cpf
+  def new_registration_with_code
     @role = params[:role]
   end
   

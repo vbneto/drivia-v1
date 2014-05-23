@@ -30,7 +30,7 @@
           <td id='student_<%=student.id%>' class='student_details' colspan="5">
 
           <table width="590" >  
-            <tr> <th>CPF:</th><td><%= student.cpf%> </td> </tr>
+            <tr> <th>Code:</th><td><%= student.code%> </td> </tr>
             <tr> <th><%= t('school_administration.student_list.student_name') %></th><td><%= student.student_name%></td> </tr>
             <tr> <th><%= t('school_administration.student_list.current_grade') %></th><td><%= student_current_grade student %></td> </tr>
             <% if student.student.present?%>
