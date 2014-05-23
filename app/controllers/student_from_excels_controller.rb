@@ -28,6 +28,7 @@ class StudentFromExcelsController < ApplicationController
     if new_student
       new_student_status = new_student.student_statuses.first
       old_student = current_student.student_from_excel
+      new_student_status.monthly_grades.each{|grade| grade.student_from_excel_id = old_student.id and grade.save }
       new_student_status.student_from_excel_id = old_student.id
       if new_student_status.save
         new_student.destroy

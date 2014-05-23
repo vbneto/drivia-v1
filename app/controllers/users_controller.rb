@@ -71,6 +71,7 @@ class UsersController < ApplicationController
   end
   
   def change_subjects
+    params[:subjects].delete('multiselect-all') unless params[:subjects].blank?
     unless params[:subjects].blank?
       @subjects = params[:subjects]
       @student = StudentFromExcel.find_by_id(params[:student_id_of_subject]) if current_parent || current_school_administration

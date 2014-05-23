@@ -17,5 +17,6 @@
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+    google.visualization.errors.removeAll(document.getElementById('chart_div'))   
   }
 </script>

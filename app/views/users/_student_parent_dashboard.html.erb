@@ -103,8 +103,10 @@
     
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+    google.visualization.errors.removeAll(document.getElementById('chart_div'))   
     var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
     chart2.draw(data2, options2);
+    google.visualization.errors.removeAll(document.getElementById('chart_div2'))   
   }
   
   $(window).resize(function() {
