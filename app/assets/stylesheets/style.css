@@ -29,7 +29,7 @@ header .user_name{
   padding: 8px 15px;
 }
 .top_menu ul li a:hover, .top_menu ul li a:focus{
-  background: none !important;
+  background: #5F8A31 !important;
   color: #616161 !important;
 }
 .top_menu ul li.active a{
@@ -38,8 +38,16 @@ header .user_name{
   border-radius: 0;
   color: #222620 !important;
 }
-
-
+.top-right-header{
+  padding-top:20px;
+}
+.middle-content{
+  padding-right:15px;
+  padding-left:15px;
+}
+.user-name b{
+  padding:0px !important;
+}
 .middle_section{
   background-color: #fff;
   padding: 20px 0;
@@ -174,6 +182,15 @@ footer ul{
   }
   .user_name + .top_menu ul li a{
     font-size: 14px;
+  }
+  .padd_zero_left {
+    padding-right:0px;
+  }
+  .padd-left-for-input{
+    padding-left:15px !important;
+  }
+  .place_inline>p{
+    padding-left:58px;
   }
 }
 @media(min-width: 320px) and (max-width: 700px) and (orientation:landscape){

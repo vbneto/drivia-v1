@@ -44,8 +44,14 @@ class SchoolAdministrationsController < ApplicationController
   
   def update_student
     @student_record = StudentFromExcel.find( params[:id] )
+    
     params[:student_from_excel][:user_attributes][:name] = params[:student_from_excel][:student_name] unless params[:student_from_excel][:user_attributes].nil?
+    
+    student_status = @student_record.student_statuses.where(school_id: current_school_administration.school_id).first
+    student_status.current_grade = params[:student_from_excel].delete(:current_grade)
+    
     if @student_record.update_attributes(params["student_from_excel"])
+      student_status.save
       redirect_to show_users_school_administrations_path, :notice => "Records updated"
     else
       render 'edit_student_record', :flash => { :error => "Records not updated"}

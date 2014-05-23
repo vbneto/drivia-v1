@@ -33,7 +33,8 @@
 .align-center{
   margin-left: 30% !important;
 }
+
 input[type]
 {
-  height: 0% !important;
+  height: 30px !important;
 }
