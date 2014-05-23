@@ -70,6 +70,15 @@ label{
   cursor: pointer;
 }
 
+input[type="checkbox"],input[type="radio"] {
+  width:13px;
+  height:13px !important;
+}
+
+.edit_user input{
+  min-height: 25px !important;
+}
+
 #student_parent_dashboard{
  padding-left: 15px !important;
 }
