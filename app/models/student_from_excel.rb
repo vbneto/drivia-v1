@@ -5,8 +5,8 @@ class StudentFromExcel < ActiveRecord::Base
   attr_accessible :status, :code, :as => [:admin]
   attr_accessor :grade_class, :current_grade, :birth_day, :gender, :status, :ra
   #validates :school_id, presence: true
-  validates :student_name, presence: true#, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
-  
+  validates :student_name, presence: true, format: { with: /^[^0-9!@#\$%\^&*+_=]+$/, message: "Only letters allowed" }
+
   belongs_to :school
   has_many :student_parents
   has_many :monthly_grades

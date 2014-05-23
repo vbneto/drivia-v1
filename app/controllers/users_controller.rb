@@ -9,12 +9,12 @@ class UsersController < ApplicationController
       @parent_students = current_parent.student_from_excels
       @student = @parent_students.first
     end
-    
     @student = current_student.student_from_excel if current_student
     
     @student = StudentFromExcel.find_by_id(params[:student_id]) if current_school_administration
     
     @student_school_status = @student.student_statuses.first
+    @school_average = @student_school_status.school.school_average
     
     @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
     @subject_average = Student.subject_average @student_monthly_grades
@@ -74,11 +74,12 @@ class UsersController < ApplicationController
     params[:subjects].delete('multiselect-all') unless params[:subjects].blank?
     unless params[:subjects].blank?
       @subjects = params[:subjects]
+      @number_of_subject_selected = params[:subjects].size - 1
       @student = StudentFromExcel.find_by_id(params[:student_id_of_subject]) if current_parent || current_school_administration
       @student = Student.find_by_user_id(current_user.id).student_from_excel if current_student
-      
       student_status_id = params[:student_status_id_of_subject]
       @student_school_status = student_status_id.blank? ? @student.student_statuses.first : StudentStatus.find(student_status_id)
+      @school_average = @student_school_status.school.school_average
       
       year = params[:year]
       all_student_grades = nil
@@ -120,7 +121,7 @@ class UsersController < ApplicationController
     selected_subjects = params[:subject_selected]
     
     @student_school_status = @student.student_statuses.first
-    
+    @school_average = @student_school_status.school.school_average
     if year.blank? || (!@student.monthly_grades.map(&:year).include?year.to_i) || true
       @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)
       student_grades = current_user.student_monthly_grades(@student, @student_school_status)
@@ -166,6 +167,7 @@ class UsersController < ApplicationController
     @student = StudentFromExcel.find(params[:student_id])
     
     @student_school_status = student_status_id.blank? ? @student.student_statuses.first : StudentStatus.find(student_status_id)
+    @school_average = @student_school_status.school.school_average
     
     @student_monthly_grades = @student_school_status.monthly_grades.where(year: year)
     student_grades = @student_school_status.monthly_grades.where(year: year)
@@ -197,6 +199,7 @@ class UsersController < ApplicationController
   
   def change_school
     @student_school_status = StudentStatus.find(params[:student_status_id])
+    @school_average = @student_school_status.school.school_average
     @student = @student_school_status.student_from_excel
     @student_monthly_grades = @student_school_status.monthly_grades
     @subject_average = Student.subject_average @student_monthly_grades
