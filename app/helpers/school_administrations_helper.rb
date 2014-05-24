@@ -1,7 +1,7 @@
 module SchoolAdministrationsHelper
   
   def set_student_status student
-    student.is_deactive_student? ? 'false' : 'true'
+    (student.is_deactive_student_for_school? current_school_administration.school) ? 'false' : 'true'
   end
   
   def set_parent_status parent
@@ -63,4 +63,13 @@ module SchoolAdministrationsHelper
   def professor_current_grade professor
     professor.grade_name + professor.grade_class
   end
+  
+  def student_current_grade_for_school student
+    student.student_statuses.where(school_id: current_school_administration.school_id).first.current_grade
+  end
+  
+  def student_of_current_school_for_parent parent
+    parent.student_from_excels.select{|student| student.student_statuses.map(&:school_id).include?current_school_administration.school_id} if parent
+  end
+  
 end

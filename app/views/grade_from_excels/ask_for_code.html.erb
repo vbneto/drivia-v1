@@ -1,9 +1,9 @@
 <div class="container middle_section">
-  <h5 class="panel-title " >
+  <h5>
     Please inform your New Code to merge the account
   </h5>
   <div>
-    <%= form_tag( merge_new_student_account_path, :method => :post ) do %>
+    <%= form_tag( merge_new_professor_account_path, :method => :post ) do %>
       <div><%= label_tag :code %>
         <%= text_field_tag :code %>
       </div>
@@ -11,7 +11,6 @@
     <% end %>
   </div>
 </div>
-
 
 
 

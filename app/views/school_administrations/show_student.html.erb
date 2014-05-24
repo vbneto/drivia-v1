@@ -1,3 +1,4 @@
+<div class="container middle_section">
 <div id="subject_list" class="span6 move_down">
   <%= back_button %>
   <h5>Record of student</h5>
@@ -5,16 +6,16 @@
     <thead>
       <tbody>
       <tr><th><%= t('school_administration.show_parent.name') %></th><td><%= @student.student_name%></td></tr>
-      <tr><th>CPF</th><td><%= @student.cpf %></td></tr>
+      <tr><th>Code</th><td><%= @student.code %></td></tr>
       <% unless @student.user.blank? %>
         <tr><th>Email</th><td><%= @student.user.email %></td></tr>
         <tr><th>PhonePrefix</th><td><%= @student.user.phoneprefix %></td></tr>
         <tr><th>Phone:</th><td><%= @student.user.phone %></td></tr>
       <% end %>  
-      <tr><th>Birthday:</th><td><%= change_date_formate @student.birth_day %></td></tr>
-      <tr><th>School name:</th><td><%= @student.school.name %></td></tr>
-      <tr><th>current Grade:</th><td><%= @student.current_grade %></td></tr>
-      <tr><th>Gender:</th><td><%= @student.gender %></td></tr>
+      <!--tr><th>Birthday:</th><td><%= change_date_formate @student.birth_day %></td></tr-->
+      <tr><th>School name:</th><td><%= current_school_administration.school.name %></td></tr>
+      <tr><th>current Grade:</th><td><%= student_current_grade_for_school @student %></td></tr>
+      <!--tr><th>Gender:</th><td><%= @student.gender %></td></tr-->
       </tbody>
     </thead>
   </table>

@@ -1,3 +1,4 @@
+
 <div class="row">
   <div class="col-md-5 col-sm-5 col-xs-12 padd_none" id="student_parent_dashboard">
     <div class="row">
@@ -25,7 +26,7 @@
     <%=render partial:"change_date_range"%> 
   </div>
 
-  <div class="col-md-2 col-sm-2 col-xs-2 padd_none current_month_margin pull-right">
+  <div class="col-md-2 col-sm-12 col-xs-12 padd_none current_month_margin pull-right">
     <%=link_to t('users.student_parent_dashboard.see_current_bimester'), "javascript: void(0)", :id=>"current_bimester",class: "current_month_btn pull-right" %>
   </div>
 </div>
@@ -68,7 +69,7 @@
       vAxis: { title: "Average", minValue: 0, maxValue: 10},
       hAxis: { title: "Bimester"},
       lineWidth: 3,
-      pointSize: 7,
+      pointSize: 12,
       series: {
             0: {
                 color: '#0655a4',
@@ -87,12 +88,12 @@
             0: {
                 lineWidth: 0,
                 color: '#0655a4',
-                pointSize: 7
+                pointSize: 12
             },
             1: {
                 lineWidth: 0,
-                color: '#818181',
-                pointSize: 7
+                color: '#5F8A31',
+                pointSize: 12
             },
             2: {
                 lineWidth: 4,
@@ -103,8 +104,10 @@
     
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+    google.visualization.errors.removeAll(document.getElementById('chart_div'))   
     var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
     chart2.draw(data2, options2);
+    google.visualization.errors.removeAll(document.getElementById('chart_div2'))   
   }
   
   $(window).resize(function() {

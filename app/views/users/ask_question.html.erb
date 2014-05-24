@@ -1,24 +1,26 @@
-<div class="align-center col-md-4">
-  <div class="panel panel-default">
-    <div class="panel panel-heading">
-      <h5 class="panel-title " >
-        <% if @role == User.find_student_role %>
-          <%= t('users_ask_question.are_you')%> <%= @student.student_name%>?
-        <% elsif @role == User.find_parent_role %>
-          <%= t('users_ask_question.are_you_responsible_for')%> <%= @student.student_name%>?
-        <% elsif @role == User.find_professor_role %>
-          <%= t('users_ask_question.are_you')%> <%= @professor.professor_name %>?
-        <% end %>
-      </h5>
+<div class="row">
+  <div class="login-main-box">
+    <h2>
+      <% if @role == User.find_student_role %>
+        <%= t('users_ask_question.are_you')%> <%= @student.student_name%>?
+      <% elsif @role == User.find_parent_role %>
+        <%= t('users_ask_question.are_you_responsible_for')%> <%= @student.student_name%>?
+      <% elsif @role == User.find_professor_role %>
+        <%= t('users_ask_question.are_you')%> <%= @professor.professor_name %>?
+      <% end %>
+    </h2>
+    <div class="row forgot-pass">
+      <div class="col-md-12 col-sm-4 col-xs-12 padd_none define_role">
+        <% if @role != User.find_professor_role %>
+          <%= link_to t("users.ask_question.yes"), new_user_registration_path(code: @code, user: @role)%>
+        <% else %>
+          <%= link_to t("users.ask_question.yes"), new_user_registration_path(code: @code, user: @role)%>
+        <% end %>  
+        <%= link_to t("users.ask_question.no"), new_registration_with_code_users_path(role:@role) %>
+      </div>
     </div>
-    <div class="panel-body">
-      <% if @role != User.find_professor_role %>
-        <%= link_to t("users.ask_question.yes"), new_user_registration_path(cpf: @cpf, user: @role), :class=>"btn" %>
-      <% else %>
-        <%= link_to t("users.ask_question.yes"), new_user_registration_path(code: @code, user: @role), :class=>"btn" %>
-      <% end %>  
-      <%= link_to t("users.ask_question.no"), new_registration_with_cpf_users_path(role:@role), :class=>"btn" %>
-    </div>
-  </div>
+  </div>  
 </div>
+
+
 

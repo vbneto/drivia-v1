@@ -46,6 +46,11 @@ module UsersHelper
     school
   end
   
+  def set_selected_school
+    student_status = @student.get_active_status
+    [student_status.school.name, student_status.id ] if student_status
+  end
+  
   def set_month_average_to_graph
     raw @month_average
   end

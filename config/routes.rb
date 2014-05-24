@@ -9,7 +9,7 @@ SchoolSystem::Application.routes.draw do
     collection  do
       get "new_student"
       get "ask_question"
-      post "create_registration_with_cpf"
+      post "create_registration_with_code"
       get "add_student"
     end
   end  
@@ -45,14 +45,16 @@ SchoolSystem::Application.routes.draw do
     
   put '/monthly_grades' => 'monthly_grades#update_grade', :as => 'update_grade'
   put '/monthly_grades/no_show' => 'monthly_grades#update_no_show', :as => 'update_no_show'
-  get 'student/ask_for_code' => 'student_from_excels#ask_for_code', :as => 'add_new_account'
+  get 'student/ask_for_code' => 'student_from_excels#ask_for_code', :as => 'add_new_student_account'
+  get 'professor/ask_for_code' => 'Grade_from_excels#ask_for_code', :as => 'add_new_professor_account'
   post 'student/merge_account' => 'student_from_excels#merge_student_account', :as => 'merge_new_student_account'
+  post 'professor/merge_account' => 'grade_from_excels#merge_professor_account', :as => 'merge_new_professor_account'
   
   
   resources :users do
     collection do
-      get "new_registration_with_cpf"
-      post "create_registration_with_cpf"
+      get "new_registration_with_code"
+      post "create_registration_with_code"
       get "signup"
       post "find_parent_or_student_for_signup"
       post "change_student"

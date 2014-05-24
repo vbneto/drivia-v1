@@ -28,8 +28,8 @@ en:
       no_shows: "No Shows"
       
     registration_form:
-      please_inform_your_cpf_to_continue: "Please, inform your CPF to continue."
-      please_inform_the_cpf_of_one_student_who_you_are_responsible_for_to_continue: "Please, inform the CPF of one student who you are responsible for to continue."
+      please_inform_your_code_to_continue: "Please, inform your code to continue."
+      please_inform_the_code_of_one_student_who_you_are_responsible_for_to_continue: "Please, inform the code of one student who you are responsible for to continue."
       please_inform_your_registered_email_to_continue: "Please, inform your registered e-mail to continue."  
     sign_up:
       i_am_a_student: "I'm a Student"
@@ -43,7 +43,7 @@ en:
   parents:
     new_student:
       student_list: "Student List "
-      enter_cpf_to_add_student: "Enter CPF to add student"
+      enter_code_to_add_student: "Enter code to add student"
       submit: "Submit"
     ask_question:
       are_you_responsible_for: "Are you responsible for "

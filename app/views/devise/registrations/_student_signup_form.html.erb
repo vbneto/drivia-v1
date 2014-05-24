@@ -2,7 +2,7 @@
   <%= devise_error_messages! %>
   <%= f.hidden_field :name, :value => "#{@student.student_name}"%>
   <%= f.hidden_field :role, :value => "#{@user_role}"%>
-  <%= f.hidden_field :cpf, :value => "#{@student.cpf}"%>
+  <%= f.hidden_field :code, :value => "#{@student.code}"%>
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %></div>
   

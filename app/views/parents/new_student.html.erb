@@ -1,4 +1,4 @@
-<div class="alignment">
+<div class="container middle_section">
   <div class="panel panel-default">
     <div class="panel panel-heading">
       <h5 class="panel-title " ><%= t('parents.new_student.student_list')%></h5>
@@ -7,10 +7,10 @@
       <% @students.each do |student| %>
         <%= student.student_name %> - <%= student.active_school.name %></br>
       <% end %>
-      <%= form_tag create_registration_with_cpf_parents_path do %>
+      <%= form_tag create_registration_with_code_parents_path do %>
         <div>
-          <h5><%= t('parents.new_student.enter_cpf_to_add_student') %></h5>
-          <%= text_field_tag :cpf %></div>
+          <h5><%= t('parents.new_student.enter_code_to_add_student') %></h5>
+          <%= text_field_tag :code %></div>
         <div>
           <%= submit_tag t("parents.new_student.submit"),class:"btn btn-normal" %>
         </div>

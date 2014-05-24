@@ -15,9 +15,9 @@ header .logo{
   display: inline-block;
 }
 header .user_name{
+  color: #666666;
   font-size: 12px;
-  color: #666;
-  margin: 10px 0 0;
+  margin: 0 -29px 3px;
   padding-right: 25px;
 }
 .top_menu ul li{
@@ -29,7 +29,7 @@ header .user_name{
   padding: 8px 15px;
 }
 .top_menu ul li a:hover, .top_menu ul li a:focus{
-  background: none !important;
+  background: #5F8A31 !important;
   color: #616161 !important;
 }
 .top_menu ul li.active a{
@@ -38,8 +38,16 @@ header .user_name{
   border-radius: 0;
   color: #222620 !important;
 }
-
-
+.top-right-header{
+  padding-top:20px;
+}
+.middle-content{
+  padding-right:15px;
+  padding-left:15px;
+}
+.user-name b{
+  padding:0px !important;
+}
 .middle_section{
   background-color: #fff;
   padding: 20px 0;
@@ -92,6 +100,11 @@ a.current_month_btn:hover{
 }
 .section1 tr.overall_average td{
   background-color: #7ab5f0;
+  border: none !important;
+  color: #fff;
+}
+.section1 tr.overall_average_red td{
+  background-color: #ff5817;
   border: none !important;
   color: #fff;
 }
@@ -170,6 +183,15 @@ footer ul{
   .user_name + .top_menu ul li a{
     font-size: 14px;
   }
+  .padd_zero_left {
+    padding-right:0px;
+  }
+  .padd-left-for-input{
+    padding-left:15px !important;
+  }
+  .place_inline>p{
+    padding-left:58px;
+  }
 }
 @media(min-width: 320px) and (max-width: 700px) and (orientation:landscape){
   footer ul{
@@ -231,6 +253,8 @@ input.login{
   color:#FFFFFF;  
   text-decoration:none !important;
   text-align:center;
+  width:100%;
+  margin-top: -2px;
 }
 input.login:hover,focus{
     color:#FFFFFF;  
@@ -253,4 +277,8 @@ input.login:hover,focus{
 /*Added new css style*/
 .current_month_margin{
     margin-right: 3.5%
+}
+
+.padding-none{
+  padding: 0 !important;
 }

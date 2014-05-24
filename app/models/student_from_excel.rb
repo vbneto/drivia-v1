@@ -1,12 +1,12 @@
 class StudentFromExcel < ActiveRecord::Base
 
   attr_accessible :student_name, :school_id, :first_ra, :user_attributes, :student_statuses_attributes, :parent_name_1, :parent_name_2
-  validates :cpf, uniqueness: true
-  attr_accessible :status, :cpf, :as => [:admin]
+  validates :code, uniqueness: true
+  attr_accessible :status, :code, :as => [:admin]
   attr_accessor :grade_class, :current_grade, :birth_day, :gender, :status, :ra
   #validates :school_id, presence: true
-  validates :student_name, presence: true#, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters allowed" }
-  
+  validates :student_name, presence: true, format: { with: /^[^0-9!@#\$%\^&*+_=]+$/, message: "Only letters allowed" }
+
   belongs_to :school
   has_many :student_parents
   has_many :monthly_grades
@@ -23,8 +23,8 @@ class StudentFromExcel < ActiveRecord::Base
   #after_create :update_student_parent_fields
   after_create :update_student_status
   
-  def is_active_cpf?
-    !(self.status == User.student_deactive || StudentFromExcel.where("cpf = ? and status = ?",self.cpf, User.student_active).blank?)
+  def is_active_code?
+    !(self.status == User.student_deactive || StudentFromExcel.where("code = ? and status = ?",self.code, User.student_active).blank?)
   end
 
   def self.student_list(file,school_id)
@@ -40,11 +40,11 @@ class StudentFromExcel < ActiveRecord::Base
       student.ra = row['ra']
       if student.new_record?
         student.first_ra = row["ra"].to_i
-        student.cpf = User.generate_unique_code 
+        student.code = User.generate_unique_code 
       end
       student.new_record? ? (student.parent_name_1 = row['parent_name']) : (student.parent_name_2 = row['parent_name'])
       student.school_id = school_id
-      student.valid? ? student.save! : already_present_students << student.cpf
+      student.valid? ? student.save! : already_present_students << student.code
     end
     already_present_students  
   end
@@ -85,13 +85,17 @@ class StudentFromExcel < ActiveRecord::Base
     !self.student_statuses.map(&:status).include?User.student_active
   end
   
+  def is_deactive_student_for_school? school
+    self.student_statuses.where(school_id: school.id, status: User.student_active).blank? ? "true" : "false"
+  end
+  
   def find_age
     now = Time.now.utc
     now.year - self.birth_day.year - (self.birth_day.to_time.change(:year => now.year) > now ? 1 : 0)
   end
   
   def update_student_parent_fields
-    student_from_excel = StudentFromExcel.where(:cpf=>self.cpf).sort_by(&:created_at)
+    student_from_excel = StudentFromExcel.where(:code=>self.code).sort_by(&:created_at)
     if student_from_excel.size > 1
       #previous_record = student_from_excel[-2]
       previous_record = student_from_excel.select{|student| student.student.present?}.first
@@ -103,7 +107,7 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def update_student_status
-    student_from_excel = StudentFromExcel.find_by_cpf(self.cpf)
+    student_from_excel = StudentFromExcel.find_by_code(self.code)
     if self.grade_class.blank?
       student_from_excel.student_statuses.create(school_id: self.school_id, ra: self.ra.to_i, status: User.student_active, current_grade: self.current_grade, year: Date.today.year) if student_from_excel
     else
@@ -118,6 +122,10 @@ class StudentFromExcel < ActiveRecord::Base
   
   def active_school
     get_active_status.school
+  end
+  
+  def status_for_school school_id
+    self.student_statuses.find_by_school_id(school_id)
   end
   
   def current_school_status school_id

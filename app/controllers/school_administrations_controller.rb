@@ -36,23 +36,25 @@ class SchoolAdministrationsController < ApplicationController
   def update_parent
     @parent_record = User.find(params[:id].to_i)
     if @parent_record.update_attributes(params["user"])
-      flash[:notice] = "Records updated"
-      redirect_to show_parent_school_administration_path(@parent_record)
+      redirect_to show_parent_school_administration_path(@parent_record), :notice => "Records updated"
     else
-      flash[:error] = "Records not updated" 
-      render 'edit_parent_record'
+      render 'edit_parent_record', :flash => {:error => "Records not updated"}
     end
   end
   
   def update_student
     @student_record = StudentFromExcel.find( params[:id] )
+    
     params[:student_from_excel][:user_attributes][:name] = params[:student_from_excel][:student_name] unless params[:student_from_excel][:user_attributes].nil?
+    
+    student_status = @student_record.student_statuses.where(school_id: current_school_administration.school_id).first
+    student_status.current_grade = params[:student_from_excel].delete(:current_grade)
+    
     if @student_record.update_attributes(params["student_from_excel"])
-      flash[:notice] = "Records updated"
-      redirect_to show_users_school_administrations_path
+      student_status.save
+      redirect_to show_users_school_administrations_path, :notice => "Records updated"
     else
-      flash[:error] = "Records not updated" 
-      render 'edit_student_record'
+      render 'edit_student_record', :flash => { :error => "Records not updated"}
     end
   end
 
@@ -65,7 +67,6 @@ class SchoolAdministrationsController < ApplicationController
     elsif student.is_deactive_student?
       student.student_statuses.first.status = User.student_active
       is_saved = student.student_statuses.first.save
-      #student.update_student_parent_fields if is_saved
     end
     if is_saved
       flash[:notice] = "Status changed successfully."  
