@@ -226,6 +226,17 @@ class UsersController < ApplicationController
   def signup
   end
   
+  def send_email_to_student
+    @user = current_user
+    if @user.is_student?
+      flash[:notice] = "email is sent"
+      UserMailer.send_mail_to_user(@user).deliver
+    else
+      flash[:error] = "You are not student"
+    end
+    redirect_to root_path
+  end  
+  
   private
   
   def student_monthly_grade_overall_average grades

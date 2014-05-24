@@ -60,8 +60,11 @@ SchoolSystem::Application.routes.draw do
       post "change_date"
       post "change_school"
       get "ask_question"
+      get "send_email_to_student"
     end
   end
+  root :to => 'users#home'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -111,7 +114,6 @@ SchoolSystem::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => 'users#home'
 
   # See how all your routes lay out with "rake routes"
 

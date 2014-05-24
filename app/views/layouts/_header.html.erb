@@ -30,6 +30,9 @@
             <li><%= link_to "My account",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <% if current_student %>
               <li><%= link_to "Add New account",add_new_account_path, :class => 'nav_header_icon' %></li>
+              
+              <li><%= link_to "send code",send_email_to_student_users_path, :class => 'nav_header_icon' %></li>
+            
             <% end %>
             <li><%= link_to "Logout",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon' %></li>  
           <%end%>
