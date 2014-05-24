@@ -85,6 +85,10 @@ class StudentFromExcel < ActiveRecord::Base
     !self.student_statuses.map(&:status).include?User.student_active
   end
   
+  def is_deactive_student_for_school? school
+    self.student_statuses.where(school_id: school.id, status: User.student_active).blank? ? "true" : "false"
+  end
+  
   def find_age
     now = Time.now.utc
     now.year - self.birth_day.year - (self.birth_day.to_time.change(:year => now.year) > now ? 1 : 0)
@@ -118,6 +122,10 @@ class StudentFromExcel < ActiveRecord::Base
   
   def active_school
     get_active_status.school
+  end
+  
+  def status_for_school school_id
+    self.student_statuses.find_by_school_id(school_id)
   end
   
   def current_school_status school_id

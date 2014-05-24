@@ -15,7 +15,7 @@
             <li><%=link_to "First access", signup_users_path, :class => 'nav_header_icon' %></li>
             <li><%=link_to "Login", new_user_session_path, :class => 'nav_header_icon' %></li>
           <% elsif current_school_administration %>
-            <li class="active"><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
+            <li><%= link_to "Dashboard",school_administrations_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "My profile",edit_user_registration_path, :class => 'nav_header_icon' %></li>
             <li><%= link_to "Logout",destroy_user_session_path, :method => :delete, :class => 'nav_header_icon'%></li>
           <% elsif current_professor %>

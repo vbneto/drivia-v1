@@ -28,7 +28,7 @@
           <% if @student_overall_average.to_f >= @school_average.to_f %>
             <tr id="overall_average" class="overall_average">
               <% if @subject_average.size > 1 %>
-                <% if current_parent || current_professor %>
+                <% if current_parent || current_school_administration %>
                   <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
                   <td><%= @student_overall_average %></td>
                 <%elsif current_student%>
@@ -51,7 +51,7 @@
           <% else %>
             <tr id="overall_average" class="overall_average_red">
                 <% if @subject_average.size > 1 %>
-                  <% if current_parent || current_professor %>
+                  <% if current_parent || current_school_administration %>
                     <td nowrap="nowrap"><%= @student.student_name + t('users.show_average_or_no_show.overall_average') %></td> 
                     <td><%= @student_overall_average %></td>
                   <%elsif current_student%>

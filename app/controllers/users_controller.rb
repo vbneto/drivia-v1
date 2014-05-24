@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     
     @student = StudentFromExcel.find_by_id(params[:student_id]) if current_school_administration
     
-    @student_school_status = @student.student_statuses.first
+    @student_school_status = current_school_administration ? (@student.status_for_school current_school_administration.school_id) : @student.get_active_status
     @school_average = @student_school_status.school.school_average
     
     @student_monthly_grades = current_user.student_monthly_grades(@student, @student_school_status)

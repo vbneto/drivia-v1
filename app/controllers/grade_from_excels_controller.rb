@@ -14,7 +14,7 @@ class GradeFromExcelsController < ApplicationController
         grade.code = old_professor.code
         grade.save
       end
-      redirect_to professors_path, :notice => "Professor is added successfylly"
+      redirect_to professors_path, :notice => "Your account was successfully updated. You are now linked to #{new_professor_grades.first.school.name}"
     else
       redirect_to professors_path, :flash =>{ :error => "Professor with given code is not available please contact to school administration"}
     end  

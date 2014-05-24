@@ -50,11 +50,6 @@ label{
   width: 397px;
 }
 
-.loading{
-  position: fixed;
-  left: 43%;
-}
-
 #change_month_form{
   padding-left: 14px;
   padding-top: 15px;
@@ -92,7 +87,14 @@ input[type="checkbox"],input[type="radio"] {
 #student_list{
   width: 90%;
 }
-
-.first_access{
-  
+.define_role a{
+  font-size: 15px;
+  padding: 8px 15px;
+  color: #222620;
+  width: 60%;
+}  
+.define_role a:hover{
+  background: #FF5817 !important;
+  color: #616161 !important;
+  border-radius: 5px;
 }

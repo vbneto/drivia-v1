@@ -1,13 +1,16 @@
-<div class="align-center col-md-4">
-  <div class="panel panel-default">
-    <div class="panel panel-heading">
-      <h5 class="panel-title " >First Access</h5>
+<div class="row">
+  <div class="login-main-box">
+    <h2>First Access</h2>
+    <div class="row forgot-pass">
+      <div class="col-md-12 col-sm-4 col-xs-12 padd_none define_role">
+        <%= link_to t("users.sign_up.i_am_a_student"), new_registration_with_code_users_path(:role=>"student") %>
+        <%= link_to t("users.sign_up.i_am_a_parent"), new_registration_with_code_users_path(:role=>"parent") %>
+        <%= link_to t("users.sign_up.i_am_a_professor"), new_registration_with_code_users_path(:role=>"professor") %>
+      </div>
     </div>
-    <div class="panel-body">
-      <%= link_to t("users.sign_up.i_am_a_student"), new_registration_with_code_users_path(:role=>"student"), :class=>"btn" %>
-      <%= link_to t("users.sign_up.i_am_a_parent"), new_registration_with_code_users_path(:role=>"parent"), :class=>"btn" %>
-      <%= link_to t("users.sign_up.i_am_a_professor"), new_registration_with_code_users_path(:role=>"professor"), :class=>"btn" %>
-    </div>
-  </div>
+  </div>  
 </div>
+
+
+
 

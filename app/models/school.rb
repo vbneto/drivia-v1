@@ -6,6 +6,7 @@ class School < ActiveRecord::Base
   has_many :professors
   has_many :student_statuses
   has_many :student_from_excels, :through => :student_statuses
+  has_many :parents, :through => :student_from_excels
   has_many :grade_from_excels
   has_one :school_administration
   validates :name, :presence => {:error => 'cannot be blank'}

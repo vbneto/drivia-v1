@@ -16,7 +16,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user_role = params[:user].delete(:role)
     #Todo
     if User.where(email: params[:user][:email]).first
-      redirect_to new_user_session_path, :flash=>{:error=>"#{@user_role} is already present with this email please sign in"} and return
+      redirect_to new_user_session_path, :flash => {:error => "This e-mail is already used. Please, log in to your Drivia account and update your account (My account > Update account)"} and return
     end
     if @user_role == User.find_professor_role
       code = params[:user].delete(:code)

@@ -1,34 +1,29 @@
-<div class="align-center col-md-4">
-  <div class="panel panel-default">
-    <div class="panel panel-heading">
-      <h5 class="panel-title " >
-        <% if @role == User.find_student_role %>
-          <%= t('users.registration_form.please_inform_your_code_to_continue') %>
-        <% elsif @role == User.find_parent_role %>
-          <%= t('users.registration_form.please_inform_the_code_of_one_student_who_you_are_responsible_for_to_continue') %>
-        <% elsif @role == User.find_professor_role %>
-          <%= t('users.registration_form.please_inform_your_registered_email_to_continue') %>
-        <% end %>
-      </h5>
-    </div>
-    <div class="panel-body">
-      <%= form_tag( create_registration_with_code_users_path, :method => :post ) do %>
-        <%= hidden_field_tag :user, @role%>
-        <% if @role != 'professor'%>
-          <div><%= label_tag :code %>
-            <%= text_field_tag :code %>
-          </div>
-        <% else %>
-          <div><%= label_tag :code %>
-            <%= text_field_tag :code,"" ,:required => true %>
-          </div>
-        <% end %>  
-        <div>
-          <%= submit_tag "Submit",class:"btn btn-normal" %>
-        </div>
+<div class="row">
+  <div class="login-main-box">
+    <h2>
+      <% if @role == User.find_student_role %>
+        <%= t('users.registration_form.please_inform_your_code_to_continue') %>
+      <% elsif @role == User.find_parent_role %>
+        <%= t('users.registration_form.please_inform_the_code_of_one_student_who_you_are_responsible_for_to_continue') %>
+      <% elsif @role == User.find_professor_role %>
+        <%= t('users.registration_form.please_inform_your_code_to_continue') %>
       <% end %>
-    </div>
-  </div>
+    </h2>
+    <%= form_tag( create_registration_with_code_users_path, :method => :post ) do %>
+      <%= hidden_field_tag :user, @role%>
+      <div class="row">
+        <%= text_field_tag :code,nil,:required => true, placeholder:"Enter your code",class: "col-md-12 col-sm-12 col-xs-12 top-space" %>
+      </div>  
+      <div class="row forgot-pass">
+        <div class="col-md-12 col-sm-4 col-xs-12 padd_none">
+          <%= submit_tag "Submit",class:"login" %>
+        </div>
+      </div>
+    <% end %>
+  </div>  
 </div>
+
+
+
 
 

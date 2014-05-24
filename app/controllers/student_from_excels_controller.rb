@@ -31,10 +31,10 @@ class StudentFromExcelsController < ApplicationController
       new_student_status.monthly_grades.each{|grade| grade.student_from_excel_id = old_student.id and grade.save }
       new_student_status.student_from_excel_id = old_student.id
       if new_student_status.save
+        flash[:notice] = "Your account was successfully updated. You are now in #{new_student_status.school.name} - #{new_student_status.current_grade} #{new_student_status.grade_class}"
         new_student.destroy
         old_student.code = params[:code]
         old_student.save
-        flash[:notice] = "Student is added successfylly"
       else
         flash[:error] = "Student is already active in any other school please contact to school administration"
       end

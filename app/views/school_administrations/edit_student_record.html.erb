@@ -25,9 +25,10 @@
       </table>  
       <%= f.fields_for :user do |builder| %>
         <%= builder.label :phone %>
+        <%= builder.text_field :phone %><br>
         <div id="phone_error">
         </div>
-        <%= builder.text_field :phone %><br>
+        
         <div id="phoneprefix_error">
         </div>
         <%= builder.label :phoneprefix %>
@@ -42,6 +43,7 @@
 <script type="text/javascript">
   $('#student_from_excel_birth_day').datepicker({
     format: "dd/mm/yyyy",
+    viewMode: "years",
     startView: 2
   });
   

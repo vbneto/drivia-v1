@@ -14,6 +14,9 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
+    <div class='loading'>
+      <%= image_tag('loading.gif')%>
+    </div>
     <%= render partial:"layouts/header"%>
     <%= render partial:"layouts/flash_messages" %>
 
