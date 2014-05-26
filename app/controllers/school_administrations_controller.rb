@@ -6,7 +6,7 @@ class SchoolAdministrationsController < ApplicationController
    @all_students = current_school_administration.all_students.page(params[:page]).per(30)
 
    @parents = current_school_administration.all_parents current_school_administration.school_id
-   @professors = current_school_administration.grade_from_excels
+   @professors = current_school_administration.school.school_grades
   end
   
   def search_student

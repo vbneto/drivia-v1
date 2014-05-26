@@ -3,8 +3,9 @@ class SchoolGrade < ActiveRecord::Base
   belongs_to :subject
   belongs_to :grade_name
   belongs_to :professor_school
+  has_one :professor_record, through: :professor_school
   has_one :school, through: :professor_school
-  has_many :professor_records, through: :professor_school
+  validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id]
   
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)

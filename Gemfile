@@ -13,6 +13,7 @@ gem 'devise'
 gem 'exception_notification'
 gem 'kaminari'
 gem "meta_search",    '>= 1.1.0.pre'
+gem "nested_form"
 gem 'pg'
 gem 'raphael-rails'
 gem "rolify"

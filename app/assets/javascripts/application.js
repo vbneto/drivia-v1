@@ -21,5 +21,6 @@
 //= require users
 //= require school_administrations
 //= require bootstrap-multiselect
+//= require jquery_nested_form
 
 
