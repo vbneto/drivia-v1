@@ -7,20 +7,19 @@ class RegistrationsController < Devise::RegistrationsController
       @student = StudentFromExcel.find_by_code(code)
     else
       code = params[:code]
-      @professor = GradeFromExcel.find_by_code(code)
+      @professor = ProfessorRecord.find_by_code(code)
     end  
     super
   end
   
   def create
     @user_role = params[:user].delete(:role)
-    #Todo
     if User.where(email: params[:user][:email]).first
       redirect_to new_user_session_path, :flash => {:error => "This e-mail is already used. Please, log in to your Drivia account and update your account (My account > Update account)"} and return
     end
     if @user_role == User.find_professor_role
       code = params[:user].delete(:code)
-      @professor = GradeFromExcel.find_by_code(code)
+      @professor = ProfessorRecord.find_by_code(code)
     else
       code = params[:user].delete(:code)
       @student = StudentFromExcel.find_by_code(code)
@@ -31,7 +30,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
     build_resource(params[:user])
     resource.role = @user_role
-    resource.name = @professor.professor_name if @professor
+    resource.name = @professor.name if @professor
     if resource.save
       if @user_role == User.find_student_role
         Student.create(:user_id => resource.id, :school_id => @student.school_id, :student_from_excel_id => @student.id) 
@@ -39,7 +38,7 @@ class RegistrationsController < Devise::RegistrationsController
         parent = Parent.create(:user_id => resource.id, :gender => gender, :birth_day => birth_day)
         parent.student_parents.create(student_from_excel_id: @student.id)
       elsif @user_role == User.find_professor_role
-        Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, grade_from_excel_id: @professor.id)  
+        Professor.create(user_id: resource.id, gender: gender, birth_day: birth_day, professor_record_id: @professor.id)  
       end  
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

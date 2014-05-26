@@ -3,7 +3,8 @@ class School < ActiveRecord::Base
   
   has_many :students
   has_many :grades
-  has_many :professors
+  has_many :professor_schools
+  has_many :professor_records, :through => :professor_schools
   has_many :student_statuses
   has_many :student_from_excels, :through => :student_statuses
   has_many :parents, :through => :student_from_excels
@@ -19,7 +20,7 @@ class School < ActiveRecord::Base
   end
   
   def self.professor_details(school_id)
-    schools(school_id).first.grade_from_excels
+    schools(school_id).first.professor_records
   end
   
 end

@@ -6,7 +6,7 @@
       <% elsif @role == User.find_parent_role %>
         <%= t('users_ask_question.are_you_responsible_for')%> <%= @student.student_name%>?
       <% elsif @role == User.find_professor_role %>
-        <%= t('users_ask_question.are_you')%> <%= @professor.professor_name %>?
+        <%= t('users_ask_question.are_you')%> <%= @professor.name %>?
       <% end %>
     </h2>
     <div class="row forgot-pass">

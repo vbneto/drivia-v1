@@ -1,10 +1,10 @@
 class Professor < ActiveRecord::Base
   belongs_to :user
-  belongs_to  :grade_from_excel
-  attr_accessible :birth_day, :gender, :grade_from_excel_id, :user_id
+  belongs_to  :professor_record
+  attr_accessible :birth_day, :gender, :professor_record_id, :user_id
   
   def professor_grades
-    GradeFromExcel.where(:code => self.grade_from_excel.code)
+    ProfessorRecord.find_by_code(self.professor_record.code).school_grades
   end
   
 end

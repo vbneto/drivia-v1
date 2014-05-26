@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       end
     elsif @role == User.find_professor_role
       @code = params[:code]
-      @professor = GradeFromExcel.find_by_code(@code)
+      @professor = ProfessorRecord.find_by_code(@code)
       if @professor.nil?
         flash[:error]= "Professor with given code was not found"
         redirect_to new_registration_with_code_users_path(role: @role) and return

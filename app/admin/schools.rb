@@ -10,7 +10,7 @@ ActiveAdmin.register School do
   end
   
   member_action :professor_first_access_sheet do
-    @professor_details = School.professor_details(params[:id]).select([:professor_name, :code]).uniq
+    @professor_details = School.professor_details(params[:id]).select([:name, :code]).uniq
   end
   
   member_action :download_student_first_access_sheet do
@@ -21,7 +21,7 @@ ActiveAdmin.register School do
   end
   
   member_action :download_professor_first_access_sheet do
-    @professor_details = School.professor_details(params[:id]).select([:professor_name, :code]).uniq
+    @professor_details = School.professor_details(params[:id]).select([:name, :code]).uniq
     respond_to do |format|
       format.xls
     end
@@ -37,7 +37,7 @@ ActiveAdmin.register School do
   end
   
   member_action :import_grade_csv, :method => :post do
-    already_present_grades = GradeFromExcel.grade_list(params[:file], params[:id])
+    already_present_grades = SchoolGrade.grade_list(params[:file], params[:id])
     flash[:notice] = "List of grades imported."
     if already_present_grades.size > 0
       flash[:notice] = "This are the grades which is already present "+ already_present_grades.join(", ")

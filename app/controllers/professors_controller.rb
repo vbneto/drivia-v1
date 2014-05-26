@@ -11,7 +11,6 @@ class ProfessorsController < ApplicationController
     @subject = params[:subject]
     @grade_name = params[:grade_name]
     @grade_class = params[:grade_class]
-    
     @students = @school.student_from_excels
     @students.select!{|student| student.student_statuses.where('school_id=? and status=? and current_grade=? and grade_class=?', params[:school_id], User.student_active, @grade_name, @grade_class).first}
     @bimester = params[:bimester].present? ? params[:bimester] : bimester(1)
