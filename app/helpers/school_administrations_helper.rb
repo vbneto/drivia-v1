@@ -1,7 +1,7 @@
 module SchoolAdministrationsHelper
   
   def set_student_status student
-    (student.is_deactive_student_for_school? current_school_administration.school) ? 'false' : 'true'
+    (student.is_deactive_student_for_school? current_school_administration.school) ? 'true' : 'false'
   end
   
   def set_parent_status parent
