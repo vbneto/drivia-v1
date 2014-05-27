@@ -1,7 +1,10 @@
 class ProfessorsController < ApplicationController
+  autocomplete :subject, :name, :full => true
+  autocomplete :grade_name, :name
+  autocomplete :school_grade, :grade_class
   before_filter :authenticate_user!
-  before_filter :require_professor!, except: ['new_professor_record', 'register_new_professor_record']
-  before_filter :require_school_administration!, only: ['new_professor_record', 'register_new_professor_record']
+  before_filter :require_professor!, except: ['new_professor_record', 'register_new_professor_record', 'autocomplete_subject_name', 'autocomplete_grade_name_name', 'autocomplete_school_grade_grade_class']
+  before_filter :require_school_administration!, only: ['new_professor_record', 'register_new_professor_record', 'autocomplete_subject_name', 'autocomplete_grade_name_name', 'autocomplete_school_grade_grade_class']
   
   def index
     @professor_grades = current_professor.professor_grades

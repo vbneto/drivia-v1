@@ -40,6 +40,9 @@ SchoolSystem::Application.routes.draw do
       post "show_student_graph"
       get "new_professor_record"
       post "register_new_professor_record"
+      get :autocomplete_subject_name
+      get :autocomplete_grade_name_name
+      get :autocomplete_school_grade_grade_class
     end
   end  
   

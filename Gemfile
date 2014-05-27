@@ -15,6 +15,7 @@ gem 'kaminari'
 gem "meta_search",    '>= 1.1.0.pre'
 gem "nested_form"
 gem 'pg'
+gem 'rails3-jquery-autocomplete'
 gem 'raphael-rails'
 gem "rolify"
 gem 'roo'

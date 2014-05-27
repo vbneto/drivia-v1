@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require raphael
@@ -22,5 +23,5 @@
 //= require school_administrations
 //= require bootstrap-multiselect
 //= require jquery_nested_form
-
+//= require autocomplete-rails
 
