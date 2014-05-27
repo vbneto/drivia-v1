@@ -6,6 +6,7 @@ class SchoolGrade < ActiveRecord::Base
   has_one :professor_record, through: :professor_school
   has_one :school, through: :professor_school
   validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id]
+  validate :unique_professor
   
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
@@ -48,4 +49,13 @@ class SchoolGrade < ActiveRecord::Base
       nil
     end  
   end
+  
+  private
+  
+  def unique_professor
+    unless school.school_grades.where("grade_name_id=? and grade_class=? and subject_id=?", grade_name_id, grade_class, subject_id ).blank?
+      errors.add(:grade_name_id, 'Other professor is already teaching this subject in this school')
+    end
+  end
+  
 end
