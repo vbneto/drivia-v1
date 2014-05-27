@@ -26,16 +26,20 @@ class StudentFromExcel < ActiveRecord::Base
   def is_active_code?
     !(self.status == User.student_deactive || StudentFromExcel.where("code = ? and status = ?",self.code, User.student_active).blank?)
   end
+  
+  def active_ra
+    self.student_statuses.where(status: User.student_active).first.ra
+  end
 
   def self.student_list(file,school_id)
-    spreadsheet = open_spreadsheet(file)
+    spreadsheet = SchoolGrade.open_spreadsheet(file)
     already_present_students = []
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       student = find_by_first_ra(row["ra"].to_i) || new
-      unless student.new_record? and (student.school_id == school_id)
-        (already_present_students << student.student_name) and next
+      unless student.new_record? 
+        ((already_present_students << student.student_name) and next) unless student.school_id == school_id
       end
       student.attributes = row.to_hash.slice(*accessible_attributes)
       student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
@@ -52,19 +56,6 @@ class StudentFromExcel < ActiveRecord::Base
     already_present_students  
   end
 
-  def self.open_spreadsheet(file)
-    begin
-      case File.extname(file.original_filename)
-      when ".csv" then Roo::Csv.new(file.path, nil, :ignore)
-      when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-      when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
-      else nil #raise "Unknown file type: #{file.original_filename}"
-      end
-    rescue
-      nil
-    end  
-  end
-  
   def student_grade(subject, bimester)
     self.get_active_status.monthly_grades.select{|grade| grade.subject_name == subject and grade.bimester == bimester and grade.year == Date.today.year }.first
   end
