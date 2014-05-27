@@ -34,6 +34,9 @@ class StudentFromExcel < ActiveRecord::Base
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       student = find_by_first_ra(row["ra"].to_i) || new
+      unless student.new_record? and (student.school_id == school_id)
+        (already_present_students << student.student_name) and next
+      end
       student.attributes = row.to_hash.slice(*accessible_attributes)
       student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
       student.current_grade = row['current_grade']
@@ -44,7 +47,7 @@ class StudentFromExcel < ActiveRecord::Base
       end
       student.new_record? ? (student.parent_name_1 = row['parent_name']) : (student.parent_name_2 = row['parent_name'])
       student.school_id = school_id
-      student.valid? ? student.save! : already_present_students << student.code
+      student.valid? ? student.save! : already_present_students << student.student_name
     end
     already_present_students  
   end

@@ -31,7 +31,7 @@ ActiveAdmin.register School do
     already_present_students = StudentFromExcel.student_list(params[:file], params[:id])
     flash[:notice] = "List of students imported."
     if already_present_students.size > 0
-      flash[:notice] = "This are the Code which is either already present or invalid "+ already_present_students.join(", ")
+      flash[:notice] = "This are the Students which is either already present or invalid "+ already_present_students.join(", ")
     end
     redirect_to student_first_access_sheet_admin_school_path
   end

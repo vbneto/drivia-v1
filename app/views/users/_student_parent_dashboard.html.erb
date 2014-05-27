@@ -60,14 +60,18 @@
 <script>
   var current_student_average = <%= set_month_average_to_graph %>
   var particular_students_average = <%= set_average_particular_student_to_graph %>
+  var ticks_list = [];
+  for (var i = 1; i < particular_students_average.length; i++) {
+      ticks_list.push(i);
+  }
   google.setOnLoadCallback(drawChart(current_student_average, particular_students_average ));
   function drawChart(current_student_average, particular_students_average) {
     var data = google.visualization.arrayToDataTable(current_student_average);
     var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
       backgroundColor:'#F8F8F8',
-      vAxis: { title: "Average", minValue: 0, maxValue: 10},
-      hAxis: { title: "Bimester"},
+      vAxis: { title: "Average",titleTextStyle:{bold: true}, minValue: 0, maxValue: 10},
+      hAxis: { title: "Bimester",titleTextStyle:{bold: true}},
       lineWidth: 3,
       pointSize: 12,
       series: {
@@ -81,19 +85,19 @@
     };
     var options2 = {
       backgroundColor:'#F8F8F8',
-      vAxis: { title: "Average", minValue: 0, maxValue: 10},
-      hAxis: { title: "Student"},
+      vAxis: { title: "Grade",titleTextStyle:{bold: true}, minValue: 0,maxValue: 10, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
+      hAxis: { title: "Classification",titleTextStyle:{bold: true}, ticks: ticks_list},
       interpolateNulls: true,
       series: {
             0: {
                 lineWidth: 0,
                 color: '#0655a4',
-                pointSize: 12
+                pointSize: 8
             },
             1: {
                 lineWidth: 0,
                 color: '#5F8A31',
-                pointSize: 12
+                pointSize: 8
             },
             2: {
                 lineWidth: 4,
