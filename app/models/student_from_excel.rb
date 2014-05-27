@@ -86,7 +86,7 @@ class StudentFromExcel < ActiveRecord::Base
   end
   
   def is_deactive_student_for_school? school
-    self.student_statuses.where(school_id: school.id, status: User.student_active).blank? ? "true" : "false"
+    self.student_statuses.where(school_id: school.id, status: User.student_deactive).blank? ? false : true
   end
   
   def find_age
