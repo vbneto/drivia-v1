@@ -39,7 +39,7 @@ class StudentFromExcel < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       student = find_by_first_ra(row["ra"].to_i) || new
       unless student.new_record? 
-        ((already_present_students << student.student_name) and next) unless student.school_id == school_id
+        ((already_present_students << student.student_name) and next) unless student.school_id == school_id.to_i
       end
       student.attributes = row.to_hash.slice(*accessible_attributes)
       student.grade_class = row['grade_class'].blank? ? '' : row['grade_class']
