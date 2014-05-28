@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   validates :phone, length: { is: 9}, :presence => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   
-  has_one :parent
-  has_one :professor
-  has_one :student
-  has_one :school_administration
-  has_one :student_from_excel, :through => :student
+  has_one :parent, :dependent => :destroy
+  has_one :professor, :dependent => :destroy
+  has_one :student, :dependent => :destroy
+  has_one :school_administration, :dependent => :destroy
+  has_one :student_from_excel, :through => :student, :dependent => :destroy
   
   accepts_nested_attributes_for :parent #for updation in parent
 

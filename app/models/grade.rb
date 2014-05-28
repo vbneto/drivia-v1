@@ -15,8 +15,6 @@ class Grade < ActiveRecord::Base
   def self.initialize_student_graph(hash_of_data, student,user, class_average)
     unless hash_of_data.blank?
       hash_of_data.each_with_index{|data, index| data.insert(0,index+1)}
-      #hash_of_data.first[0] = '+'
-      #hash_of_data.last[0] = '-'
       hash_of_data.each{|data| data[1] = nil unless data[1]==student.id}
       hash_of_data.each do |data|
         data[3] = class_average

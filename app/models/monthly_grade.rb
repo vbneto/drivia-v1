@@ -18,6 +18,32 @@ class MonthlyGrade < ActiveRecord::Base
     grades.select{|grade| grade.subject_name==subject}
   end
   
+  def self.import_grade_list(school, params)
+    available_ra = []
+    students = school.select_student_of_current_grade(params[:grade_name], params[:grade_class])
+    students.each{|student| available_ra << student.active_ra}
+    spreadsheet = SchoolGrade.open_spreadsheet(params[:file])
+    if spreadsheet
+      header = spreadsheet.row(1)
+      (2..spreadsheet.last_row).each do |i|
+        row = Hash[[header, spreadsheet.row(i)].transpose]
+        next unless available_ra.include?row["ra"].to_i
+        student = StudentStatus.find_by_ra(row["ra"]).student_from_excel
+        student_grade = student.student_grade(params[:subject], params[:bimester])
+        student_grade = new if student_grade.blank?
+        student_grade.attributes = row.to_hash.slice(*accessible_attributes)
+        student_grade.student_from_excel_id = student.id
+        student_grade.subject_name = params[:subject]
+        student_grade.student_status_id = student.get_active_status.id
+        student_grade.bimester = params[:bimester]
+        student_grade.year = Date.today.year
+        student_grade.save
+      end  
+    else
+      return "Please save the excel sheet in .xls formate"
+    end
+  end
+  
 end
 
 

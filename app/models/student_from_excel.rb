@@ -8,13 +8,13 @@ class StudentFromExcel < ActiveRecord::Base
   validates :student_name, presence: true, format: { with: /^[^0-9!@#\$%\^&*+_=]+$/, message: "Only letters allowed" }
 
   belongs_to :school
-  has_many :student_parents
-  has_many :monthly_grades
+  has_many :student_parents, :dependent => :destroy
+  has_many :monthly_grades, :dependent => :destroy
   has_many :parents, through: :student_parents
-  has_one :student
+  has_one :student, :dependent => :destroy
   has_one :school_administration, :through => :school
   has_one :user, :through => :student
-  has_many :student_statuses
+  has_many :student_statuses, :dependent => :destroy
   
   scope :find_students_of_current_grade, lambda{|student| find :all, :include=>[:monthly_grades], :conditions => ['school_id=? and current_grade=?',student.school_id, student.current_grade] }
   accepts_nested_attributes_for :user
@@ -57,7 +57,7 @@ class StudentFromExcel < ActiveRecord::Base
   end
 
   def student_grade(subject, bimester)
-    self.get_active_status.monthly_grades.select{|grade| grade.subject_name == subject and grade.bimester == bimester and grade.year == Date.today.year }.first
+    self.get_active_status.monthly_grades.where("subject_name=? and bimester=?", subject,bimester).first
   end
 
   def find_fellow_students_monthly_grade(year=nil, student_status)

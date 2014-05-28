@@ -4,10 +4,9 @@ class Student < ActiveRecord::Base
   attr_accessible :birth_day, :code, :current_grade, :gender, :user_id, :school_id, :student_from_excel_id
  
   def self.all_bimesters_average(monthly_grades)
-    all_bimesters = monthly_grades.map(&:bimester).uniq.sort unless monthly_grades.blank?
     bimester_average = {}
-    unless all_bimesters.blank?
-      all_bimesters.each do |bimester|
+    unless monthly_grades.blank?
+      monthly_grades.map(&:bimester).uniq.sort.each do |bimester|
         grades_of_bimester = monthly_grades.select{|grade| grade.bimester == bimester}
         grades = grades_of_bimester.reject{ |grade| grade.grade.blank? }.map(&:grade)
         bimester_average.merge!({bimester => (grades.inject(:+)/grades.size).round(2)}) unless grades.blank?
@@ -53,4 +52,5 @@ class Student < ActiveRecord::Base
     end  
     total_no_show.sort_by {|k,v| v}.reverse
   end
+  
 end

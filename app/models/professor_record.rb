@@ -35,4 +35,12 @@ class ProfessorRecord < ActiveRecord::Base
     already_present_grades
   end 
   
+  def update_professor_school(old_professor)
+    self.professor_schools.each do |grade|
+      grade.professor_record_id = old_professor.id
+      grade.save
+    end
+    self.destroy
+  end  
+  
 end

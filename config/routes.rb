@@ -50,6 +50,7 @@ SchoolSystem::Application.routes.draw do
     
   put '/monthly_grades' => 'monthly_grades#update_grade', :as => 'update_grade'
   put '/monthly_grades/no_show' => 'monthly_grades#update_no_show', :as => 'update_no_show'
+  post '/monthly_grades/import_student_grade' => 'monthly_grades#import_student_grade', :as => 'import_student_grade'
   get 'student/ask_for_code' => 'student_from_excels#ask_for_code', :as => 'add_new_student_account'
   get 'professor/ask_for_code' => 'Grade_from_excels#ask_for_code', :as => 'add_new_professor_account'
   post 'student/merge_account' => 'student_from_excels#merge_student_account', :as => 'merge_new_student_account'

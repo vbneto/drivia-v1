@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ra</Data></Cell>
+        <Cell><Data ss:Type="String">student_name</Data></Cell>
+        <Cell><Data ss:Type="String">grade_name</Data></Cell>
+        <Cell><Data ss:Type="String">grade_class</Data></Cell>
+        <Cell><Data ss:Type="String">grade</Data></Cell>
+        <Cell><Data ss:Type="String">no_show</Data></Cell>
+      </Row>
+    <% if @students.present? %>  
+      <% @students.each do |student| %>
+        <% monthly_grade = student.student_grade(@subject, @bimester) || MonthlyGrade.new %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= student.active_ra %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= student.student_name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= @grade_name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= @grade_class %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= monthly_grade.grade%></Data></Cell>
+          <Cell><Data ss:Type="String"><%= monthly_grade.no_show%></Data></Cell>
+        </Row>
+      <% end %>
+    <% end %>  
+    </Table>
+  </Worksheet>
+</Workbook>
+

@@ -1,21 +1,15 @@
 class MonthlyGradesController < ApplicationController
- 
+  before_filter :authenticate_user!
+  before_filter :require_professor!
+  
   def update_grade
-    student = StudentFromExcel.find(params[:student_id])
-    student_grade = student.student_grade(params[:subject], params[:bimester])
+    student = StudentFromExcel.find(params[:grade][:student_from_excel_id])
+    student_grade = student.student_grade(params[:grade][:subject_name], params[:grade][:bimester])
     student_status = student.get_active_status
     if student_grade.blank?
-      student_grade = MonthlyGrade.create(:record_date => Date.today,
-                :student_from_excel_id => params[:student_id],
-                :student_status_id => student_status.id ,
-                :subject_name=> params[:subject],
-                :grade_name=> params[:grade_name],
-                :grade_class=> params[:grade_class],
-                :grade => params[:monthly_grade][:grade],
-                :month => Date.today.month,
-                :bimester => params[:bimester],
-                :year => Date.today.year
-                )
+      student_grade = MonthlyGrade.new(params[:grade])
+      student_grade.grade = params[:monthly_grade][:grade]
+      student_grade.save
     else
       student_grade.update_attributes(:grade=>params[:monthly_grade][:grade])
     end
@@ -25,21 +19,13 @@ class MonthlyGradesController < ApplicationController
   end
   
   def update_no_show
-    student = StudentFromExcel.find(params[:student_id])
-    student_grade = student.student_grade(params[:subject], params[:bimester])
+    student = StudentFromExcel.find(params[:grade][:student_from_excel_id])
+    student_grade = student.student_grade(params[:grade][:subject_name], params[:grade][:bimester])
     student_status = student.get_active_status
     if student_grade.blank?
-      student_grade = MonthlyGrade.create(:record_date => Date.today,
-                :student_from_excel_id => params[:student_id],
-                :student_status_id => student_status.id ,
-                :subject_name=> params[:subject],
-                :grade_name=> params[:grade_name],
-                :grade_class=> params[:grade_class],
-                :no_show => params[:monthly_grade][:no_show],
-                :month => Date.today.month,
-                :bimester => params[:bimester],
-                :year => Date.today.year
-                )
+      student_grade = MonthlyGrade.new(params[:grade])
+      student_grade.grade = params[:monthly_grade][:no_show]
+      student_grade.save
     else
       student_grade.update_attributes(:no_show=>params[:monthly_grade][:no_show])
     end
@@ -47,6 +33,13 @@ class MonthlyGradesController < ApplicationController
     respond_to do |format|
       format.json { respond_with_bip(student_grade) }
     end
+  end
+  
+  def import_student_grade
+    school = current_professor.professor_record.schools.find(params["school_id"])
+    MonthlyGrade.import_grade_list(school, params)
+    flash[:notice] = "List of students imported."
+    redirect_to professors_path
   end
   
 end

@@ -7,17 +7,21 @@ class ProfessorsController < ApplicationController
   before_filter :require_school_administration!, only: ['new_professor_record', 'register_new_professor_record', 'autocomplete_subject_name', 'autocomplete_grade_name_name', 'autocomplete_school_grade_grade_class']
   
   def index
+    debugger
     @professor_grades = current_professor.professor_grades
   end
   
   def show_students
-    @school = School.find(params[:school_id])
+    @school = current_professor.professor_record.schools.find(params["school_id"])
     @subject = params[:subject]
     @grade_name = params[:grade_name]
     @grade_class = params[:grade_class]
-    @students = @school.student_from_excels
-    @students.select!{|student| student.student_statuses.where('school_id=? and status=? and current_grade=? and grade_class=?', params[:school_id], User.student_active, @grade_name, @grade_class).first}
+    @students = @school.select_student_of_current_grade(@grade_name, @grade_class)
     @bimester = params[:bimester].present? ? params[:bimester] : bimester(1)
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end  
   
   def show_student_graph

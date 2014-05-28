@@ -12,6 +12,7 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
       <tr>
+        <th>RA</th>
         <th><%= t('professor.show_students.student_name') %></th>
         <th><%= t('professor.show_students.grade') %></th>
         <th><%= t('professor.show_students.month_grade') %></th>
@@ -19,23 +20,37 @@
       </tr>
       </thead>
       <tbody>
-        <%if @students.present? %>
+        <% if @students.present? %>
           <% @students.each do |student| %>
             <% monthly_grade = student.student_grade(@subject, @bimester) || MonthlyGrade.new %>
             <tr>
-              <td><%= student.student_name%></td>
+              <td><%= student.active_ra %></td>
+              <td><%= student.student_name %></td>
               <td><%= @grade_name + @grade_class %></td>
               <td>
-                <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
+                <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(grade:( monthly_grade_hash student)), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
               </td>
               <td>
-                <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(student_id: student.id, subject: @subject, bimester: @bimester, grade_name: @grade_name, grade_class: @grade_class), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
+                <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(grade: (monthly_grade_hash student)), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
               </td>
             </tr>
           <%end%>
         <% end %>
       </tbody>
     </table>
+    <div class='col-md-9'>
+      <%=link_to "download", show_students_professors_path(school_id: @school.id, subject: @subject, grade_name: @grade_name,grade_class: @grade_class, bimester: @bimester, format: "xls"), :method => :post, class:'btn btn-info' %></br>
+      <b>Import assigned "grades" and "no show" excel sheet</b></br>
+      <%= form_tag import_student_grade_path, multipart: true do %>
+        <%= hidden_field_tag :school_id, @school.id %>
+        <%= hidden_field_tag :subject, @subject %>
+        <%= hidden_field_tag :bimester, @bimester %>
+        <%= hidden_field_tag :grade_name, @grade_name %>
+        <%= hidden_field_tag :grade_class, @grade_class %>
+        <%= file_field_tag :file %>
+        <%= submit_tag "import", class:'btn btn-info' %>
+      <% end %>
+    </div>
   </div>
 </div>
 
