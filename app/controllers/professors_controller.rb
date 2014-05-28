@@ -7,7 +7,6 @@ class ProfessorsController < ApplicationController
   before_filter :require_school_administration!, only: ['new_professor_record', 'register_new_professor_record', 'autocomplete_subject_name', 'autocomplete_grade_name_name', 'autocomplete_school_grade_grade_class']
   
   def index
-    debugger
     @professor_grades = current_professor.professor_grades
   end
   
