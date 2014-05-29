@@ -7,7 +7,7 @@ class SchoolGrade < ActiveRecord::Base
   has_one :school, through: :professor_school
   validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id]
   validates_presence_of :grade_class, :grade_name_id, :subject_id, :subject_average
-  #validate :unique_professor
+  validate :unique_professor
   
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
