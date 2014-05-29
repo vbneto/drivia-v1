@@ -15,7 +15,7 @@ class ProfessorsController < ApplicationController
     @subject = params[:subject]
     @grade_name = params[:grade_name]
     @grade_class = params[:grade_class]
-    @students = @school.select_student_of_current_grade(@grade_name, @grade_class)
+    @students = @school.select_student_of_current_grade(@grade_name, @grade_class).sort_by(&:student_name)
     @bimester = params[:bimester].present? ? params[:bimester] : bimester(1)
     respond_to do |format|
       format.html

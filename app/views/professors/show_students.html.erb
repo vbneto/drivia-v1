@@ -16,6 +16,9 @@
         <th><%= t('professor.show_students.student_name') %></th>
         <th><%= t('professor.show_students.grade') %></th>
         <th><%= t('professor.show_students.month_grade') %></th>
+        <th>
+          Grade Description
+        </th>
         <th><%= t('professor.show_students.month_no_show') %></th>
       </tr>
       </thead>
@@ -26,9 +29,12 @@
             <tr>
               <td><%= student.active_ra %></td>
               <td><%= student.student_name %></td>
-              <td><%= @grade_name + @grade_class %></td>
+              <td width = 15%><%= @grade_name +" "+ @grade_class %></td>
               <td>
                 <%= best_in_place monthly_grade, :grade, :type => :input, :value=>"please", :path=>update_grade_path(grade:( monthly_grade_hash student)), :ok_button=>"Save grade", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
+              </td>
+              <td>
+              <%= best_in_place monthly_grade, :grade_description, :type => :textarea, :value=>"please", :path=>update_grade_description_path(grade: (monthly_grade_hash student)), :ok_button=>"Save description", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>
               </td>
               <td>
                 <%= best_in_place monthly_grade, :no_show, :type => :input, :value=>"please", :path=>update_no_show_path(grade: (monthly_grade_hash student)), :ok_button=>"Save no show", :ok_button_class=>'btn btn-primary', :data => student.id, :nil => "Click me to add content!", :cancel_button => 'Cancel', :classes => "dis_block" %>  
