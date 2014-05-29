@@ -37,8 +37,8 @@ class MonthlyGradesController < ApplicationController
   
   def import_student_grade
     school = current_professor.professor_record.schools.find(params["school_id"])
-    MonthlyGrade.import_grade_list(school, params)
-    flash[:notice] = "List of students imported."
+    errors = MonthlyGrade.import_grade_list(school, params)
+    flash.keep[:notice] = "List of students imported."
     redirect_to professors_path
   end
   

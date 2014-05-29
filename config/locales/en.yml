@@ -83,6 +83,7 @@ en:
       register_new_student: "Register New Student"
     student_list:
       student_name: "Student Name"
+      professor_name: "Professor Name"
       age: "Age"
       current_grade: "Current Grade"
       first_access: "First Access?"
@@ -93,6 +94,9 @@ en:
       phoneprefix_for_students: "Phoneprefix for students"
       phone: "Phone"
       parent_name: "Parent Name"
+      subject_name: "Subject Name"
+      first_access: "First Access"
+      active: "Active"
     show_parent:
       record_of_the_parent: "Record of the parent"
       name: "Name"

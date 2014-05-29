@@ -4,6 +4,7 @@ class StudentStatus < ActiveRecord::Base
   belongs_to :school
   has_many :monthly_grades
   validate :validate_status_activation
+  validates_presence_of :current_grade, :grade_class, :ra
   
   def validate_status_activation
     unless self.student_from_excel.blank?

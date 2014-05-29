@@ -5,6 +5,7 @@ class ProfessorRecord < ActiveRecord::Base
   has_many :schools, :through => :professor_schools
   has_many :school_grades, :through => :professor_schools
   has_one :professor
+  validates_presence_of :name
   accepts_nested_attributes_for :school_grades
   
   def self.create_professor_record(params,school_id)
@@ -29,7 +30,8 @@ class ProfessorRecord < ActiveRecord::Base
       begin
         grade.save!
       rescue
-        already_present_grades << grade.subject.name+" "+grade.grade_name.name+" "+grade.grade_class
+        grade.errors.full_messages.each{|msg| already_present_grades << msg}
+        #already_present_grades << grade.subject.name+" "+grade.grade_name.name+" "+grade.grade_class
       end   
     end
     already_present_grades

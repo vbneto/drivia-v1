@@ -29,6 +29,7 @@ SchoolSystem::Application.routes.draw do
     member do 
       post "change_student_status"
       post "change_parent_status"
+      post "change_professor_status"
       get "show_student"
       get "show_parent"
     end

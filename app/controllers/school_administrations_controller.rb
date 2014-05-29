@@ -6,7 +6,7 @@ class SchoolAdministrationsController < ApplicationController
    @all_students = current_school_administration.all_students.page(params[:page]).per(30)
 
    @parents = current_school_administration.all_parents current_school_administration.school_id
-   @professors = current_school_administration.school.school_grades
+   @professors = current_school_administration.school.school_grades.sort_by{|professor| professor.professor_record.name}
   end
   
   def search_student
@@ -74,6 +74,19 @@ class SchoolAdministrationsController < ApplicationController
       flash[:error] = "This student is already active in another school.You can not activate him untill he is deactivated in other schools."
     end
     redirect_to show_users_school_administrations_path
+  end
+  
+  def change_professor_status
+    professor_grade = current_school_administration.school_grades.find(params[:id])
+    if (professor_grade.status == User.student_active) 
+      professor_grade.status = User.student_deactive
+      is_saved = professor_grade.save(:validate => false)
+    else
+      professor_grade.status = User.student_active
+      is_saved = professor_grade.save
+    end  
+    is_saved ? (flash[:notice] = "Status changed successfully.") : (flash[:error] = "Other professor is already teaching this "+professor_grade.subject.name+" in this school")
+    redirect_to show_users_school_administrations_path  
   end
   
   def change_parent_status

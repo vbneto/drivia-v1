@@ -2,7 +2,7 @@ class SchoolAdministration < ActiveRecord::Base
   attr_accessible :school_id, :user_id
   belongs_to :user
   has_many :student_from_excels, :through => :school
-  has_many :grade_from_excels, :through => :school
+  has_many :school_grades, :through => :school
   belongs_to :school
   
   def find_student (student_from_excel_id)

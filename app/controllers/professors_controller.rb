@@ -39,7 +39,7 @@ class ProfessorsController < ApplicationController
       flash[:notice] = "All grades of professor added successfully"
       redirect_to show_users_school_administrations_path
     else
-      flash[:error] = "This are the grades which are already theach by any professors: "+invalid_grades.join(', ')
+      flash[:error] = invalid_grades.join(', ')
       flash[:notice] = "All other grades of professor added successfully"
       redirect_to new_professor_record_professors_path
     end  

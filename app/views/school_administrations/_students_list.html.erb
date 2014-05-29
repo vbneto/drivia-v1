@@ -20,10 +20,14 @@
 
           <td><%= is_student_first_access student %></td>
           <td><%= set_student_status student%></td>
-          <td>
-            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :class => "btn btn-primary", :onclick => 'expand_student_details('+student.id.to_s+')'%>
-            <%= link_to show_student_status(student), change_student_status_school_administration_path(student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_student_status(student) +' This Student?' %>
-            <%= link_to t("school_administration.student_list.edit"), edit_student_record_school_administrations_path(student_from_excel_id: student), :class => "btn btn-primary" %>
+          <td> 
+            <% if is_student_first_access student %>
+              <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :onclick => 'expand_student_details('+student.id.to_s+')'%>
+              <%= link_to show_student_status(student), change_student_status_school_administration_path(student.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_student_status(student) +' This Student?' %>
+            <% end %>  
+            <% if student.is_active_student_for_school? current_school_administration.school %>
+              <%= link_to t("school_administration.student_list.edit"), edit_student_record_school_administrations_path(student_from_excel_id: student), :class => "btn btn-primary" %>
+            <% end %>  
           </td>
         </tr>
         <tr>
