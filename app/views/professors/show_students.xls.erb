@@ -12,6 +12,7 @@
         <Cell><Data ss:Type="String">grade_name</Data></Cell>
         <Cell><Data ss:Type="String">grade_class</Data></Cell>
         <Cell><Data ss:Type="String">grade</Data></Cell>
+        <Cell><Data ss:Type="String">grade_description</Data></Cell>
         <Cell><Data ss:Type="String">no_show</Data></Cell>
       </Row>
     <% if @students.present? %>  
@@ -23,6 +24,8 @@
           <Cell><Data ss:Type="String"><%= @grade_name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= @grade_class %></Data></Cell>
           <Cell><Data ss:Type="String"><%= monthly_grade.grade%></Data></Cell>
+          
+          <Cell><Data ss:Type="String"><%= monthly_grade.grade_description %></Data></Cell>
           <Cell><Data ss:Type="String"><%= monthly_grade.no_show%></Data></Cell>
         </Row>
       <% end %>
