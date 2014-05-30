@@ -47,11 +47,7 @@ class SchoolAdministrationsController < ApplicationController
     
     params[:student_from_excel][:user_attributes][:name] = params[:student_from_excel][:student_name] unless params[:student_from_excel][:user_attributes].nil?
     
-    student_status = @student_record.student_statuses.where(school_id: current_school_administration.school_id).first
-    student_status.current_grade = params[:student_from_excel].delete(:current_grade)
-    
     if @student_record.update_attributes(params["student_from_excel"])
-      student_status.save
       redirect_to show_users_school_administrations_path, :notice => "Records updated"
     else
       render 'edit_student_record', :flash => { :error => "Records not updated"}
@@ -107,7 +103,7 @@ class SchoolAdministrationsController < ApplicationController
   end
   
   def apply_filter_to_student
-    students = current_school_administration.student_from_excels
+    students = SchoolAdministration.find(current_school_administration.id).student_from_excels
     school_id = current_school_administration.school_id
     if params[:grade] != 'All'
       grade_class = params[:grade][-1]
@@ -125,6 +121,14 @@ class SchoolAdministrationsController < ApplicationController
     parents = current_school_administration.all_parents current_school_administration.school_id
     parents.select!{|parent| parent.student_from_excels.count == params[:student_number].to_i } if params[:student_number] != 'All' 
     @parents = parents
+  end
+  
+  def grade_class_of_current_grade
+    currunt_grade_id = GradeName.find_by_name(params[:current_grade]).id
+    grade_class = current_school_administration.school_grades.where(grade_name_id: currunt_grade_id).map(&:grade_class).uniq.sort
+    respond_to do |format|
+      format.json { render :json => grade_class }
+    end
   end
   
 end
