@@ -8,7 +8,6 @@
   
   function drawChart(all_student_average) {
     var data = new google.visualization.arrayToDataTable(all_student_average);
-    
     var options = {
       title: 'Average Of All Students Of the Grade',
       vAxis: { title: "Average", minValue: 0, maxValue: 10 },
@@ -17,5 +16,6 @@
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
+    google.visualization.errors.removeAll(document.getElementById('chart_div'))  
   }
 </script>
