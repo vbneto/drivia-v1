@@ -6,9 +6,9 @@ $ ->
   $('.student_details').hide()
   $('.parent_details').hide()
   
-  $('#student_from_excel_student_statuses_attributes_0_current_grade').on "change", ->
+  $('#student_from_excel_student_statuses_attributes_0_current_grade, #professor_record_school_grades_attributes_0_grade_name_id').on "change", ->
     $.get "/school_administrations/grade_class_of_current_grade?current_grade="+$(this).val(), (data) ->
-      $el = $("#student_from_excel_student_statuses_attributes_0_grade_class")
+      $el = $("#student_from_excel_student_statuses_attributes_0_grade_class, #professor_record_school_grades_attributes_0_grade_class")
       $el.empty() 
       i = 0
       while i < data.length

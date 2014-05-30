@@ -103,7 +103,7 @@ class SchoolAdministrationsController < ApplicationController
   end
   
   def apply_filter_to_student
-    students = SchoolAdministration.find(current_school_administration.id).student_from_excels
+    students = current_school_administration.student_from_excels
     school_id = current_school_administration.school_id
     if params[:grade] != 'All'
       grade_class = params[:grade][-1]
