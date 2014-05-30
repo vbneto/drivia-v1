@@ -92,11 +92,13 @@ en:
       edit: "Edit"
       email: "Email"
       phoneprefix_for_students: "Phoneprefix for students"
+      phoneprefix: "Phoneprefix"
       phone: "Phone"
       parent_name: "Parent Name"
       subject_name: "Subject Name"
       first_access: "First Access"
       active: "Active"
+      code: "Code"
     show_parent:
       record_of_the_parent: "Record of the parent"
       name: "Name"

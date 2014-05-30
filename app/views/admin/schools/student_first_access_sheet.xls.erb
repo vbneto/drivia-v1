@@ -15,10 +15,10 @@
       </Row>
       <% @student_details.each do |student| %>
         <Row>
-          <Cell><Data ss:Type="String"><%= student.student_name%></Data></Cell>
+          <Cell><Data ss:Type="String"><%= student.student_name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= student.first_ra %></Data></Cell>
           <Cell><Data ss:Type="String"><%= student.parent_name_1 %></Data></Cell>
-          <Cell><Data ss:Type="Sstring"><%= student.parent_name_1 %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= student.parent_name_2 %></Data></Cell>
           <Cell><Data ss:Type="String"><%= student.code %></Data></Cell>
         </Row>
       <% end %>

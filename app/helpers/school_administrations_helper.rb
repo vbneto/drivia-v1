@@ -89,4 +89,14 @@ module SchoolAdministrationsHelper
     professor.user.email if professor
   end
   
+  def professor_phoneprefix professor
+    professor = professor.professor_record.professor if professor.professor_record
+    professor.user.phoneprefix if professor
+  end
+  
+  def professor_phone professor
+    professor = professor.professor_record.professor if professor.professor_record
+    professor.user.phone if professor
+  end
+    
 end

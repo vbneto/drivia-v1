@@ -29,9 +29,11 @@
         <tr>
           <td id='professor_<%=professor.id%>' class='student_details' colspan="5">
           <table width="590" >  
-            <tr> <th>Code:</th><td><%= professor.professor_record.code%> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.code')%></th><td><%= professor.professor_record.code%> </td> </tr>
             <tr> <th><%= t('school_administration.student_list.professor_name') %></th><td><%= professor.professor_record.name%></td> </tr>
-            <tr> <th>Email:</th><td><%= professor_email professor  %> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= professor_email professor  %> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= professor_phoneprefix professor  %> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.phone') %></th><td><%= professor_phone professor %> </td> </tr>
           </table>
           </td>
         </tr>
