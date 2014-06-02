@@ -24,7 +24,7 @@ module SchoolAdministrationsHelper
     school_id = current_school_administration.school_id
     school_grades = @all_students.map do |student|
                       student = student.current_school_status school_id
-                      student.current_grade + student.grade_class
+                      "#{student.current_grade},#{student.grade_class}"
                     end
     school_grades.uniq.sort.insert(0,'All')     
 
