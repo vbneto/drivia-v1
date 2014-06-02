@@ -54,7 +54,33 @@
         <% end %>
         <%= render partial:'parents_list'%>
       </div>
+      
       <div class="tab-pane" id="professors">
+        <%= form_tag(apply_filter_to_professor_school_administrations_path, :method => :post, :remote =>true, :id => 'apply_filter_form') do %>
+          <table>
+             <tr>
+               <td width = 40%><label>Grade</label></td>
+               <td><%= select_tag "grades", options_for_select(school_professor_grades), :class=>'set_filter_size'%></br>
+               </td>
+
+             </tr>
+             <tr>
+               <td width = 40%><label>Subject</label></td>
+               <td><%= select_tag "subject", options_for_select(school_professor_subjects), :class=>'set_filter_size'%></br>
+               </td>
+             </tr>
+             <tr>  
+               <td><lable>First Access</lable></td>
+               <td><%= select_tag "first_accessed", options_for_select(['All','true','false']), :class=>'set_filter_size' %></br>
+               </td>
+            </tr>
+            <tr>
+              <td><lable>Active</lable></td>
+              <td><%= select_tag "activated", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
+            </tr>
+          </table>
+        <%= submit_tag "submit", :id=>"submit_professor_filters"%>
+        <%end%>
         <%= render partial:'professors_list'%>
       </div>  
     </div>  

@@ -49,6 +49,26 @@ class SchoolGrade < ActiveRecord::Base
       nil
     end  
   end
+
+  def professor_name
+    self.professor_record.name
+  end
+
+  def professor_grade_name
+    self.grade_name.name
+  end
+
+  def join_grade_name_and_class
+    professor_grade_name + " " + self.grade_class
+  end
+
+  def professor_subject_name
+    self.subject.name
+  end
+
+  def is_professor_sign_up?
+    !professor_record.professor.nil?
+  end
   
   private
   

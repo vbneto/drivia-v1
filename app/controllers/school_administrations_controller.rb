@@ -4,7 +4,6 @@ class SchoolAdministrationsController < ApplicationController
   
   def show_users
    @all_students = current_school_administration.all_students.page(params[:page]).per(30)
-
    @parents = current_school_administration.all_parents current_school_administration.school_id
    @professors = current_school_administration.school.school_grades
   end
@@ -108,10 +107,35 @@ class SchoolAdministrationsController < ApplicationController
     @all_students = students
   end
   
+  def apply_filter_to_professor
+    grade_name, grade_class  = params[:grades].split(/,/)
+    @professors = current_school_administration.school.school_grades.select("grade_class, grade_name_id, professor_school_id, subject_id").includes(:professor_school).includes(:professor_record)
+   
+    if params[:grades] != 'All' 
+      grade_name_id = GradeName.find_by_name(grade_name).id
+      @professors = @professors.where("grade_class = ? and grade_name_id = ?", grade_class, grade_name_id)
+    end
+
+    if params[:subject] != 'All'
+      subject_id = Subject.find_by_name(params[:subject]).id
+      @professors = @professors.where("subject_id = ?", subject_id )
+    end
+   
+    if params[:activated] != 'All' 
+      @professors = @professors.where("status = ? ", params[:activated])
+    end
+   
+    if params[:first_accessed] != 'All'
+      @professors.delete_if{|professor|
+        signup = professor.is_professor_sign_up?
+        params[:first_accessed].to_bool ? !signup : signup
+      }
+    end
+    @professors
+  end
+
   def apply_filter_to_parent
     parents = current_school_administration.all_parents current_school_administration.school_id
     parents.select!{|parent| parent.student_from_excels.count == params[:student_number].to_i } if params[:student_number] != 'All' 
-    @parents = parents
   end
-  
 end
