@@ -11,6 +11,7 @@ gem "cancan"
 gem "cpf_validator"
 gem 'devise'
 gem 'exception_notification'
+gem "i18n-js"
 gem 'kaminari'
 gem "meta_search",    '>= 1.1.0.pre'
 gem "nested_form"
@@ -20,6 +21,7 @@ gem 'raphael-rails'
 gem "rolify"
 gem 'roo'
 gem "twitter-bootstrap-rails"
+
 
 
 # Gems used only for assets and not required

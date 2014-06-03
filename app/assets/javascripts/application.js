@@ -24,4 +24,5 @@
 //= require bootstrap-multiselect
 //= require jquery_nested_form
 //= require autocomplete-rails
-
+//= require i18n
+//= require i18n/translations

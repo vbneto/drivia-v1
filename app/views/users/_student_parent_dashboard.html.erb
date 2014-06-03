@@ -70,8 +70,8 @@
     var data2 = new google.visualization.arrayToDataTable(particular_students_average);
     var options = {
       backgroundColor:'#F8F8F8',
-      vAxis: { title: "Average",titleTextStyle:{bold: true}, minValue: 0, maxValue: 10},
-      hAxis: { title: "Bimester",titleTextStyle:{bold: true}},
+      vAxis: { title: I18n.t('users.student_parent_dashboard_graph.average'),titleTextStyle:{bold: true}, minValue: 0, maxValue: 10},
+      hAxis: { title: I18n.t('users.student_parent_dashboard_graph.bimester'),titleTextStyle:{bold: true}},
       lineWidth: 3,
       pointSize: 12,
       series: {
@@ -85,8 +85,8 @@
     };
     var options2 = {
       backgroundColor:'#F8F8F8',
-      vAxis: { title: "Grade",titleTextStyle:{bold: true}, minValue: 0,maxValue: 10, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
-      hAxis: { title: "Classification",titleTextStyle:{bold: true}, ticks: ticks_list},
+      vAxis: { title: I18n.t('users.student_parent_dashboard_graph.grade'),titleTextStyle:{bold: true}, minValue: 0,maxValue: 10, ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},
+      hAxis: { title: I18n.t('users.student_parent_dashboard_graph.classification'),titleTextStyle:{bold: true}, ticks: ticks_list},
       interpolateNulls: true,
       series: {
             0: {

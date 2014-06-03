@@ -10,8 +10,8 @@
     var data = new google.visualization.arrayToDataTable(all_student_average);
     var options = {
       title: 'Average Of All Students Of the Grade',
-      vAxis: { title: "Average", minValue: 0, maxValue: 10 },
-      hAxis: { title: "Month"},
+      vAxis: { title: I18n.t('users.student_parent_dashboard_graph.average'), minValue: 0, maxValue: 10 },
+      hAxis: { title: I18n.t('users.student_parent_dashboard_graph.bimester')},
       pointSize: 5
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

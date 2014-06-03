@@ -12,6 +12,11 @@ en:
       grade_name: "Grade Name: "
       select_subjects: "Select subjects: " 
       see_current_bimester: "See current bimester"
+    student_parent_dashboard_graph:
+      average: "Average"
+      bimester: "Bimester"
+      grade: "Grade"
+      classification: "Classification"
     change_date_range:
       select_year: "Select Year: "  
       period: "Period: "
