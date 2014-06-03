@@ -24,12 +24,14 @@ SchoolSystem::Application.routes.draw do
       post "apply_filter_to_student"
       post "apply_filter_to_parent"
       get "edit_parent_record"
-      post "update_parent"  
       post "apply_filter_to_professor"
+      post "update_parent" 
+      get "grade_class_of_current_grade"
     end
     member do 
       post "change_student_status"
       post "change_parent_status"
+      post "change_professor_status"
       get "show_student"
       get "show_parent"
     end
@@ -42,8 +44,6 @@ SchoolSystem::Application.routes.draw do
       get "new_professor_record"
       post "register_new_professor_record"
       get :autocomplete_subject_name
-      get :autocomplete_grade_name_name
-      get :autocomplete_school_grade_grade_class
     end
   end  
   

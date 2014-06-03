@@ -29,19 +29,19 @@ class ApplicationController < ActionController::Base
   end
   
   def current_parent
-    session[:current_parent_id] = current_user.parent if current_user.is_parent?
+    current_user.parent if current_user.is_parent?
   end
   
   def current_student
-    session[:current_student_id] = current_user.student if current_user.is_student?
+    current_user.student if current_user.is_student?
   end
   
   def current_professor
-    session[:current_professor_id] = current_user.professor if current_user.is_professor?
+    current_user.professor if current_user.is_professor?
   end
   
   def current_school_administration
-    session[:current_school_administration_id] = current_user.school_administration if current_user.is_school_administration?
+    current_user.school_administration if current_user.is_school_administration?
   end
   
   def month_number month

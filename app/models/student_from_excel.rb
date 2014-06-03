@@ -6,7 +6,7 @@ class StudentFromExcel < ActiveRecord::Base
   attr_accessor :grade_class, :current_grade, :birth_day, :gender, :status, :ra
   #validates :school_id, presence: true
   validates :student_name, presence: true, format: { with: /^[^0-9!@#\$%\^&*+_=]+$/, message: "Only letters allowed" }
-
+  
   belongs_to :school
   has_many :student_parents, :dependent => :destroy
   has_many :monthly_grades, :dependent => :destroy
@@ -81,6 +81,10 @@ class StudentFromExcel < ActiveRecord::Base
   
   def is_deactive_student_for_school? school
     self.student_statuses.where(school_id: school.id, status: User.student_deactive).blank? ? false : true
+  end
+  
+  def is_active_student_for_school? school
+    self.student_statuses.where(school_id: school.id, status: User.student_active).blank? ? false : true
   end
   
   def find_age

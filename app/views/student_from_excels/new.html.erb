@@ -2,6 +2,7 @@
   <div id="subject_list" class="span6 move_down" >
     <%= back_button %>  
     <h5>Records for student</h5>
+    <table>
     <%= form_for @student, url: student_from_excels_path(:id => @student), method: :post do|f|%>
       <% if @student.errors.any? %>
         <div id="error_explanation">
@@ -13,33 +14,33 @@
           </ul>
         </div>
       <% end %>
-    
-    <div>  
-      <%= f.label "", :RA %>
-      <%= f.text_field :first_ra %><br>
-    </div>
-    
-    <div>
-      <%= f.label :student_name %>
-      <%= f.text_field :student_name %><br>
-    </div>
-    
-    <div>
-      <%= f.label "First Parent Name" %>
-      <%= f.text_field :parent_name_1 %><br>
-    </div>
-    
-    <div>
-      <%= f.label "Second Parent Name" %>
-      <%= f.text_field :parent_name_2 %><br>
-    </div>
-    
+    <table>    
+      <tr>  
+        <td><%= f.label "", :RA %></td>
+        <td><%= f.text_field :first_ra %></td>
+      </tr>
+      
+      <tr>
+        <td><%= f.label :student_name %></td>
+        <td><%= f.text_field :student_name %></td>
+      </tr>
+      
+      <tr>
+        <td><%= f.label "First Parent Name" %></td>
+        <td><%= f.text_field :parent_name_1 %></td>
+      </tr>
+      
+      <tr>
+        <td><%= f.label "Second Parent Name" %></td>
+        <td><%= f.text_field :parent_name_2 %></td>
+      </tr>
+    </table>    
     <div>
       <%= f.fields_for :student_statuses do |builder| %>
         <%= builder.label :current_grade %>
-        <%= builder.text_field :current_grade %><br>
+        <%= builder.select :current_grade, options_for_select(uniq_school_grade_name) %><br>
         <%= builder.label :grade_class %>
-        <%= builder.text_field :grade_class %><br>
+        <%= builder.select :grade_class, options_for_select(school_grade_classes) %>
         <%= builder.hidden_field :year, :value=>Date.today.year %>
       <% end %>
     </div>

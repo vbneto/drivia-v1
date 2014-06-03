@@ -7,22 +7,16 @@ ActiveAdmin.register School do
   
   member_action :student_first_access_sheet do
     @student_details = School.students(params[:id])
-  end
-  
-  member_action :professor_first_access_sheet do
-    @professor_details = School.professor_details(params[:id]).select([:name, :code]).uniq
-  end
-  
-  member_action :download_student_first_access_sheet do
-    @student_details = School.students(params[:id])
     respond_to do |format|
+      format.html
       format.xls
     end
   end
   
-  member_action :download_professor_first_access_sheet do
+  member_action :professor_first_access_sheet do
     @professor_details = School.professor_details(params[:id]).select([:name, :code]).uniq
     respond_to do |format|
+      format.html
       format.xls
     end
   end

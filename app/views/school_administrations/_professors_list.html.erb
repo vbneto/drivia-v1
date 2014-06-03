@@ -6,7 +6,9 @@
     <tr>
       <th><%= t('school_administration.student_list.professor_name') %> </th>
       <th><%= t('school_administration.student_list.current_grade') %></th>
-      <th>Subject Name</th>
+      <th><%= t('school_administration.student_list.subject_name') %></th>
+      <th><%= t('school_administration.student_list.first_access') %></th>
+      <th><%= t('school_administration.student_list.active') %></th>
       <th></th>
     </tr>
     </thead>
@@ -16,10 +18,24 @@
           <td><%= link_to professor.professor_record.name, "#" %></td>
           <td><%= professor_current_grade professor %></td>
           <td><%= professor.subject.name %></td>
+          <td><%= is_professor_first_access professor %></td>
+          <td><%= set_professor_status professor %></td>
           <td>
-            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :class => "btn btn-primary"%>
-            <%= link_to t("school_administration.student_list.edit"), "#", :class => "btn btn-primary" %>
+            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :onclick => 'expand_professor_details('+professor.id.to_s+')' if (is_professor_first_access professor)%>
+            <%= link_to show_professor_status(professor), change_professor_status_school_administration_path(professor.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_professor_status(professor) +' This Professor?' %>
+            <%= link_to t("school_administration.student_list.edit"), "#", :class => "btn btn-primary" if (is_professor_first_access professor) %>
           </td>  
+        </tr>
+        <tr>
+          <td id='professor_<%=professor.id%>' class='student_details' colspan="5">
+          <table width="590" >  
+            <tr> <th><%= t('school_administration.student_list.code')%></th><td><%= professor.professor_record.code%> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.professor_name') %></th><td><%= professor.professor_record.name%></td> </tr>
+            <tr> <th><%= t('school_administration.student_list.email') %></th><td><%= professor_email professor  %> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.phoneprefix') %></th><td><%= professor_phoneprefix professor  %> </td> </tr>
+            <tr> <th><%= t('school_administration.student_list.phone') %></th><td><%= professor_phone professor %> </td> </tr>
+          </table>
+          </td>
         </tr>
       <%end%>
     </tbody>  
