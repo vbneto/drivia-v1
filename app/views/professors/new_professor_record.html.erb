@@ -13,29 +13,32 @@
           </ul>
         </div>
       <% end %>
-    <div>
-      <%= f.label :name %>
-      <%= f.text_field :name %><br>
-    </div>
-    <div>
-      <talbe>
-        <tr>
-          <%= f.fields_for :school_grades do |builder| %>
-            <%= builder.label :grade_name %>
-            <%= builder.select :grade_name_id, options_for_select(uniq_school_grade_name) %><br>
-            <%= builder.label :grade_class %>
-            <%= builder.select :grade_class, options_for_select(school_grade_classes) %><br>
-            <%= builder.label :subject %>
-            <%= builder.autocomplete_field :subject_id, autocomplete_subject_name_professors_path %><br>
-            <%= builder.label :subject_average %>
-            <%= builder.text_field :subject_average %><br>
-            <%= builder.link_to_remove "Remove" %>
-          <% end %>
-        </tr>
-      </table>
-      <%= f.link_to_add "Add more grades", :school_grades %>
-    </div>
-    <%= f.submit "save", :class=>'btn'%>
+      <div>
+        <%= f.label :name %>
+        <%= f.text_field :name %><br>
+      </div>
+      <div>
+        <table>
+          <tr>
+            <%= f.fields_for :school_grades do |builder| %>
+              <%= builder.label :grade_name %>
+              <%= builder.select :grade_name_id, options_for_select(uniq_school_grade_name) %><br>
+              <%= builder.label :grade_class %>
+              <%= builder.select :grade_class, options_for_select(school_grade_classes) %><br>
+              <%= builder.label :subject %>
+              <%= builder.autocomplete_field :subject_id, autocomplete_subject_name_professors_path %><br>
+              <%= builder.label :subject_average %>
+              <%= builder.text_field :subject_average %><br>
+              <% if @counter == 1%>
+                <%= builder.link_to_remove "Remove" %>
+              <%end%>
+            <% end %>
+            <%= f.link_to_add "Add more grades", :school_grades %>
+            <% @counter = 1 %>
+          </tr>
+        </table>
+      </div>
+      <%= f.submit "save", :class=>'btn'%>
     <%end%>
   </div>
 </div>

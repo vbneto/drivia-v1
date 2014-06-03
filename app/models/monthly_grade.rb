@@ -23,8 +23,10 @@ class MonthlyGrade < ActiveRecord::Base
     students = school.select_student_of_current_grade(params[:grade_name], params[:grade_class])
     students.each{|student| available_ra << student.active_ra}
     spreadsheet = SchoolGrade.open_spreadsheet(params[:file])
+    mapped_row ={"RA" => "ra", "Nome" => "student_name", "Turma" => "grade_name", "Classe" => "grade_class", "Nota do bimester" => "grade", "descricio da nota" => "grade_description", "Faltas do bimester" => "no_show"}
     if spreadsheet
       header = spreadsheet.row(1)
+      mapped_row.each{|k,v| header.each_with_index{|value,index| header[index] = v if value == k}}
       (2..spreadsheet.last_row).each do |i|
         row = Hash[[header, spreadsheet.row(i)].transpose]
         next unless available_ra.include?row["ra"].to_i

@@ -29,6 +29,7 @@ class ProfessorsController < ApplicationController
   def new_professor_record
     @professor_record = ProfessorRecord.new
     @professor_record.school_grades.build
+    @counter = 0
   end
   
   def register_new_professor_record
@@ -47,7 +48,6 @@ class ProfessorsController < ApplicationController
   
   def student_of_current_grade_and_subject current_grade
     students_status_id = StudentStatus.where("school_id=? and current_grade=? ", current_grade[:school_id], current_grade[:grade]).map(&:id)
-    
     all_student_grades = MonthlyGrade.select{|grade| students_status_id.include?(grade.student_status_id)}
     all_student_grades.select{|grade| grade.subject_name == params[:subject]}
   end
