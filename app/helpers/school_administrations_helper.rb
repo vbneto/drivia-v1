@@ -30,6 +30,16 @@ module SchoolAdministrationsHelper
 
   end
   
+  def school_professor_grades
+    #(current_school_administration.school.school_grades.includes(:grade_name).map{|school_grade| school_grade.grade_name.name + "," + school_grade.grade_class}).uniq.sort.insert(0,'All')
+     join_grades_options = (current_school_administration.school.school_grades.includes(:grade_name).map{|school_grade| school_grade.grade_name.name + "," + school_grade.grade_class}).uniq.sort.insert(0,'All') 
+     join_grades_options.map{|grade| [grade.gsub(","," "), grade]}
+  end  
+  
+  def school_professor_subjects
+    (current_school_administration.school.school_grades.select("subject_id").map{|sub| sub.subject.name}).uniq.sort.insert(0,'All')
+  end
+
   def show_student_status student
     student.is_active_student? ? 'Deactivate' : 'Activate'
   end

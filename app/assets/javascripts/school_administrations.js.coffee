@@ -26,10 +26,26 @@ $ ->
   
   $("#active").on "change", ->
     $("#submit_filters").click()    
+<<<<<<< HEAD
+  
+  $("#grades").on "change", ->
+    $("#submit_professor_filters").click()
+   
+  $("#subject").on "change", ->
+    $("#submit_professor_filters").click()
+  
+  $("#activated").on "change", ->
+    $("#submit_professor_filters").click()
+
+  $("#first_accessed").on "change", ->
+    $("#submit_professor_filters").click()
+=======
+>>>>>>> master
 
   $("#student_number").on "change", ->
     $("#submit_parent_filters").click()
     
+  
   $("a[data-toggle='tab']").on "shown.bs.tab", (e) ->
     localStorage.setItem "lastTab", $(e.target).attr("href")
     

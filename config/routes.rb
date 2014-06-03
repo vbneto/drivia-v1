@@ -24,6 +24,7 @@ SchoolSystem::Application.routes.draw do
       post "apply_filter_to_student"
       post "apply_filter_to_parent"
       get "edit_parent_record"
+      post "apply_filter_to_professor"
       post "update_parent" 
       get "grade_class_of_current_grade"
     end
