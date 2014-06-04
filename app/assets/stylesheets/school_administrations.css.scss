@@ -10,6 +10,16 @@
   display: none;
 }
 
+#submit_filters, #submit_professor_filters {
+  display: none;
+}
 .move-right{
   float:right
 }
+
+.column_width{
+  width:1%;
+}
+#show_professor_list table td:nth-child(6), #show_professor_list table td:nth-child(7), #show_professor_list table td:nth-child(8){
+  border:none;
+} 

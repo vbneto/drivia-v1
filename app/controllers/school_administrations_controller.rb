@@ -43,9 +43,7 @@ class SchoolAdministrationsController < ApplicationController
   
   def update_student
     @student_record = StudentFromExcel.find( params[:id] )
-    
     params[:student_from_excel][:user_attributes][:name] = params[:student_from_excel][:student_name] unless params[:student_from_excel][:user_attributes].nil?
-    
     if @student_record.update_attributes(params["student_from_excel"])
       redirect_to show_users_school_administrations_path, :notice => "Records updated"
     else
@@ -117,8 +115,8 @@ class SchoolAdministrationsController < ApplicationController
   
   def apply_filter_to_professor
     grade_name, grade_class  = params[:grades].split(/,/)
-    @professors = current_school_administration.school.school_grades.select("grade_class, grade_name_id, professor_school_id, subject_id").includes(:professor_school).includes(:professor_record)
-   
+    @professors = current_school_administration.school.school_grades
+     
     if params[:grades] != 'All' 
       grade_name_id = GradeName.find_by_name(grade_name).id
       @professors = @professors.where("grade_class = ? and grade_name_id = ?", grade_class, grade_name_id)

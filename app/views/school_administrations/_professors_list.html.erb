@@ -9,22 +9,28 @@
       <th><%= t('school_administration.student_list.subject_name') %></th>
       <th><%= t('school_administration.student_list.first_access') %></th>
       <th><%= t('school_administration.student_list.active') %></th>
-      <th></th>
     </tr>
     </thead>
     <tbody>
       <% @professors.each do |professor| %>
+        
         <tr>
           <td><%= link_to professor.professor_record.name, "#" %></td>
           <td><%= professor_current_grade professor %></td>
           <td><%= professor.subject.name %></td>
           <td><%= is_professor_first_access professor %></td>
           <td><%= set_professor_status professor %></td>
-          <td>
-            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);', :onclick => 'expand_professor_details('+professor.id.to_s+')' if (is_professor_first_access professor)%>
+          
+          <td class ="column_width">
+            <%= link_to t('school_administration.student_list.expand'), 'javascript:void(0);',:onclick => 'expand_professor_details('+professor.id.to_s+')' if (is_professor_first_access professor)%>
+          </td>
+          <td class = "column_width">
             <%= link_to show_professor_status(professor), change_professor_status_school_administration_path(professor.id), :class => "btn btn-primary", method: :post,:confirm=>'Do You Want To '+ show_professor_status(professor) +' This Professor?' %>
+          </td>
+          <td class = "column_width">
             <%= link_to t("school_administration.student_list.edit"), "#", :class => "btn btn-primary" if (is_professor_first_access professor) %>
-          </td>  
+          </td>
+          
         </tr>
         <tr>
           <td id='professor_<%=professor.id%>' class='student_details' colspan="5">
