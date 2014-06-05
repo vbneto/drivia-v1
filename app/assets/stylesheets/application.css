@@ -44,3 +44,7 @@ input[type]
   left: 43%;
   top: 3%;
 }
+
+select{
+  background-image: -moz-linear-gradient(center bottom , #EEEEEE 0px, #FFFFFF 50%);
+}
