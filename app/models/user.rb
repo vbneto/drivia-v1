@@ -4,16 +4,14 @@ class User < ActiveRecord::Base
   ROLES = ["student", "parent", "school administration", "professor"]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-
   attr_accessor :gender, :birth_day
   attr_accessible :email, :password, :password_confirmation, :remember_me, :parent_attributes
   attr_accessible :name, :phoneprefix, :phone
   attr_accessible :role, :name, :email, :password, :password_confirmation, :as => [:admin]
   validates :name, :presence => true
   validates :phoneprefix, length: { is: 2}, :presence => true
-  validates :phone, length: { is: 9}, :presence => true
+  validates :phone, length: { is: 9, message: "phone length should be nine"}, :presence => true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  
   has_one :parent, :dependent => :destroy
   has_one :professor, :dependent => :destroy
   has_one :student, :dependent => :destroy
@@ -97,5 +95,4 @@ class User < ActiveRecord::Base
   def self.long_code
     Array.new(16){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
   end
-  
 end

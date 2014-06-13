@@ -1,0 +1,61 @@
+<div class="container">
+  <div class = "panel panel-default"> 
+      <div class = "panel-heading">
+        <h5>Edit Profssor record</h5>
+      </div>
+    <div class = "panel-body">
+      <%= form_for @professor_record, url: update_professor_school_administrations_path(:id => @professor_record), method: :post do |f| %>
+        <% if @professor_record.errors.any? %>
+           <div id="error_explanation" class="alert alert-block alert-error">
+             <a class="close" data-dismiss="alert" href="#">X</a>
+              <h4 class ="alert-heading"><%= pluralize(@professor_record.errors.count, "error") %>Something went wrong!</h4>
+              <ul>
+                <% @professor_record.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>  
+        <% end %>
+       <div style = "margin-left:10%;" class = "edit_professor">
+          <table>
+            <%= f.fields_for :professor_record do |builder| %>
+              <tr>
+                <td width = 40%><%= builder.label :name %></td>
+                <td><%= builder.text_field :name, :class=>"input-medium" %></td>
+              </tr>
+            <%end%>
+          </table>
+          <table>
+            <tr>
+              <td width = 40%><%= f.label :grad_name %></td>
+              <td><%= f.select :grade_name_id, options_for_select(school_grade_with_id,@professor_record.grade_name_id) %></td>  
+            </tr>
+            <tr>
+              <td width = 40%><%= f.label :grade_class %></td>
+              <td> <%= f.select :grade_class, options_for_select(professor_school_grade_class, @professor_record.grade_class)%></td>
+            </tr>
+            <tr>
+              <td width = 40%><%= f.label :subject %></td>
+              <td><%= f.select :subject_id, options_for_select(all_subject, @professor_record.subject_id), :class=>"filter_size" %></td>
+            </tr>
+            <%if is_professor_first_access(@professor_record) %>
+              <%= f.fields_for :user do |builder| %>
+                <tr>
+                  <td width = 40%><%= builder.label :phoneprefix %></td>
+                  <td><%= builder.text_field :phoneprefix, :class=>"input-medium" %>
+                  </td>
+                </tr>
+                <tr>
+                  <td width = 40%><%= builder.label :phone %></td>
+                  <td><%= builder.text_field :phone, :class=>"input-medium" %>
+                  </td>
+                </tr>
+              <%end%>
+            <%end%>
+          </table> 
+        <%=f.submit "update"%>
+       </div>
+     <%end%>
+    </div>
+  </div>
+</div>

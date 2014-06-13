@@ -9,8 +9,7 @@ module SchoolsHelper
     current_school_administration.school_grades.where(grade_name_id: currunt_grade_id).map(&:grade_class).uniq.sort
   end
   
-  def school_grade_classes
-    current_school_administration.school_grades.map(&:grade_class).uniq.sort
+  def school_grade_classes(grade_names)
+    current_school_administration.school_grades.where("grade_name_id = ?",grade_names.first[1]).map{|grade| grade.grade_class}.uniq
   end
-
 end

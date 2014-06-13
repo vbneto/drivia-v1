@@ -5,7 +5,7 @@ module ApplicationHelper
   end
   
   def back_button
-    content_tag(:div, link_to_function('Back', "history.back()", :class => "btn btn-primary"))
+    content_tag(:div, link_to_function('  Back', "history.back()", :class => "btn btn-primary icon-hand-left back_button_margin"))
   end
   
 end

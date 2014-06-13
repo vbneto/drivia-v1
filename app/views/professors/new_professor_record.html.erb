@@ -1,47 +1,72 @@
-<div class="container middle_section">
-  <div class='col-md-12'>
-    <%= back_button %>  
-    <h5>Records for Professor</h5>
-    <%= nested_form_for @professor_record, url: register_new_professor_record_professors_path, method: :post do|f|%>
-      <% if @professor_record.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@professor_record.errors.count, "error") %>Something went wrong!</h2>
-          <ul>
-            <% @professor_record.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <div>
-        <%= f.label :name %>
-        <%= f.text_field :name %><br>
+<div><%= back_button %></div> 
+<div class='container '>
+    <div class = "panel panel-default">
+      <div class = "panel-heading"> 
+        <h5 class = "panel-title">Records For Professor</h5>
       </div>
-      <div>
-        <table>
-          <tr>
-            <%= f.fields_for :school_grades do |builder| %>
-              <%= builder.label :grade_name %>
-              <%= builder.select :grade_name_id, options_for_select(uniq_school_grade_name) %><br>
-              <%= builder.label :grade_class %>
-              <%= builder.select :grade_class, options_for_select(school_grade_classes) %><br>
-              <%= builder.label :subject %>
-              <%= builder.autocomplete_field :subject_id, autocomplete_subject_name_professors_path %><br>
-              <%= builder.label :subject_average %>
-              <%= builder.text_field :subject_average %><br>
-              <% if @counter == 1%>
-                <%= builder.link_to_remove "Remove" %>
-              <%end%>
-            <% end %>
+    <div class ="panel-body">
+     <%= nested_form_for @professor_record, url: register_new_professor_record_professors_path, method: :post do|f|%>
+       <% if @professor_record.errors.any? %>
+         <div id="error_explanation" class="alert alert-block alert-error">
+             <a class="close" data-dismiss="alert" href="#">X</a>
+           <h4 class = "alert-heading"><%= pluralize(@professor_record.errors.count, "error") %>Something went wrong!</h4>
+           <ul>
+             <% @professor_record.errors.full_messages.each do |msg| %>
+               <li><%= msg %></li>
+             <% end %>
+           </ul>
+         </div>
+       <% end %>
+       <div>
+         <%= f.label :name %>
+       </div>
+       <div>
+         <%= f.text_field :name, :class => "input-medium" %><br>
+       </div>
+       <div class = "new_professor">
+         <%= f.fields_for :school_grades do |builder| %>
+           <div class ="div_align">
+             <div> <%= builder.label :grade_name %>
+             </div> 
+             <div> 
+               <%= builder.select :grade_name_id, options_for_select(school_grade_with_id) %>
+             </div>
+           </div>
+           <div class = "professor_grade">
+             <div class ="div_width">
+               <%= builder.label :grade_class %>
+             </div>
+             <div class ="selection_width"> 
+               <%= builder.select :grade_class, options_for_select(school_grade_classes(school_grade_with_id)) %>
+             </div>
+           </div>
+           <div class ="div_align">
+             <div>
+               <%= builder.label :subject %>
+             </div>
+             <div>
+               <%= builder.autocomplete_field :subject_id, autocomplete_subject_name_professors_path, :class => "input-medium"%>
+             </div>
+           </div> 
+           <div class ="div_width"> 
+             <%= builder.label :subject_average %>
+           </div>
+           <div class ="div_width">
+             <%= builder.text_field :subject_average, :class => "input-medium"%><br>
+           </div>
+           <% if @counter == 1%>
+             <%= builder.link_to_remove "Remove" %>
+           <%end%>
+         <% end %>
             <%= f.link_to_add "Add more grades", :school_grades %>
             <% @counter = 1 %>
-          </tr>
-        </table>
-      </div>
-      <%= f.submit "save", :class=>'btn'%>
-    <%end%>
-  </div>
-</div>
+       </div>
+       <%= f.submit "save", :class=>'btn'%>
+     <%end%>
+     </div>
+    </div>
+  </div> 
+
 
 
 <script type="text/javascript">

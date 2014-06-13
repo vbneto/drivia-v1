@@ -20,6 +20,135 @@
 .column_width{
   width:1%;
 }
-#show_professor_list table td:nth-child(6), #show_professor_list table td:nth-child(7), #show_professor_list table td:nth-child(8){
-  border:none;
+
+.label_width{
+ width: 22%; 
+}
+.activate {
+  width:12%;
+}
+.activate a{
+  width:100px !important;
+  display:block;
+  margin: 0 auto;
+}
+.icon-width{
+  padding:5px 12px;
+}
+
+#show_professor_list td:nth-child(6), #show_professor_list td:nth-child(7), #show_professor_list td:nth-child(8),
+#show_student_list td:nth-child(6),
+#show_student_list td:nth-child(7),
+#show_student_list td:nth-child(8),{
+  verticle-align:middle !important;
+  border:none !important;
+  line-height:2;
+}
+
+.search_box{
+  width:46% !important;
+}
+.filter_size{
+  width:121px !important;
+}
+
+input.search-query {
+    padding-left:26px;
+}
+form.form-search {
+    position: relative;
+}
+form.form-search:before {
+    display: block;
+    width: 14px;
+    height: 14px;
+    content: "\e003";
+    font-family: 'Glyphicons Halflings';
+    background-position: -48px 0;
+    position: absolute;
+    top:8px;
+    left:8px;
+    opacity: .5;
+    z-index: 1000;
+
+}
+.form_width{
+  width: 46% !important;
+}
+.register_student{
+  margin-top:0% !important;
+}
+.table_border_style{
+  border-collapse: collapse !important;
+}
+.search_box_margin{
+  margin-top:4% !important;
+}
+
+.edit_student_from_excel select{
+ width: 155px !important;
+}
+
+.edit_school_grade select,
+.edit_professor select{
+ width: 150px !important;
+}
+.new_student_from_excel select{
+ width: 155px !important;
+}
+#new_student_from_excel select:last-child, #new_student_from_excel label, #new_student_from_excel input[type="text"]:last-child{
+  margin-left:4% !important;
 } 
+#new_student_from_excel input[type="submit"]{
+  margin-left:2% !important;
+} 
+
+.list_margin{
+  margin-top:10% !important;
+}
+
+.school_dashboard{
+  margin-top:6% !important;
+}
+#edits_students select:last-child,
+#edits_students label,
+#edits_students input[type="text"]{
+  margin-left: 10% !important;
+}
+#edits_students select{
+  width: 150px !important;
+}
+#edits_students input[type = "submit"]{
+  margin-left: 2.5% !important;
+}
+#show_professor_list table tr td,
+#show_student_list table tr td{
+  
+  font-size: 13px; 
+  font-family:arial !important; 
+}
+#show_professor_list table tr th,
+#show_student_list table tr th{
+ paddding: 4px !important;
+ font-size:13px;
+}
+
+.grade_colom_width{
+  width: 13.5% !important;
+}_
+.search_field{
+  width:210px !important;
+}
+.input_group_professor_field{
+ width:346px !important; 
+} 
+.input_group_student_field{
+ width:319px !important; 
+}
+
+
+
+
+
+
+

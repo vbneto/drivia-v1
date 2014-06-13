@@ -48,3 +48,7 @@ input[type]
 select{
   background-image: -moz-linear-gradient(center bottom , #EEEEEE 0px, #FFFFFF 50%);
 }
+
+.back_button_margin{
+  margin-left: 0% !important;
+}

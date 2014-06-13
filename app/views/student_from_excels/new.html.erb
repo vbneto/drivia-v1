@@ -1,51 +1,68 @@
-<div class='container middle_section'>
-  <div id="subject_list" class="span6 move_down" >
-    <%= back_button %>  
-    <h5>Records for student</h5>
-    <table>
-    <%= form_for @student, url: student_from_excels_path(:id => @student), method: :post do|f|%>
-      <% if @student.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@student.errors.count, "error") %>Something went wrong!</h2>
-          <ul>
-            <% @student.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-    <table>    
-      <tr>  
-        <td><%= f.label "", :RA %></td>
-        <td><%= f.text_field :first_ra %></td>
-      </tr>
-      
-      <tr>
-        <td><%= f.label :student_name %></td>
-        <td><%= f.text_field :student_name %></td>
-      </tr>
-      
-      <tr>
-        <td><%= f.label "First Parent Name" %></td>
-        <td><%= f.text_field :parent_name_1 %></td>
-      </tr>
-      
-      <tr>
-        <td><%= f.label "Second Parent Name" %></td>
-        <td><%= f.text_field :parent_name_2 %></td>
-      </tr>
-    </table>    
-    <div>
-      <%= f.fields_for :student_statuses do |builder| %>
-        <%= builder.label :current_grade %>
-        <%= builder.select :current_grade, options_for_select(uniq_school_grade_name) %><br>
-        <%= builder.label :grade_class %>
-        <%= builder.select :grade_class, options_for_select(school_grade_classes) %>
-        <%= builder.hidden_field :year, :value=>Date.today.year %>
-      <% end %>
-    </div>
-    <%= f.submit "save", :class=>'btn'%>
-    <%end%>
+<%= back_button %>
+<div class='container'>
+  <div id="subject_list">
+   <div class ="panel panel-default">     
+     <div class = "panel-heading">
+       <h5>Records For Student</h5>
+     </div> 
+     <div class = "panel-body"> 
+        <%= form_for @student, url: student_from_excels_path(:id => @student), method: :post do|f|%>
+          <% if @student.errors.any? %>
+            <div id="error_explanation" class="alert alert-block alert-error">
+             <a class="close" data-dismiss="alert" href="#">X</a>
+              <h4 class="alert-heading"><%= pluralize(@student.errors.count, "error") %>Something went wrong!</h4>
+              <ul>
+                <% @student.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <table>    
+            <tr>  
+              <td><%= f.label "", :RA %></td>
+              <td><%= f.label :student_name %></td>
+              
+            </tr>
+            
+            <tr>
+              <td><%= f.text_field :first_ra, :class=>"input-medium" %></td>
+              <td><%= f.text_field :student_name, :class=>"input-medium" %></td>
+            </tr>
+            
+            <tr>
+              <td><%= f.label "First Parent Name" %></td>
+              <td><%= f.label "Second Parent Name" %></td>
+
+            </tr>
+            
+            <tr>
+              <td><%= f.text_field :parent_name_1, :class=>"input-medium" %></td>
+              <td><%= f.text_field :parent_name_2, :class=>"input-medium" %></td>
+            </tr>
+            <div>
+              <%= f.fields_for :student_statuses do |builder| %>
+                <tr>
+                <td><%= builder.label :current_grade %></td>
+                <td><%= builder.label :grade_class %></td>
+                </tr>
+                <tr>
+                <td><%= builder.select :current_grade, options_for_select(school_grade_with_id) %>
+                
+                </td>
+                
+                <td><%= builder.select :grade_class, options_for_select(school_grade_classes(school_grade_with_id)) %></td>
+                <%= builder.hidden_field :year, :value=>Date.today.year %>
+                </tr>
+              <% end %>
+            </div>
+          </table>    
+          <div style = "margin-left:-1%;">
+            <%= f.submit "save", :class=>'btn'%>
+          </div>
+        <%end%>
+     </div>  
+   </div>
   </div>
 </div>  
 

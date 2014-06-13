@@ -19,6 +19,7 @@ SchoolSystem::Application.routes.draw do
       get "show_users"
       get "search_student"
       get "search_parent"
+      get "search_professor"
       get "edit_student_record"
       post "update_student"
       post "apply_filter_to_student"
@@ -27,6 +28,8 @@ SchoolSystem::Application.routes.draw do
       post "apply_filter_to_professor"
       post "update_parent" 
       get "grade_class_of_current_grade"
+      get "edit_professor_record"
+      post "update_professor"
     end
     member do 
       post "change_student_status"

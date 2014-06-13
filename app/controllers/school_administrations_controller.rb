@@ -16,6 +16,10 @@ class SchoolAdministrationsController < ApplicationController
     @parents = current_school_administration.all_parents(params[:parent_name],current_school_administration.school_id)
   end
   
+  def search_professor
+    @professors =  current_school_administration.school.professor_records.find_by_name(params[:name]).school_grades
+  end
+  
   def show_parent
     @parent = User.find(params[:id])
   end
@@ -32,6 +36,10 @@ class SchoolAdministrationsController < ApplicationController
     @parent_record = User.find(params[:parent_id].to_i)
   end
   
+  def edit_professor_record
+    @professor_record = current_school_administration.school_grades.find(params[:school_grade_id])
+  end
+   
   def update_parent
     @parent_record = User.find(params[:id].to_i)
     if @parent_record.update_attributes(params["user"])
@@ -51,6 +59,12 @@ class SchoolAdministrationsController < ApplicationController
     end
   end
 
+  def update_professor
+    @professor_record = current_school_administration.school_grades.find(params[:id])
+    params[:school_grade][:professor_record_attributes][:current_school_id] = current_school_administration.school_id
+    @professor_record.update_attributes(params["school_grade"]) ? (redirect_to show_users_school_administrations_path, :notice => "Records updated")  : (render edit_professor_record_school_administrations_path)
+  end  
+  
   def change_student_status
     student = StudentFromExcel.includes(:student_statuses).where(student_statuses: { school_id: current_school_administration.school_id, student_from_excel_id: params[:id]}).first
     is_saved = false
@@ -146,11 +160,10 @@ class SchoolAdministrationsController < ApplicationController
   end
 
   def grade_class_of_current_grade
-    currunt_grade_id = GradeName.find_by_name(params[:current_grade]).id
+    currunt_grade_id = GradeName.find(params[:current_grade]).id
     grade_class = current_school_administration.school_grades.where(grade_name_id: currunt_grade_id).map(&:grade_class).uniq.sort
     respond_to do |format|
       format.json { render :json => grade_class }
     end
   end
-  
 end

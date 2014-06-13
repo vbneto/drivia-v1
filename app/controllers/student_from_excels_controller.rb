@@ -8,9 +8,7 @@ class StudentFromExcelsController < ApplicationController
   end
   
   def create
-    school_id = current_school_administration.school_id
-    params[:student_from_excel][:student_statuses_attributes]["0"].merge!(:school_id=>school_id, :status=>User.student_active)
-    @student = StudentFromExcel.new(params[:student_from_excel])
+    @student = StudentFromExcel.new( upgrade_params params)
     @student.code = User.generate_unique_code
     @student.student_statuses.first.ra = @student.first_ra
     if @student.save
@@ -43,5 +41,12 @@ class StudentFromExcelsController < ApplicationController
       redirect_to new_student_parents_path, :flash => { :error => "Student with given code is not available please contact to school administration"}
     end  
   end
+  
+  def upgrade_params params
+    school_id = current_school_administration.school_id
+    params[:student_from_excel][:student_statuses_attributes]["0"].merge!(:school_id=>school_id, :status=>User.student_active)
+    params[:student_from_excel][:student_statuses_attributes]["0"]["current_grade"] = GradeName.find(params[:student_from_excel][:student_statuses_attributes]["0"]["current_grade"]).name
+    params[:student_from_excel]
+  end  
   
 end

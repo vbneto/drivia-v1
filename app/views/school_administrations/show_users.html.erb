@@ -1,4 +1,4 @@
-<div class='col-md-1'><%= back_button %></div>
+
 <div id="subject_list" class= "container middle_section">
   <div id="content" class="middle-content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -6,47 +6,61 @@
       <li><a href="#parents" data-toggle="tab">Parents</a></li>
       <li><a href="#professors" data-toggle="tab">Professors</a></li>
     </ul>
+    <div class='col-md-1 '><%= back_button %></div>
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="students">
-        <%= link_to t('school_administration.show_students.register_new_student'), new_student_from_excel_path, :class=> 'btn btn-primary move-right' %>
-        <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true') do %>
-          <%= text_field_tag('student_name', nil, placeholder: 'Search students by name') %> 
-          <%= submit_tag(t("school_administration.show_students.search_student"), :class=>'btn')%>
-        <% end %>  
-        <b><%= t('school_administration.show_students.filter')%></b>
+      <div class="tab-pane active school_dashboard" id="students">
+        <%= link_to t('school_administration.show_students.register_new_student'), new_student_from_excel_path, :class=> 'btn btn-primary move-right register_student' %>
+        <div style="padding:0px;">
+        <%= form_tag(search_student_school_administrations_path, :method => :get, :remote=>'true', :class=>"form-search form-inline form_width search_box_margin") do %>
+          <div class="input-group input_group_student_field" style = "margin-left:0%;" >
+            <%= text_field_tag('student_name', nil, placeholder: 'Search student by name',:class=>"form-control search-query search_field") %> 
+          <span class="input-group-btn search_button">
+           <%= submit_tag(t("school_administration.show_students.search_student"), :class=>"btn btn-primary")%>
+          </span>
+          </div> 
+         <% end %>
+        </div>   
+        <%= t('school_administration.show_students.filter')%>
         <%= form_tag(apply_filter_to_student_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_form') do %>
           <table>
-            <tr>
-              <td><lable><%= t('school_administration.show_students.grade')%></lable></td>
-              <td><%= select_tag "grade", options_for_select(school_grades), :class=>'set_filter_size' %></br></td>
-            </tr>
-            <tr>  
-              <td><lable><%= t('school_administration.show_students.first_access')%></lable></td>
-              <td><%= select_tag "first_access", options_for_select(['All','true','false']), :class=>'set_filter_size' %></br></td>
-            </tr>
-            <tr>
-              <td><lable><%= t('school_administration.show_students.active')%> </lable></td>
-              <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
+           <br>
+           <tr>
+              <td class="label_width"><lable><%= t('school_administration.show_students.grade')%></lable></td>
+              <td class="label_width"><lable><%= t('school_administration.show_students.first_access')%></lable></td>
+               <td class="label_width"><lable><%= t('school_administration.show_students.active')%> </lable></td>
+               <td class="label_width"><lable>Parents assigned</lable></td>
             </tr>
             <tr>
-              <td><lable>Parents assigned</lable></td>
-              <td><%= select_tag "parent_number", options_for_select(number_of_parents(@all_students)), :class=>'set_filter_size' %></br></td>
-            </tr>
+              <td><%= select_tag "grade", options_for_select(school_grades), :class=>'set_filter_size' %></td>
+              <td><%= select_tag "first_access", options_for_select(['All','true','false']), :class=>'set_filter_size' %></td>
+              <td><%= select_tag "active", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></td>
+              <td><%= select_tag "parent_number", options_for_select(number_of_parents(@all_students)), :class=>'set_filter_size filter_size' %></td>
+            </tr>  
+                         
           </table>  
           <%= submit_tag "submit", :id=>"submit_filters"%>
         <% end %>
         <%= render partial:'students_list'%>
         <%= paginate @all_students %>
       </div>
-      <div class="tab-pane" id="parents">
-        <%= form_tag(search_parent_school_administrations_path, :method => :get, :remote=>'true') do %>
-          <%= text_field_tag('parent_name', nil, placeholder: 'Search parents by name') %> 
-          <%= submit_tag("Search parent", :class=>'btn')%>
-        <% end %>
-        <%= form_tag(apply_filter_to_parent_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_parent_form') do %>
+      <div class="tab-pane school_dashboard" id="parents">
+        <div style="padding:0px;">
+          <%= form_tag(search_parent_school_administrations_path, :method => :get, :remote=>'true', :class=>"form-search form-inline form_width search_box_margin") do %>
+            <div class="input-group input_group_student_field" style = "margin-left:0%;" >
+              <%= text_field_tag('parent_name', nil, placeholder: 'Search parents by name', :class=>"form-control search-query") %> 
+              <span class="input-group-btn">
+                <%= submit_tag("Search parent", :class=>"btn btn-primary")%>
+              </span>
+            </div>
+          <% end %>
+        </div>
+
+        <%= form_tag(apply_filter_to_parent_school_administrations_path, :method => :post, :remote => true, :id=>'apply_filter_parent_form', :class=>"school_dashboard") do %>
           <table>
-            <tr>  
-              <td><lable>Student Number </lable></td>
+            <tr> 
+             <tr></tr>
+              <tr>
+              <td width=54%><lable>Student Number </lable></td>
               <td><%= select_tag "student_number", options_for_select(number_of_students(@parents)), :class=>'set_filter_size' %></br></td>
             </tr>
           </table>  
@@ -55,29 +69,43 @@
         <%= render partial:'parents_list'%>
       </div>
       
-      <div class="tab-pane" id="professors">
+      <div class="tab-pane school_dashboard" id="professors">
+      <%= link_to "Register New Professor", new_professor_record_professors_path ,class:'btn btn-primary move-right' %>
+        <div style="padding:0px;">
+        <%= form_tag(search_professor_school_administrations_path, :method => :get, :remote=>'true', :class=>"form-search form-inline form_width search_box_margin") do %>
+          <div class="input-group input_group_professor_field" style = "margin-left:0%;" >
+            <%= text_field_tag('name', nil, placeholder: 'Search professor by name',:class=>"form-control search-query") %> 
+          <span class="input-group-btn">
+           <%= submit_tag "Search professor", :class=>"btn btn-primary"%>
+          </span>
+          </div> 
+         <% end %>
+        </div>
+
         <%= form_tag(apply_filter_to_professor_school_administrations_path, :method => :post, :remote =>true, :id => 'apply_filter_form') do %>
+          <label>Filter</label><br>
+          <br>
           <table>
              <tr>
-               <td width = 40%><label>Grade</label></td>
-               <td><%= select_tag "grades", options_for_select(school_professor_grades), :class=>'set_filter_size'%></br>
-               </td>
-
+               <td class="label_width"><label>Grade</label></td>
+               <td class="label_width"><label>Subject</label></td>
+               
+               <td class="label_width"><lable>First Access</lable></td>
+               
+               <td class="label_width"><lable>Active</lable></td>
              </tr>
-             <tr>
-               <td width = 40%><label>Subject</label></td>
-               <td><%= select_tag "subject", options_for_select(school_professor_subjects), :class=>'set_filter_size'%></br>
+             <tr> 
+               <td><%= select_tag "grades", options_for_select(school_professor_grades), :class=>'set_filter_size'%>
                </td>
+               
+               <td><%= select_tag "subject", options_for_select(school_professor_subjects), :class=>'set_filter_size'%>
+               </td>
+               
+               <td><%= select_tag "first_accessed", options_for_select(['All','true','false']), :class=>'set_filter_size' %>
+               </td>
+               
+               <td><%= select_tag "activated", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></td>
              </tr>
-             <tr>  
-               <td><lable>First Access</lable></td>
-               <td><%= select_tag "first_accessed", options_for_select(['All','true','false']), :class=>'set_filter_size' %></br>
-               </td>
-            </tr>
-            <tr>
-              <td><lable>Active</lable></td>
-              <td><%= select_tag "activated", options_for_select(['All',['true','active'],['false','deactive']]), :class=>'set_filter_size' %></br></td>
-            </tr>
           </table>
         <%= submit_tag "submit", :id=>"submit_professor_filters"%>
         <%end%>
@@ -92,15 +120,30 @@
   var expand_parent_details;
   var expand_professor_details; 
   expand_student_details = function(student_id) {
-    return $("#student_" + student_id).fadeToggle();
+     if($("#student_" + student_id).is(":hidden")){
+       return $("#student_" + student_id).slideDown("slow");
+        }
+     else{
+        return $("#student_" + student_id).hide();
+     }  
   };
   
   expand_parent_details = function(parent_id) {
-    return $("#parent_" + parent_id).fadeToggle();
+     if($("#parent_" + parent_id).is( ":hidden" )){
+       return $("#parent_" + parent_id).slideDown( "slow" );
+     }
+     else{
+       return $("#parent_" + parent_id).hide();
+     }
   };
   
   expand_professor_details = function(professor_id){
-     return $("#professor_" + professor_id).fadeToggle();
+     if($("#professor_" + professor_id).is(":hidden")){
+        return $("#professor_" + professor_id).slideDown("slow");
+     }
+     else{
+      return $("#professor_" + professor_id).hide();
+    }
   };
   
 </script>

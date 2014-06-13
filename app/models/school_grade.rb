@@ -1,13 +1,20 @@
 class SchoolGrade < ActiveRecord::Base
-  attr_accessible :grade_class, :grade_name_id, :professor_school_id, :subject_average, :subject_id, :status
+  attr_accessible :grade_class, :grade_name_id, :professor_school_id, :subject_average, :subject_id, :status, :professor_record_attributes, :grade_name_attributes, :user_attributes
   belongs_to :subject
   belongs_to :grade_name
   belongs_to :professor_school
   has_one :professor_record, through: :professor_school
+  has_one :professor,through: :professor_record
+  has_one :user,through: :professor
   has_one :school, through: :professor_school
-  validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id]
+  validates_uniqueness_of :grade_name_id, :scope => [:professor_school_id, :grade_class, :subject_id], :on => :create
   validates_presence_of :grade_class, :grade_name_id, :subject_id, :subject_average
-  validate :unique_professor
+  validate :unique_professor, :on => :create
+  before_create :unique_professor
+  validate :unique_professor_for_update, :on => :update
+  accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :grade_name
+  accepts_nested_attributes_for :professor_record
   
   def self.grade_list(file,school_id)
     spreadsheet = open_spreadsheet(file)
@@ -78,5 +85,11 @@ class SchoolGrade < ActiveRecord::Base
       errors.add(:grade_name_id, 'Other professor is already teaching this '+Subject.find(subject_id).name+' in this school')
     end
   end
+
+  def unique_professor_for_update
+    unless SchoolGrade.where("grade_class = ? and grade_name_id = ? and subject_id = ? and id != ? and status = ?", grade_class, grade_name_id, subject_id, id, User.student_active).blank?
+      errors.add(:grade_name_id, 'Other professor is already teaching this '+Subject.find(subject_id).name+' in this school')
+    end
+  end  
   
 end

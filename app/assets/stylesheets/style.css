@@ -282,3 +282,7 @@ input.login:hover,focus{
 .padding-none{
   padding: 0 !important;
 }
+
+.top_menu ul li a:hover{
+    color: white !important;
+}

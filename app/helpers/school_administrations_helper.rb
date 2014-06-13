@@ -19,6 +19,9 @@ module SchoolAdministrationsHelper
   def is_professor_first_access professor
     professor.professor_record.professor.present? ? true : false
   end
+  def is_professor_active professor
+    professor.status == "active" ? true : false
+  end
   
   def school_grades
     school_id = current_school_administration.school_id
@@ -36,9 +39,13 @@ module SchoolAdministrationsHelper
   end  
   
   def school_professor_subjects
-    (current_school_administration.school.school_grades.select("subject_id").map{|sub| sub.subject.name}).uniq.sort.insert(0,'All')
+    (current_school_administration.school.school_grades.map{|sub| sub.subject.name}).uniq.sort.insert(0,'All')
   end
-
+  
+  def professor_school_grade_class
+    current_school_administration.school.school_grades.map{|grade| grade.grade_class}.uniq
+  end
+  
   def show_student_status student
     student.is_active_student? ? 'Deactivate' : 'Activate'
   end
@@ -73,7 +80,7 @@ module SchoolAdministrationsHelper
   
   def student_current_grade student
     student_status = student.student_statuses.first
-    student_status.current_grade + student_status.grade_class
+    student_status.current_grade+" "+student_status.grade_class
   end
   
   def student_parents_count student
@@ -107,5 +114,13 @@ module SchoolAdministrationsHelper
     professor = professor.professor_record.professor if professor.professor_record
     professor.user.phone if professor
   end
-    
+  
+  def all_subject
+    Subject.all.map{|subject| [subject.name, subject.id]}
+  end
+
+  def school_grade_with_id
+    current_school_administration.school_grades.map{|grade| [grade.grade_name.name,grade.grade_name.id]}.uniq
+  end
+
 end

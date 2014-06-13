@@ -5,3 +5,13 @@
 .nested_form_attribute{
   background-color: graytext
 }
+.div_align{
+  float:left;
+}
+.new_professor select{
+ width: 155px !important;
+}
+.new_professor select, .new_professor label:last-child, .new_professor input{
+ margin-left:2% !important;
+}
+

@@ -1,54 +1,73 @@
-<div class="container middle_section">
-  <div id="subject_list" class="span6 move_down">
-    <%= back_button %>
-    <h5><%= t("school_administration.edit_student_record.record_of_the_student") %></h5>
-    <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post, :validate => true do|f|%>
-      <% if @student_record.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@student_record.errors.count, "error") %>Something went wrong!</h2>
-          <ul>
-            <% @student_record.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>  
-      <% end %>
-      <table>
-        <tr>
-          <td><%= f.label :student_name %></td>
-          <td><%= f.text_field :student_name %></td>
-        </tr>
-        <tr>
-          <td><%= f.label "First Parent Name" %></td>
-          <td><%= f.text_field :parent_name_1 %></td>
-        </tr>
-        <tr>
-          <td><%= f.label "Second Parent Name" %></td>
-          <td><%= f.text_field :parent_name_2 %></td>
-        </tr>
-      </table>  
-      <div>
-        <%= f.fields_for :student_statuses do |builder| %>
-          <%= builder.label :current_grade %>
-          <%= builder.select :current_grade, options_for_select(uniq_school_grade_name, @student_record.get_active_status.current_grade) %><br>
-          <%= builder.label :grade_class %>
-          <%= builder.select :grade_class, options_for_select(uniq_school_grade_class, @student_record.get_active_status.grade_class) %><br>
-          <%= builder.hidden_field :year, :value=>Date.today.year %>
-        <% end %>
+<%= back_button %>
+<div class="container">
+  <div id="subject_list">
+    <div class = "panel panel-default student_record_form">
+      <div class = "panel-heading">
+        <h5><%= t("school_administration.edit_student_record.Edit_student") %></h5>
       </div>
-      <%= f.fields_for :user do |builder| %>
-        <%= builder.label :phone %>
-        <%= builder.text_field :phone %><br>
-        <div id="phone_error">
-        </div>
-        <div id="phoneprefix_error">
-        </div>
-        <%= builder.label :phoneprefix %>
-        <%= builder.text_field :phoneprefix %><br>
-        <%= builder.hidden_field :name %>
-      <% end %>
-      <%= f.submit "update", :class=>'btn', onclick:"return validate_form()"%>
-    <%end%>
+      <div class = "panel-body" id ="edits_students">
+        <%= form_for @student_record, url: update_student_school_administrations_path(:id => @student_record), method: :post, :validate => true do|f|%>
+          <% if @student_record.errors.any? %>
+             <div id="error_explanation" class="alert alert-block alert-error">
+             <a class="close" data-dismiss="alert" href="#">X</a>
+              <h4 class = "alert-heading"><%= pluralize(@student_record.errors.count, "error") %>Something went wrong!</h4>
+              <ul>
+                <% @student_record.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>  
+          <% end %>
+          <table>
+            <tr>
+              <td><%= f.label :student_name %></td>
+              <td><%= f.label "First Parent Name" %></td>
+              <td><%= f.label "Second Parent Name" %></td>
+            </tr>
+            <tr>
+              <td><%= f.text_field :student_name, :class => "input-medium" %></td>
+              <td><%= f.text_field :parent_name_1, :class => "input-medium" %></td>
+              <td><%= f.text_field :parent_name_2, :class => "input-medium" %></td>
+            </tr>
+          <div>
+            <%= f.fields_for :student_statuses do |builder| %>
+              <tr>
+                <td><%= builder.label :current_grade %></td>
+                <td><%= builder.label :grade_class %></td>
+              </tr>
+              <tr>
+                <td><%= builder.select :current_grade, options_for_select(uniq_school_grade_name, @student_record.get_active_status.current_grade)%></td>
+
+                <td><%= builder.select :grade_class, options_for_select(uniq_school_grade_class, @student_record.get_active_status.grade_class)%></td>
+                <%= builder.hidden_field :year, :value=>Date.today.year %>
+              </tr>
+            <% end %>
+          </div>
+          <div>
+          <%= f.fields_for :user do |builder| %>
+            <tr>
+              <td>
+              <%= builder.label :phone %>
+              </td>
+              <td><%= builder.label :phoneprefix %></td>
+            </tr>
+            <tr>
+              <td><%= builder.text_field :phone, :class => "input-medium" %>
+              </td>
+              <div id="phone_error">
+              </div>
+              <div id="phoneprefix_error">
+              </div>
+              <td><%= builder.text_field :phoneprefix, :class => "input-medium" %></td>
+            </tr>
+            <%= builder.hidden_field :name %>
+           </div>
+          <%end%>
+          </table>
+            <%= f.submit "update", :class=>'btn', onclick:"return validate_form()"%>
+        <%end%>
+      </div>
+    </div>
   </div>
 </div>
 
